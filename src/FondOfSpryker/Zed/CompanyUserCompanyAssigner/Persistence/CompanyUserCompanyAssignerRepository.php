@@ -26,9 +26,9 @@ class CompanyUserCompanyAssignerRepository extends AbstractRepository implements
     {
         $companyRoleEntity = $this->getFactory()
             ->getCompanyRoleQuery()
-            ->filterByFkCompany($idCompany)
+                ->filterByFkCompany($idCompany)
             ->_and()
-            ->filterByName($name)
+                ->filterByName($name)
             ->findOne();
 
         return $this->getFactory()

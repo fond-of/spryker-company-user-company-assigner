@@ -115,8 +115,8 @@ class CompanyUser implements CompanyUserInterface
             return $companyUserResponseTransfer;
         }
 
-        $idCompanyTypes = $this->getNoneManufacturerIdCompanyTypes($companyTypeCollectionTransfer);
-        $companyCollectionTransfer = $this->companyTypeFacade->findCompaniesByCompanyTypeIds($idCompanyTypes);
+        $companyTypeCollectionTransfer = $this->getNoneManufacturerIdCompanyTypes($companyTypeCollectionTransfer);
+        $companyCollectionTransfer = $this->companyTypeFacade->findCompaniesByCompanyTypeIds($companyTypeCollectionTransfer);
 
         if ($companyCollectionTransfer === null) {
             return $companyUserResponseTransfer;
@@ -186,17 +186,18 @@ class CompanyUser implements CompanyUserInterface
      *
      * @return array
      */
-    private function getNoneManufacturerIdCompanyTypes(CompanyTypeCollectionTransfer $companyTypeCollectionTransfer): array
-    {
-        $companyTypeIds = [];
+    private function getNoneManufacturerIdCompanyTypes(
+        CompanyTypeCollectionTransfer $companyTypeCollectionTransfer
+    ): CompanyTypeCollectionTransfer {
+        $noneManufacturerCompanyTypeCollectionTransfer = new CompanyTypeCollectionTransfer();
         foreach ($companyTypeCollectionTransfer->getCompanyTypes() as $companyTypeTransfer)
         {
             if ($this->isCompanyTypeManufacturer($companyTypeTransfer) === false) {
-                $companyTypeIds[] = $companyTypeTransfer->getIdCompanyType();
+                $noneManufacturerCompanyTypeCollectionTransfer->addCompanyType($companyTypeTransfer);
             }
         }
 
-        return $companyTypeIds;
+        return $noneManufacturerCompanyTypeCollectionTransfer;
     }
 
     /**
@@ -283,6 +284,4 @@ class CompanyUser implements CompanyUserInterface
     {
         return $companyTypeTransfer->getName() === $this->companyTypeFacade->getCompanyTypeManufacturerName();
     }
-    
-
 }
