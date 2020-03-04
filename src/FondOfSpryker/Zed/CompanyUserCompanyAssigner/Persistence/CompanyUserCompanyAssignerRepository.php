@@ -2,11 +2,7 @@
 
 namespace FondOfSpryker\Zed\CompanyUserCompanyAssigner\Persistence;
 
-use Generated\Shared\Transfer\BrandCollectionTransfer;
-use Generated\Shared\Transfer\BrandProductAbstractRelationTransfer;
-use Generated\Shared\Transfer\BrandTransfer;
 use Generated\Shared\Transfer\CompanyRoleTransfer;
-use Spryker\Zed\CompanyRole\Business\Model\CompanyRole;
 use Spryker\Zed\Kernel\Persistence\AbstractRepository;
 
 /**
@@ -17,13 +13,12 @@ class CompanyUserCompanyAssignerRepository extends AbstractRepository implements
     /**
      * @param int $idCompany
      * @param string $name
-     *
-     * @return \Generated\Shared\Transfer\CompanyRoleTransfer
-     *
-     * @throws
+     * @return \Generated\Shared\Transfer\CompanyRoleTransfer|null
+     * @throws \Spryker\Zed\Propel\Business\Exception\AmbiguousComparisonException
      */
-    public function findCompanyRoleNameByIdCompanyAndName(int $idCompany, string $name): CompanyRoleTransfer
+    public function findCompanyRoleTransferByIdCompanyAndName(int $idCompany, string $name): ?CompanyRoleTransfer
     {
+
         $companyRoleEntity = $this->getFactory()
             ->getCompanyRoleQuery()
                 ->filterByFkCompany($idCompany)
@@ -31,10 +26,12 @@ class CompanyUserCompanyAssignerRepository extends AbstractRepository implements
                 ->filterByName($name)
             ->findOne();
 
+        if ($companyRoleEntity === null) {
+            return null;
+        }
+
         return $this->getFactory()
             ->createCompanyRoleMapper()
             ->mapEntityToTransfer($companyRoleEntity, new CompanyRoleTransfer());
-
-
     }
 }
