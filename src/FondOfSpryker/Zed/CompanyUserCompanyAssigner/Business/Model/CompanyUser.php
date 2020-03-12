@@ -53,6 +53,20 @@ class CompanyUser implements CompanyUserInterface
      */
     protected $companyUserCompanyAssignerRepository;
 
+    /**
+     * @var \Spryker\Zed\CompanyBusinessUnit\Business\CompanyBusinessUnitFacadeInterface
+     */
+    protected $companyBusinessUnitFacade;
+
+    /**
+     * @param \FondOfSpryker\Zed\CompanyUserCompanyAssigner\CompanyUserCompanyAssignerConfig $companyUserCompanyAssignerConfig
+     * @param \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Persistence\CompanyUserCompanyAssignerRepository $companyUserCompanyAssignerRepository
+     * @param \Spryker\Zed\CompanyUser\Business\CompanyUserFacadeInterface $companyUserFacade
+     * @param \FondOfSpryker\Zed\Company\Business\CompanyFacadeInterface $companyFacade
+     * @param \FondOfSpryker\Zed\CompanyType\Business\CompanyTypeFacadeInterface $companyTypeFacade
+     * @param \Spryker\Zed\CompanyRole\Business\CompanyRoleFacadeInterface $companyRoleFacade
+     * @param \Spryker\Zed\CompanyBusinessUnit\Business\CompanyBusinessUnitFacadeInterface $companyBusinessUnitFacade
+     */
     public function __construct(
         CompanyUserCompanyAssignerConfig $companyUserCompanyAssignerConfig,
         CompanyUserCompanyAssignerRepository $companyUserCompanyAssignerRepository,
@@ -72,9 +86,9 @@ class CompanyUser implements CompanyUserInterface
     }
 
     /**
-     * @param \Generated\Shared\Transfer\CompanyResponseTransfer $companyResponseTransfer
+     * @param \Generated\Shared\Transfer\CompanyUserResponseTransfer $companyUserResponseTransfer
      *
-     * @return \Generated\Shared\Transfer\CompanyResponseTransfer
+     * @return \Generated\Shared\Transfer\CompanyUserResponseTransfer
      */
     public function addManufacturerUserToCompanies(
         CompanyUserResponseTransfer $companyUserResponseTransfer
@@ -102,11 +116,6 @@ class CompanyUser implements CompanyUserInterface
         }
 
         $companyTypeCollectionTransfer = $this->companyTypeFacade->getCompanyTypes();
-
-        if ($companyTypeCollectionTransfer === null) {
-            return $companyUserResponseTransfer;
-        }
-
         $companyTypeCollectionTransfer = $this->getNoneManufacturerIdCompanyTypes($companyTypeCollectionTransfer);
         $companyCollectionTransfer = $this->companyTypeFacade->findCompaniesByCompanyTypeIds($companyTypeCollectionTransfer);
 
@@ -219,14 +228,14 @@ class CompanyUser implements CompanyUserInterface
         CompanyTransfer $companyTransfer,
         ArrayObject $companyRoleCollection
     ): CompanyUserResponseTransfer {
-        $companyBusinessUniteTransfer =
+        $companyBusinessUnitTransfer =
             $this->companyBusinessUnitFacade->findDefaultBusinessUnitByCompanyId($companyTransfer->getIdCompany());
 
         $newCompanyUserTransfer = new CompanyUserTransfer();
         $newCompanyUserTransfer->setCustomer($companyUserTransfer->getCustomer());
         $newCompanyUserTransfer->setFkCustomer($companyUserTransfer->getFkCustomer());
         $newCompanyUserTransfer->setFkCompany($companyTransfer->getIdCompany());
-        $newCompanyUserTransfer->setFkCompanyBusinessUnit($companyBusinessUniteTransfer->getIdCompanyBusinessUnit());
+        $newCompanyUserTransfer->setFkCompanyBusinessUnit($companyBusinessUnitTransfer->getIdCompanyBusinessUnit());
         $newCompanyUserTransfer->setCompanyRoleCollection(
             $this->createCompanyRoleCollectionTransfer(
                 $companyTransfer,
@@ -266,8 +275,10 @@ class CompanyUser implements CompanyUserInterface
     }
 
     /**
-     * @param \Generated\Shared\Transfer\CompanyRoleTransfer $companyRoleTransfer
      * @param \Generated\Shared\Transfer\CompanyTransfer $companyTransfer
+     * @param \Generated\Shared\Transfer\CompanyRoleTransfer $companyRoleTransfer
+     *
+     * @throws
      *
      * @return \Generated\Shared\Transfer\CompanyRoleTransfer|null
      */
