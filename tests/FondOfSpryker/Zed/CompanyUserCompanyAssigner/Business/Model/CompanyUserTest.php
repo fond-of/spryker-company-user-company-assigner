@@ -7,7 +7,7 @@ use Codeception\Test\Unit;
 use FondOfSpryker\Zed\Company\Business\CompanyFacadeInterface;
 use FondOfSpryker\Zed\CompanyType\Business\CompanyTypeFacadeInterface;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\CompanyUserCompanyAssignerConfig;
-use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Persistence\CompanyUserCompanyAssignerRepository;
+use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Persistence\CompanyUserCompanyAssignerRepositoryInterface;
 use Generated\Shared\Transfer\CompanyBusinessUnitTransfer;
 use Generated\Shared\Transfer\CompanyCollectionTransfer;
 use Generated\Shared\Transfer\CompanyResponseTransfer;
@@ -37,9 +37,9 @@ class CompanyUserTest extends Unit
     protected $companyUserCompanyAssignerConfigMock;
 
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|\FondOfSpryker\Zed\CompanyUserCompanyAssigner\Persistence\CompanyUserCompanyAssignerRepository
+     * @var \PHPUnit\Framework\MockObject\MockObject|\FondOfSpryker\Zed\CompanyUserCompanyAssigner\Persistence\CompanyUserCompanyAssignerRepositoryInterface
      */
-    protected $companyUserCompanyAssignerRepositoryMock;
+    protected $companyUserCompanyAssignerRepositoryInterfaceMock;
 
     /**
      * @var \PHPUnit\Framework\MockObject\MockObject|\Spryker\Zed\CompanyUser\Business\CompanyUserFacadeInterface
@@ -195,7 +195,7 @@ class CompanyUserTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->companyUserCompanyAssignerRepositoryMock = $this->getMockBuilder(CompanyUserCompanyAssignerRepository::class)
+        $this->companyUserCompanyAssignerRepositoryInterfaceMock = $this->getMockBuilder(CompanyUserCompanyAssignerRepositoryInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -303,7 +303,7 @@ class CompanyUserTest extends Unit
 
         $this->companyUser = new CompanyUser(
             $this->companyUserCompanyAssignerConfigMock,
-            $this->companyUserCompanyAssignerRepositoryMock,
+            $this->companyUserCompanyAssignerRepositoryInterfaceMock,
             $this->companyUserFacadeInterfaceMock,
             $this->companyFacadeInterfaceMock,
             $this->companyTypeFacadeInterfaceMock,
@@ -402,7 +402,7 @@ class CompanyUserTest extends Unit
             ->method('getManufacturerCompanyTypeRoleMapping')
             ->willReturn($this->companyTypeRoleMapping);
 
-        $this->companyUserCompanyAssignerRepositoryMock->expects($this->atLeastOnce())
+        $this->companyUserCompanyAssignerRepositoryInterfaceMock->expects($this->atLeastOnce())
             ->method('findCompanyRoleTransferByIdCompanyAndName')
             ->with($this->idCompany, $this->companyRoleConfigName)
             ->willReturn($this->companyRoleTransferMock);
@@ -684,7 +684,7 @@ class CompanyUserTest extends Unit
             ->method('getManufacturerCompanyTypeRoleMapping')
             ->willReturn($this->companyTypeRoleMapping);
 
-        $this->companyUserCompanyAssignerRepositoryMock->expects($this->atLeastOnce())
+        $this->companyUserCompanyAssignerRepositoryInterfaceMock->expects($this->atLeastOnce())
             ->method('findCompanyRoleTransferByIdCompanyAndName')
             ->with($this->idCompany, $this->companyRoleConfigName)
             ->willReturn($this->companyRoleTransferMock);
@@ -791,7 +791,7 @@ class CompanyUserTest extends Unit
             ->method('getManufacturerCompanyTypeRoleMapping')
             ->willReturn($this->companyTypeRoleMapping);
 
-        $this->companyUserCompanyAssignerRepositoryMock->expects($this->atLeastOnce())
+        $this->companyUserCompanyAssignerRepositoryInterfaceMock->expects($this->atLeastOnce())
             ->method('findCompanyRoleTransferByIdCompanyAndName')
             ->with($this->idCompany, $this->companyRoleConfigName)
             ->willReturn(null);
@@ -910,7 +910,7 @@ class CompanyUserTest extends Unit
             ->method('getManufacturerCompanyTypeRoleMapping')
             ->willReturn($this->companyTypeRoleMapping);
 
-        $this->companyUserCompanyAssignerRepositoryMock->expects($this->atLeastOnce())
+        $this->companyUserCompanyAssignerRepositoryInterfaceMock->expects($this->atLeastOnce())
             ->method('findCompanyRoleTransferByIdCompanyAndName')
             ->with($this->idCompany, $this->companyRoleConfigName)
             ->willReturn($this->companyRoleTransferMock);

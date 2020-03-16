@@ -17,7 +17,7 @@
     "fond-of-spryker/company": "dev-master",
     "fond-of-spryker/company-business-unit": "dev-master",
     "fond-of-spryker/company-type": "dev-master",
-    "spryker/company-role": "^1.0.0"
+    "spryker/company-role": "^0.0.1 || ^1.0.0"
   },
   "require-dev": {
     "spryker/code-sniffer": "^0.12",

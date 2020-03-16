@@ -6,7 +6,7 @@ use ArrayObject;
 use FondOfSpryker\Zed\Company\Business\CompanyFacadeInterface;
 use FondOfSpryker\Zed\CompanyType\Business\CompanyTypeFacadeInterface;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\CompanyUserCompanyAssignerConfig;
-use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Persistence\CompanyUserCompanyAssignerRepository;
+use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Persistence\CompanyUserCompanyAssignerRepositoryInterface;
 use Generated\Shared\Transfer\CompanyCollectionTransfer;
 use Generated\Shared\Transfer\CompanyResponseTransfer;
 use Generated\Shared\Transfer\CompanyRoleCollectionTransfer;
@@ -60,7 +60,7 @@ class CompanyUser implements CompanyUserInterface
 
     /**
      * @param \FondOfSpryker\Zed\CompanyUserCompanyAssigner\CompanyUserCompanyAssignerConfig $companyUserCompanyAssignerConfig
-     * @param \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Persistence\CompanyUserCompanyAssignerRepository $companyUserCompanyAssignerRepository
+     * @param \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Persistence\CompanyUserCompanyAssignerRepositoryInterface $companyUserCompanyAssignerRepository
      * @param \Spryker\Zed\CompanyUser\Business\CompanyUserFacadeInterface $companyUserFacade
      * @param \FondOfSpryker\Zed\Company\Business\CompanyFacadeInterface $companyFacade
      * @param \FondOfSpryker\Zed\CompanyType\Business\CompanyTypeFacadeInterface $companyTypeFacade
@@ -69,7 +69,7 @@ class CompanyUser implements CompanyUserInterface
      */
     public function __construct(
         CompanyUserCompanyAssignerConfig $companyUserCompanyAssignerConfig,
-        CompanyUserCompanyAssignerRepository $companyUserCompanyAssignerRepository,
+        CompanyUserCompanyAssignerRepositoryInterface $companyUserCompanyAssignerRepository,
         CompanyUserFacadeInterface $companyUserFacade,
         CompanyFacadeInterface $companyFacade,
         CompanyTypeFacadeInterface $companyTypeFacade,
