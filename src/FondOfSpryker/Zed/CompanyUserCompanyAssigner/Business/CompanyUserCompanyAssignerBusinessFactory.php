@@ -5,7 +5,7 @@ namespace FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business;
 use FondOfSpryker\Zed\Company\Business\CompanyFacadeInterface;
 use FondOfSpryker\Zed\CompanyType\Business\CompanyTypeFacadeInterface;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyUser;
-use FondOfSpryker\Zed\CompanyUserCompanyAssigner\CompanyUserCompanyAssignerConfig;
+use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyUserInterface;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\CompanyUserCompanyAssignerDependencyProvider;
 use Spryker\Zed\CompanyBusinessUnit\Business\CompanyBusinessUnitFacadeInterface;
 use Spryker\Zed\CompanyRole\Business\CompanyRoleFacadeInterface;
@@ -14,15 +14,14 @@ use Spryker\Zed\Kernel\Business\AbstractBusinessFactory;
 
 /**
  * @method \FondOfSpryker\Zed\CompanyUserCompanyAssigner\CompanyUserCompanyAssignerConfig getConfig()
+ * @method \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Persistence\CompanyUserCompanyAssignerRepository getRepository()
  */
 class CompanyUserCompanyAssignerBusinessFactory extends AbstractBusinessFactory
 {
     /**
-     * @return \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\CompanyUser
-     *
-     * @throws \Spryker\Zed\Kernel\Exception\Container\ContainerKeyNotFoundException
+     * @return \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyUserInterface
      */
-    public function createCompanyUser(): CompanyUser
+    public function createCompanyUser(): CompanyUserInterface
     {
         return new CompanyUser(
             $this->getConfig(),
@@ -36,9 +35,9 @@ class CompanyUserCompanyAssignerBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \Spryker\Zed\CompanyBusinessUnit\Business\CompanyBusinessUnitFacadeInterface
+     * @throws
      *
-     * @throws \Spryker\Zed\Kernel\Exception\Container\ContainerKeyNotFoundException
+     * @return \Spryker\Zed\CompanyBusinessUnit\Business\CompanyBusinessUnitFacadeInterface
      */
     protected function getCompanyBusinessUnitFacade(): CompanyBusinessUnitFacadeInterface
     {
@@ -46,9 +45,9 @@ class CompanyUserCompanyAssignerBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \FondOfSpryker\Zed\CompanyType\Business\CompanyTypeFacadeInterface
+     * @throws
      *
-     * @throws \Spryker\Zed\Kernel\Exception\Container\ContainerKeyNotFoundException
+     * @return \FondOfSpryker\Zed\CompanyType\Business\CompanyTypeFacadeInterface
      */
     protected function getCompanyTypeFacade(): CompanyTypeFacadeInterface
     {
@@ -56,9 +55,9 @@ class CompanyUserCompanyAssignerBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \FondOfSpryker\Zed\Company\Business\CompanyFacadeInterface
+     * @throws
      *
-     * @throws \Spryker\Zed\Kernel\Exception\Container\ContainerKeyNotFoundException
+     * @return \FondOfSpryker\Zed\Company\Business\CompanyFacadeInterface
      */
     protected function getCompanyFacade(): CompanyFacadeInterface
     {
@@ -66,9 +65,9 @@ class CompanyUserCompanyAssignerBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \Spryker\Zed\CompanyRole\Business\CompanyRoleFacadeInterface
+     * @throws
      *
-     * @throws \Spryker\Zed\Kernel\Exception\Container\ContainerKeyNotFoundException
+     * @return \Spryker\Zed\CompanyRole\Business\CompanyRoleFacadeInterface
      */
     protected function getCompanyRoleFacade(): CompanyRoleFacadeInterface
     {
@@ -76,9 +75,9 @@ class CompanyUserCompanyAssignerBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \Spryker\Zed\CompanyUser\Business\CompanyUserFacadeInterface
+     * @throws
      *
-     * @throws \Spryker\Zed\Kernel\Exception\Container\ContainerKeyNotFoundException
+     * @return \Spryker\Zed\CompanyUser\Business\CompanyUserFacadeInterface
      */
     protected function getCompanyUserFacade(): CompanyUserFacadeInterface
     {

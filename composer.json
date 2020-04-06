@@ -14,7 +14,10 @@
   ],
   "require": {
     "php": ">=7.1",
-    "fond-of-spryker/company-type": "dev-master"
+    "fond-of-spryker/company": "dev-master",
+    "fond-of-spryker/company-business-unit": "dev-master",
+    "fond-of-spryker/company-type": "dev-master",
+    "spryker/company-role": "^0.0.1 || ^1.0.0"
   },
   "require-dev": {
     "spryker/code-sniffer": "^0.12",
@@ -22,13 +25,20 @@
     "mikey179/vfsstream": "^1.6",
     "phpro/grumphp": "^0.14",
     "sebastian/phpcpd": "^4.0",
-    "php-coveralls/php-coveralls": "^2.1"
+    "php-coveralls/php-coveralls": "^2.1",
+    "fond-of-codeception/spryker": "dev-master"
   },
   "minimum-stability": "dev",
   "prefer-stable": true,
   "autoload": {
     "psr-4": {
       "FondOfSpryker\\": "src/FondOfSpryker/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "FondOfSpryker\\": "tests/FondOfSpryker/",
+      "Generated\\": "src/Generated/"
     }
   }
 }
