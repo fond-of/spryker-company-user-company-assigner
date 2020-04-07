@@ -2,14 +2,14 @@
 
 namespace FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business;
 
-use FondOfSpryker\Zed\Company\Business\CompanyFacadeInterface;
-use FondOfSpryker\Zed\CompanyType\Business\CompanyTypeFacadeInterface;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyUser;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyUserInterface;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\CompanyUserCompanyAssignerDependencyProvider;
-use Spryker\Zed\CompanyBusinessUnit\Business\CompanyBusinessUnitFacadeInterface;
-use Spryker\Zed\CompanyRole\Business\CompanyRoleFacadeInterface;
-use Spryker\Zed\CompanyUser\Business\CompanyUserFacadeInterface;
+use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Client\CompanyUserCompanyAssignerToCompanyBusinessUnitFacadeInterface;
+use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Client\CompanyUserCompanyAssignerToCompanyFacadeInterface;
+use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Client\CompanyUserCompanyAssignerToCompanyRoleFacadeInterface;
+use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Client\CompanyUserCompanyAssignerToCompanyTypeFacadeInterface;
+use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Client\CompanyUserCompanyAssignerToCompanyUserFacadeInterface;
 use Spryker\Zed\Kernel\Business\AbstractBusinessFactory;
 
 /**
@@ -35,51 +35,41 @@ class CompanyUserCompanyAssignerBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @throws
-     *
-     * @return \Spryker\Zed\CompanyBusinessUnit\Business\CompanyBusinessUnitFacadeInterface
+     * @return \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Client\CompanyUserCompanyAssignerToCompanyBusinessUnitFacadeInterface
      */
-    protected function getCompanyBusinessUnitFacade(): CompanyBusinessUnitFacadeInterface
+    protected function getCompanyBusinessUnitFacade(): CompanyUserCompanyAssignerToCompanyBusinessUnitFacadeInterface
     {
         return $this->getProvidedDependency(CompanyUserCompanyAssignerDependencyProvider::FACADE_COMPANY_BUSINESS_UNIT);
     }
 
     /**
-     * @throws
-     *
-     * @return \FondOfSpryker\Zed\CompanyType\Business\CompanyTypeFacadeInterface
+     * @return \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Client\CompanyUserCompanyAssignerToCompanyTypeFacadeInterface
      */
-    protected function getCompanyTypeFacade(): CompanyTypeFacadeInterface
+    protected function getCompanyTypeFacade(): CompanyUserCompanyAssignerToCompanyTypeFacadeInterface
     {
         return $this->getProvidedDependency(CompanyUserCompanyAssignerDependencyProvider::FACADE_COMPANY_TYPE);
     }
 
     /**
-     * @throws
-     *
-     * @return \FondOfSpryker\Zed\Company\Business\CompanyFacadeInterface
+     * @return \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Client\CompanyUserCompanyAssignerToCompanyFacadeInterface
      */
-    protected function getCompanyFacade(): CompanyFacadeInterface
+    protected function getCompanyFacade(): CompanyUserCompanyAssignerToCompanyFacadeInterface
     {
         return $this->getProvidedDependency(CompanyUserCompanyAssignerDependencyProvider::FACADE_COMPANY);
     }
 
     /**
-     * @throws
-     *
-     * @return \Spryker\Zed\CompanyRole\Business\CompanyRoleFacadeInterface
+     * @return \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Client\CompanyUserCompanyAssignerToCompanyRoleFacadeInterface
      */
-    protected function getCompanyRoleFacade(): CompanyRoleFacadeInterface
+    protected function getCompanyRoleFacade(): CompanyUserCompanyAssignerToCompanyRoleFacadeInterface
     {
         return $this->getProvidedDependency(CompanyUserCompanyAssignerDependencyProvider::FACADE_COMPANY_ROLE);
     }
 
     /**
-     * @throws
-     *
-     * @return \Spryker\Zed\CompanyUser\Business\CompanyUserFacadeInterface
+     * @return \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Client\CompanyUserCompanyAssignerToCompanyUserFacadeInterface
      */
-    protected function getCompanyUserFacade(): CompanyUserFacadeInterface
+    protected function getCompanyUserFacade(): CompanyUserCompanyAssignerToCompanyUserFacadeInterface
     {
         return $this->getProvidedDependency(CompanyUserCompanyAssignerDependencyProvider::FACADE_COMPANY_USER);
     }

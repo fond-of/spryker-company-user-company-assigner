@@ -3,9 +3,12 @@
 namespace FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model;
 
 use ArrayObject;
-use FondOfSpryker\Zed\Company\Business\CompanyFacadeInterface;
-use FondOfSpryker\Zed\CompanyType\Business\CompanyTypeFacadeInterface;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\CompanyUserCompanyAssignerConfig;
+use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Client\CompanyUserCompanyAssignerToCompanyBusinessUnitFacadeInterface;
+use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Client\CompanyUserCompanyAssignerToCompanyFacadeInterface;
+use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Client\CompanyUserCompanyAssignerToCompanyRoleFacadeInterface;
+use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Client\CompanyUserCompanyAssignerToCompanyTypeFacadeInterface;
+use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Client\CompanyUserCompanyAssignerToCompanyUserFacadeInterface;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Persistence\CompanyUserCompanyAssignerRepositoryInterface;
 use Generated\Shared\Transfer\CompanyCollectionTransfer;
 use Generated\Shared\Transfer\CompanyResponseTransfer;
@@ -17,9 +20,6 @@ use Generated\Shared\Transfer\CompanyTypeTransfer;
 use Generated\Shared\Transfer\CompanyUserCriteriaFilterTransfer;
 use Generated\Shared\Transfer\CompanyUserResponseTransfer;
 use Generated\Shared\Transfer\CompanyUserTransfer;
-use Spryker\Zed\CompanyBusinessUnit\Business\CompanyBusinessUnitFacadeInterface;
-use Spryker\Zed\CompanyRole\Business\CompanyRoleFacadeInterface;
-use Spryker\Zed\CompanyUser\Business\CompanyUserFacadeInterface;
 
 class CompanyUser implements CompanyUserInterface
 {
@@ -61,20 +61,20 @@ class CompanyUser implements CompanyUserInterface
     /**
      * @param \FondOfSpryker\Zed\CompanyUserCompanyAssigner\CompanyUserCompanyAssignerConfig $companyUserCompanyAssignerConfig
      * @param \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Persistence\CompanyUserCompanyAssignerRepositoryInterface $companyUserCompanyAssignerRepository
-     * @param \Spryker\Zed\CompanyUser\Business\CompanyUserFacadeInterface $companyUserFacade
-     * @param \FondOfSpryker\Zed\Company\Business\CompanyFacadeInterface $companyFacade
-     * @param \FondOfSpryker\Zed\CompanyType\Business\CompanyTypeFacadeInterface $companyTypeFacade
-     * @param \Spryker\Zed\CompanyRole\Business\CompanyRoleFacadeInterface $companyRoleFacade
-     * @param \Spryker\Zed\CompanyBusinessUnit\Business\CompanyBusinessUnitFacadeInterface $companyBusinessUnitFacade
+     * @param \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Client\CompanyUserCompanyAssignerToCompanyUserFacadeInterface $companyUserFacade
+     * @param \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Client\CompanyUserCompanyAssignerToCompanyFacadeInterface $companyFacade
+     * @param \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Client\CompanyUserCompanyAssignerToCompanyTypeFacadeInterface $companyTypeFacade
+     * @param \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Client\CompanyUserCompanyAssignerToCompanyRoleFacadeInterface $companyRoleFacade
+     * @param \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Client\CompanyUserCompanyAssignerToCompanyBusinessUnitFacadeInterface $companyBusinessUnitFacade
      */
     public function __construct(
         CompanyUserCompanyAssignerConfig $companyUserCompanyAssignerConfig,
         CompanyUserCompanyAssignerRepositoryInterface $companyUserCompanyAssignerRepository,
-        CompanyUserFacadeInterface $companyUserFacade,
-        CompanyFacadeInterface $companyFacade,
-        CompanyTypeFacadeInterface $companyTypeFacade,
-        CompanyRoleFacadeInterface $companyRoleFacade,
-        CompanyBusinessUnitFacadeInterface $companyBusinessUnitFacade
+        CompanyUserCompanyAssignerToCompanyUserFacadeInterface $companyUserFacade,
+        CompanyUserCompanyAssignerToCompanyFacadeInterface $companyFacade,
+        CompanyUserCompanyAssignerToCompanyTypeFacadeInterface $companyTypeFacade,
+        CompanyUserCompanyAssignerToCompanyRoleFacadeInterface $companyRoleFacade,
+        CompanyUserCompanyAssignerToCompanyBusinessUnitFacadeInterface $companyBusinessUnitFacade
     ) {
         $this->companyFacade = $companyFacade;
         $this->companyTypeFacade = $companyTypeFacade;

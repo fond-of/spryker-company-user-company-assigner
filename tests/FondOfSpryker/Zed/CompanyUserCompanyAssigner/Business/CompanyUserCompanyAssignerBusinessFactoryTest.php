@@ -3,15 +3,15 @@
 namespace FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business;
 
 use Codeception\Test\Unit;
-use FondOfSpryker\Zed\Company\Business\CompanyFacadeInterface;
-use FondOfSpryker\Zed\CompanyType\Business\CompanyTypeFacadeInterface;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyUser;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\CompanyUserCompanyAssignerConfig;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\CompanyUserCompanyAssignerDependencyProvider;
+use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Client\CompanyUserCompanyAssignerToCompanyBusinessUnitFacadeInterface;
+use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Client\CompanyUserCompanyAssignerToCompanyFacadeInterface;
+use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Client\CompanyUserCompanyAssignerToCompanyRoleFacadeInterface;
+use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Client\CompanyUserCompanyAssignerToCompanyTypeFacadeInterface;
+use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Client\CompanyUserCompanyAssignerToCompanyUserFacadeInterface;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Persistence\CompanyUserCompanyAssignerRepository;
-use Spryker\Zed\CompanyBusinessUnit\Business\CompanyBusinessUnitFacadeInterface;
-use Spryker\Zed\CompanyRole\Business\CompanyRoleFacadeInterface;
-use Spryker\Zed\CompanyUser\Business\CompanyUserFacadeInterface;
 use Spryker\Zed\Kernel\Container;
 
 class CompanyUserCompanyAssignerBusinessFactoryTest extends Unit
@@ -37,27 +37,27 @@ class CompanyUserCompanyAssignerBusinessFactoryTest extends Unit
     protected $containerMock;
 
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|\Spryker\Zed\CompanyUser\Business\CompanyUserFacadeInterface
+     * @var \PHPUnit\Framework\MockObject\MockObject|\FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Client\CompanyUserCompanyAssignerToCompanyUserFacadeInterface
      */
     protected $companyUserFacadeInterfaceMock;
 
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|\FondOfSpryker\Zed\Company\Business\CompanyFacadeInterface
+     * @var \PHPUnit\Framework\MockObject\MockObject|\FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Client\CompanyUserCompanyAssignerToCompanyFacadeInterface
      */
     protected $companyFacadeInterfaceMock;
 
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|\FondOfSpryker\Zed\CompanyType\Business\CompanyTypeFacadeInterface
+     * @var \PHPUnit\Framework\MockObject\MockObject|\FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Client\CompanyUserCompanyAssignerToCompanyTypeFacadeInterface
      */
     protected $companyTypeFacadeInterfaceMock;
 
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|\Spryker\Zed\CompanyRole\Business\CompanyRoleFacadeInterface
+     * @var \PHPUnit\Framework\MockObject\MockObject|\FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Client\CompanyUserCompanyAssignerToCompanyRoleFacadeInterface
      */
     protected $companyRoleFacadeInterfaceMock;
 
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|\Spryker\Zed\CompanyBusinessUnit\Business\CompanyBusinessUnitFacadeInterface
+     * @var \PHPUnit\Framework\MockObject\MockObject|\FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Client\CompanyUserCompanyAssignerToCompanyBusinessUnitFacadeInterface
      */
     protected $companyBusinessUnitFacadeInterfaceMock;
 
@@ -78,23 +78,23 @@ class CompanyUserCompanyAssignerBusinessFactoryTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->companyUserFacadeInterfaceMock = $this->getMockBuilder(CompanyUserFacadeInterface::class)
+        $this->companyUserFacadeInterfaceMock = $this->getMockBuilder(CompanyUserCompanyAssignerToCompanyUserFacadeInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->companyFacadeInterfaceMock = $this->getMockBuilder(CompanyFacadeInterface::class)
+        $this->companyFacadeInterfaceMock = $this->getMockBuilder(CompanyUserCompanyAssignerToCompanyFacadeInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->companyTypeFacadeInterfaceMock = $this->getMockBuilder(CompanyTypeFacadeInterface::class)
+        $this->companyTypeFacadeInterfaceMock = $this->getMockBuilder(CompanyUserCompanyAssignerToCompanyTypeFacadeInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->companyRoleFacadeInterfaceMock = $this->getMockBuilder(CompanyRoleFacadeInterface::class)
+        $this->companyRoleFacadeInterfaceMock = $this->getMockBuilder(CompanyUserCompanyAssignerToCompanyRoleFacadeInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->companyBusinessUnitFacadeInterfaceMock = $this->getMockBuilder(CompanyBusinessUnitFacadeInterface::class)
+        $this->companyBusinessUnitFacadeInterfaceMock = $this->getMockBuilder(CompanyUserCompanyAssignerToCompanyBusinessUnitFacadeInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
