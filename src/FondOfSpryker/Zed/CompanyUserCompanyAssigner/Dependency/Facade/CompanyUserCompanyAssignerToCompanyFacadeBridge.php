@@ -1,6 +1,6 @@
 <?php
 
-namespace FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Client;
+namespace FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Facade;
 
 use FondOfSpryker\Zed\Company\Business\CompanyFacadeInterface;
 use Generated\Shared\Transfer\CompanyTransfer;

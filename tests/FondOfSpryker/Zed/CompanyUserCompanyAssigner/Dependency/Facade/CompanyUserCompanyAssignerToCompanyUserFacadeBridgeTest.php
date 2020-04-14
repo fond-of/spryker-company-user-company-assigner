@@ -1,6 +1,6 @@
 <?php
 
-namespace FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Client;
+namespace FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Facade;
 
 use Codeception\Test\Unit;
 use Generated\Shared\Transfer\CompanyUserCollectionTransfer;
@@ -12,7 +12,7 @@ use Spryker\Zed\CompanyUser\Business\CompanyUserFacadeInterface;
 class CompanyUserCompanyAssignerToCompanyUserFacadeBridgeTest extends Unit
 {
     /**
-     * @var \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Client\CompanyUserCompanyAssignerToCompanyUserFacadeBridge
+     * @var \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Facade\CompanyUserCompanyAssignerToCompanyUserFacadeBridge
      */
     protected $companyUserCompanyAssignerToCompanyUserFacadeBridge;
 
