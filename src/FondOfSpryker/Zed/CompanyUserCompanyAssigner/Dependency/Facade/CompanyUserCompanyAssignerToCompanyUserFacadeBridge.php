@@ -11,7 +11,7 @@ use Spryker\Zed\CompanyUser\Business\CompanyUserFacadeInterface;
 class CompanyUserCompanyAssignerToCompanyUserFacadeBridge implements CompanyUserCompanyAssignerToCompanyUserFacadeInterface
 {
     /**
-     * @var \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyUserInterface
+     * @var \Spryker\Zed\CompanyUser\Business\CompanyUserFacadeInterface
      */
     protected $companyUserFacade;
 

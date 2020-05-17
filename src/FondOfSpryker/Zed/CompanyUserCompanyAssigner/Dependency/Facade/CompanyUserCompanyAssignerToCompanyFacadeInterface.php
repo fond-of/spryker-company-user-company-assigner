@@ -7,9 +7,9 @@ use Generated\Shared\Transfer\CompanyTransfer;
 interface CompanyUserCompanyAssignerToCompanyFacadeInterface
 {
     /**
-     * @param \Generated\Shared\Transfer\CompanyTransfer|int $idCompany
+     * @param int $idCompany
      *
-     * @return \Generated\Shared\Transfer\CompanyTransfer
+     * @return \Generated\Shared\Transfer\CompanyTransfer|null
      */
     public function findCompanyById(int $idCompany): ?CompanyTransfer;
 }

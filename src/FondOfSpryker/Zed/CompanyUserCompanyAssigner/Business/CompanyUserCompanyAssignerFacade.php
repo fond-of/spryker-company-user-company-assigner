@@ -8,18 +8,18 @@ use Spryker\Zed\Kernel\Business\AbstractFacade;
 
 /**
  * @method \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\CompanyUserCompanyAssignerBusinessFactory getFactory()
+ * @method \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Persistence\CompanyUserCompanyAssignerRepositoryInterface getRepository()
  */
 class CompanyUserCompanyAssignerFacade extends AbstractFacade implements CompanyUserCompanyAssignerFacadeInterface
 {
     /**
      * @param \Generated\Shared\Transfer\CompanyUserResponseTransfer $companyUserResponseTransfer
      *
-     * @return \Generated\Shared\Transfer\CompanyUserResponseTransfer|void
+     * @return \Generated\Shared\Transfer\CompanyUserResponseTransfer
      */
     public function addManufacturerUserToCompanies(
         CompanyUserResponseTransfer $companyUserResponseTransfer
     ): CompanyUserResponseTransfer {
-
         return $this->getFactory()
             ->createCompanyUser()
             ->addManufacturerUserToCompanies($companyUserResponseTransfer);
