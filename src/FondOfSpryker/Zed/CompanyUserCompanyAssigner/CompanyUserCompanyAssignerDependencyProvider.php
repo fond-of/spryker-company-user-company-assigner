@@ -8,6 +8,7 @@ use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Facade\CompanyUserCo
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Facade\CompanyUserCompanyAssignerToCompanyTypeFacadeBridge;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Facade\CompanyUserCompanyAssignerToCompanyUserFacadeBridge;
 use Orm\Zed\CompanyRole\Persistence\SpyCompanyRoleQuery;
+use Orm\Zed\CompanyUser\Persistence\SpyCompanyUserQuery;
 use Spryker\Zed\Kernel\AbstractBundleDependencyProvider;
 use Spryker\Zed\Kernel\Container;
 
@@ -20,6 +21,7 @@ class CompanyUserCompanyAssignerDependencyProvider extends AbstractBundleDepende
     public const FACADE_COMPANY_USER = 'FACADE_COMPANY_USER';
 
     public const PROPEL_QUERY_COMPANY_ROLE = 'PROPEL_QUERY_COMPANY_ROLE';
+    public const PROPEL_QUERY_COMPANY_USER = 'PROPEL_QUERY_COMPANY_USER';
 
     /**
      * @param \Spryker\Zed\Kernel\Container $container
@@ -49,6 +51,7 @@ class CompanyUserCompanyAssignerDependencyProvider extends AbstractBundleDepende
         $container = parent::providePersistenceLayerDependencies($container);
 
         $container = $this->addCompanyRolePropelQuery($container);
+        $container = $this->addCompanyUserPropelQuery($container);
 
         return $container;
     }
@@ -143,6 +146,21 @@ class CompanyUserCompanyAssignerDependencyProvider extends AbstractBundleDepende
         $container[static::PROPEL_QUERY_COMPANY_ROLE] = static function (Container $container) {
             return SpyCompanyRoleQuery::create();
         };
+
+        return $container;
+    }
+
+    /**
+     * @param \Spryker\Zed\Kernel\Container $container
+     *
+     * @return \Spryker\Zed\Kernel\Container
+     */
+    protected function addCompanyUserPropelQuery(Container $container): Container
+    {
+        $container[static::PROPEL_QUERY_COMPANY_USER] = static function (Container $container) {
+            return SpyCompanyUserQuery::create();
+        };
+
         return $container;
     }
 }

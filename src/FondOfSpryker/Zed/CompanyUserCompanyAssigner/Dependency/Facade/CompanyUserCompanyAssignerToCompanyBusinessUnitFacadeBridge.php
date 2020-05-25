@@ -29,4 +29,14 @@ class CompanyUserCompanyAssignerToCompanyBusinessUnitFacadeBridge implements Com
     {
         return $this->companyBusinessUnitFacade->findDefaultBusinessUnitByCompanyId($idCompany);
     }
+
+    /**
+     * @param int $idCompanyBusinessUnit
+     *
+     * @return \Generated\Shared\Transfer\CompanyBusinessUnitTransfer|null
+     */
+    public function findCompanyBusinessUnitById(int $idCompanyBusinessUnit): ?CompanyBusinessUnitTransfer
+    {
+        return $this->companyBusinessUnitFacade->findCompanyBusinessUnitById($idCompanyBusinessUnit);
+    }
 }

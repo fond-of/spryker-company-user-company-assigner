@@ -2,6 +2,7 @@
 
 namespace FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business;
 
+use Generated\Shared\Transfer\CompanyBusinessUnitTransfer;
 use Generated\Shared\Transfer\CompanyResponseTransfer;
 use Generated\Shared\Transfer\CompanyUserResponseTransfer;
 
@@ -24,4 +25,13 @@ interface CompanyUserCompanyAssignerFacadeInterface
     public function addManufacturerUsersToCompany(
         CompanyResponseTransfer $companyResponseTransfer
     ): CompanyResponseTransfer;
+
+    /**
+     * @param \Generated\Shared\Transfer\CompanyBusinessUnitTransfer $companyBusinessUnitTransfer
+     *
+     * @return \Generated\Shared\Transfer\CompanyBusinessUnitTransfer
+     */
+    public function addManufacturerUsersToCompanyBusinessUnit(
+        CompanyBusinessUnitTransfer $companyBusinessUnitTransfer
+    ): CompanyBusinessUnitTransfer;
 }

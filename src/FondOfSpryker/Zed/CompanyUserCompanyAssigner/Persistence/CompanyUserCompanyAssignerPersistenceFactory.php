@@ -5,9 +5,16 @@ namespace FondOfSpryker\Zed\CompanyUserCompanyAssigner\Persistence;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\CompanyUserCompanyAssignerDependencyProvider;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Persistence\Mapper\CompanyRoleMapper;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Persistence\Mapper\CompanyRoleMapperInterface;
+use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Persistence\Mapper\CompanyUserMapper;
+use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Persistence\Mapper\CompanyUserMapperInterface;
 use Orm\Zed\CompanyRole\Persistence\SpyCompanyRoleQuery;
+use Orm\Zed\CompanyUser\Persistence\SpyCompanyUserQuery;
 use Spryker\Zed\Kernel\Persistence\AbstractPersistenceFactory;
 
+/**
+ * @method \FondOfSpryker\Zed\CompanyUserCompanyAssigner\CompanyUserCompanyAssignerConfig getConfig()
+ * @method \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Persistence\CompanyUserCompanyAssignerRepositoryInterface getRepository()
+ */
 class CompanyUserCompanyAssignerPersistenceFactory extends AbstractPersistenceFactory
 {
     /**
@@ -19,6 +26,14 @@ class CompanyUserCompanyAssignerPersistenceFactory extends AbstractPersistenceFa
     }
 
     /**
+     * @return \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Persistence\Mapper\CompanyUserMapperInterface
+     */
+    public function createCompanyUserMapper(): CompanyUserMapperInterface
+    {
+        return new CompanyUserMapper();
+    }
+
+    /**
      * @return \Orm\Zed\CompanyRole\Persistence\SpyCompanyRoleQuery
      */
     public function getCompanyRoleQuery(): SpyCompanyRoleQuery
@@ -26,4 +41,11 @@ class CompanyUserCompanyAssignerPersistenceFactory extends AbstractPersistenceFa
         return $this->getProvidedDependency(CompanyUserCompanyAssignerDependencyProvider::PROPEL_QUERY_COMPANY_ROLE);
     }
 
+    /**
+     * @return \Orm\Zed\CompanyUser\Persistence\SpyCompanyUserQuery
+     */
+    public function getCompanyUserQuery(): SpyCompanyUserQuery
+    {
+        return $this->getProvidedDependency(CompanyUserCompanyAssignerDependencyProvider::PROPEL_QUERY_COMPANY_USER);
+    }
 }

@@ -9,7 +9,7 @@ use Spryker\Zed\Kernel\Communication\AbstractPlugin;
 /**
  * @method \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\CompanyUserCompanyAssignerFacadeInterface getFacade()
  */
-class CompanyUserCompanyAssignerCompanyUserPostCreatePluginInterface
+class CompanyUserCompanyAssignerCompanyUserPostCreatePlugin
     extends AbstractPlugin implements CompanyUserPostCreatePluginInterface
 {
     /**

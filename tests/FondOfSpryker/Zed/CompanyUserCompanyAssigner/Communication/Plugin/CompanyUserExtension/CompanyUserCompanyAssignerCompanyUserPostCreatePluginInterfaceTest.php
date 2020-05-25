@@ -9,7 +9,7 @@ use Generated\Shared\Transfer\CompanyUserResponseTransfer;
 class CompanyUserCompanyAssignerCompanyUserPostCreatePluginInterfaceTest extends Unit
 {
     /**
-     * @var \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Communication\Plugin\CompanyUserExtension\CompanyUserCompanyAssignerCompanyUserPostCreatePluginInterface
+     * @var \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Communication\Plugin\CompanyUserExtension\CompanyUserCompanyAssignerCompanyUserPostCreatePlugin
      */
     protected $companyUserCompanyAssignerCompanyUserPostCreatePluginInterface;
 
@@ -36,7 +36,7 @@ class CompanyUserCompanyAssignerCompanyUserPostCreatePluginInterfaceTest extends
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->companyUserCompanyAssignerCompanyUserPostCreatePluginInterface = new CompanyUserCompanyAssignerCompanyUserPostCreatePluginInterface();
+        $this->companyUserCompanyAssignerCompanyUserPostCreatePluginInterface = new CompanyUserCompanyAssignerCompanyUserPostCreatePlugin();
         $this->companyUserCompanyAssignerCompanyUserPostCreatePluginInterface->setFacade($this->companyUserCompanyAssignerFacadeMock);
     }
 

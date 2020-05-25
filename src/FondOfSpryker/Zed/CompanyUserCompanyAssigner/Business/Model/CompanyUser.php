@@ -10,6 +10,7 @@ use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Facade\CompanyUserCo
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Facade\CompanyUserCompanyAssignerToCompanyTypeFacadeInterface;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Facade\CompanyUserCompanyAssignerToCompanyUserFacadeInterface;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Persistence\CompanyUserCompanyAssignerRepositoryInterface;
+use Generated\Shared\Transfer\CompanyBusinessUnitTransfer;
 use Generated\Shared\Transfer\CompanyCollectionTransfer;
 use Generated\Shared\Transfer\CompanyResponseTransfer;
 use Generated\Shared\Transfer\CompanyRoleCollectionTransfer;
@@ -20,6 +21,7 @@ use Generated\Shared\Transfer\CompanyTypeTransfer;
 use Generated\Shared\Transfer\CompanyUserCriteriaFilterTransfer;
 use Generated\Shared\Transfer\CompanyUserResponseTransfer;
 use Generated\Shared\Transfer\CompanyUserTransfer;
+use Generated\Shared\Transfer\CustomerTransfer;
 
 class CompanyUser implements CompanyUserInterface
 {
@@ -178,6 +180,57 @@ class CompanyUser implements CompanyUserInterface
     }
 
     /**
+     * @param \Generated\Shared\Transfer\CompanyResponseTransfer $companyResponseTransfer
+     *
+     * @return \Generated\Shared\Transfer\CompanyResponseTransfer
+     */
+    public function addManufacturerUsersToCompanyBusinessUnit(
+        CompanyBusinessUnitTransfer $companyBusinessUnitTransfer
+    ): CompanyBusinessUnitTransfer {
+
+        $companyTransfer = $this->companyFacade->findCompanyById($companyBusinessUnitTransfer->getFkCompany());
+        if ($companyTransfer === null) {
+            return $companyBusinessUnitTransfer;
+        }
+
+        $companyTypeTransfer = $this->companyTypeFacade->findCompanyTypeById($companyTransfer->getFkCompanyType());
+        if ($companyTypeTransfer === null) {
+            return $companyBusinessUnitTransfer;
+        }
+
+        if ($this->isCompanyTypeManufacturer($companyTypeTransfer)) {
+            return $companyBusinessUnitTransfer;
+        }
+
+        $manufacturerCompanyCollectionTransfer = $this->getCompanyCollectionByCompanyTypeName(
+            $this->companyTypeFacade->getCompanyTypeManufacturerName()
+        );
+
+        if ($manufacturerCompanyCollectionTransfer === null) {
+            return $companyBusinessUnitTransfer;
+        }
+
+        foreach ($manufacturerCompanyCollectionTransfer->getCompanies() as $manufacturerCompanyTransfer) {
+            $manufacturerCompanyUserCriteriaFilterTransfer = (new CompanyUserCriteriaFilterTransfer())->setIdCompany($manufacturerCompanyTransfer->getIdCompany());
+            $manufacturerCompanyUserCollectionTransfer = $this->companyUserFacade->getCompanyUserCollection($manufacturerCompanyUserCriteriaFilterTransfer);
+
+            foreach ($manufacturerCompanyUserCollectionTransfer->getCompanyUsers() as $manufacturerCompanyUserTransfer) {
+                if ($this->hasCompanyCompanyUser($companyTransfer, $manufacturerCompanyUserTransfer) === true) {
+                    continue;
+                }
+
+                $this->addCompanyUsersToCompany(
+                    $companyTransfer,
+                    $manufacturerCompanyUserTransfer,
+                    $manufacturerCompanyUserTransfer->getCompanyRoleCollection()->getRoles()
+                );
+            }
+        }
+
+        return $companyBusinessUnitTransfer;
+    }
+
+    /**
      * @param \Generated\Shared\Transfer\CompanyTypeCollectionTransfer $companyTypeCollectionTransfer
      *
      * @return \Generated\Shared\Transfer\CompanyTypeCollectionTransfer
@@ -316,8 +369,24 @@ class CompanyUser implements CompanyUserInterface
      *
      * @return bool
      */
-    private function isCompanyTypeManufacturer(CompanyTypeTransfer $companyTypeTransfer): bool
+    protected function isCompanyTypeManufacturer(CompanyTypeTransfer $companyTypeTransfer): bool
     {
         return $companyTypeTransfer->getName() === $this->companyTypeFacade->getCompanyTypeManufacturerName();
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\CompanyBusinessUnitTransfer $companyBusinessUnitTransfer
+     *
+     * @return bool
+     */
+    protected function hasCompanyCompanyUser(
+        CompanyTransfer $companyTransfer,
+        CompanyUserTransfer $companyUserTransfer
+    ): bool {
+
+        $customerTransfer = (new CustomerTransfer())->setIdCustomer($companyUserTransfer->getFkCustomer());
+
+        return $this->companyUserCompanyAssignerRepository
+                ->findCompanyUserByIdCompanyAndIdCustomer($companyTransfer, $customerTransfer) !== null;
     }
 }
