@@ -188,10 +188,7 @@ class CompanyUser implements CompanyUserInterface
         CompanyBusinessUnitTransfer $companyBusinessUnitTransfer
     ): CompanyBusinessUnitTransfer {
 
-        $companyTransfer = $this->companyFacade->findCompanyById($companyBusinessUnitTransfer->getFkCompany());
-        if ($companyTransfer === null) {
-            return $companyBusinessUnitTransfer;
-        }
+        $companyTransfer = $this->mapCompanyBusinessUnitTransferToCompanyTransfer($companyBusinessUnitTransfer);
 
         $companyTypeTransfer = $this->companyTypeFacade->findCompanyTypeById($companyTransfer->getFkCompanyType());
         if ($companyTypeTransfer === null) {
@@ -362,6 +359,23 @@ class CompanyUser implements CompanyUserInterface
         $companyCollectionTransfer = $this->companyTypeFacade->findCompaniesByCompanyTypeIds($companyTypeCollectionTransfer);
 
         return $companyCollectionTransfer;
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\CompanyBusinessUnitTransfer $companyBusinessUnitTransfer
+     *
+     * @return \Generated\Shared\Transfer\CompanyTransfer
+     */
+    protected function mapCompanyBusinessUnitTransferToCompanyTransfer(
+        CompanyBusinessUnitTransfer $companyBusinessUnitTransfer
+    ): CompanyTransfer {
+        if ($companyBusinessUnitTransfer->getFkCompany() !== null) {
+            return $this->companyFacade->findCompanyById($companyBusinessUnitTransfer->getFkCompany());
+        }
+
+        $companyBusinessUnitTransfer = $this->companyBusinessUnitFacade->findCompanyBusinessUnitById($companyBusinessUnitTransfer->getIdCompanyBusinessUnit());
+
+        return $this->companyFacade->findCompanyById($companyBusinessUnitTransfer->getFkCompany());
     }
 
     /**
