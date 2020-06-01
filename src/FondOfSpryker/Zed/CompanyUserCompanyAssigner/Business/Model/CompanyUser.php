@@ -180,14 +180,13 @@ class CompanyUser implements CompanyUserInterface
     }
 
     /**
-     * @param \Generated\Shared\Transfer\CompanyResponseTransfer $companyResponseTransfer
+     * @param \Generated\Shared\Transfer\CompanyBusinessUnitTransfer $companyBusinessUnitTransfer
      *
-     * @return \Generated\Shared\Transfer\CompanyResponseTransfer
+     * @return \Generated\Shared\Transfer\CompanyBusinessUnitTransfer
      */
     public function addManufacturerUsersToCompanyBusinessUnit(
         CompanyBusinessUnitTransfer $companyBusinessUnitTransfer
     ): CompanyBusinessUnitTransfer {
-
         $companyTransfer = $this->mapCompanyBusinessUnitTransferToCompanyTransfer($companyBusinessUnitTransfer);
 
         $companyTypeTransfer = $this->companyTypeFacade->findCompanyTypeById($companyTransfer->getFkCompanyType());
@@ -389,7 +388,8 @@ class CompanyUser implements CompanyUserInterface
     }
 
     /**
-     * @param \Generated\Shared\Transfer\CompanyBusinessUnitTransfer $companyBusinessUnitTransfer
+     * @param \Generated\Shared\Transfer\CompanyTransfer $companyTransfer
+     * @param \Generated\Shared\Transfer\CompanyUserTransfer $companyUserTransfer
      *
      * @return bool
      */
@@ -397,7 +397,6 @@ class CompanyUser implements CompanyUserInterface
         CompanyTransfer $companyTransfer,
         CompanyUserTransfer $companyUserTransfer
     ): bool {
-
         $customerTransfer = (new CustomerTransfer())->setIdCustomer($companyUserTransfer->getFkCustomer());
 
         return $this->companyUserCompanyAssignerRepository
