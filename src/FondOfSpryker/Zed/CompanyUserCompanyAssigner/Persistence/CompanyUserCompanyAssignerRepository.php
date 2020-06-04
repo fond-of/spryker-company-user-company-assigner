@@ -47,7 +47,6 @@ class CompanyUserCompanyAssignerRepository extends AbstractRepository implements
         CompanyTransfer $companyTransfer,
         CustomerTransfer $customerTransfer
     ): ?CompanyUserTransfer {
-
         $companyTransfer->requireIdCompany();
         $customerTransfer->requireIdCustomer();
 

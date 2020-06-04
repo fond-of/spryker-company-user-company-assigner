@@ -8,9 +8,9 @@ use Spryker\Zed\Kernel\Communication\AbstractPlugin;
 
 /**
  * @method \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\CompanyUserCompanyAssignerFacadeInterface getFacade()
+ * @method \FondOfSpryker\Zed\CompanyUserCompanyAssigner\CompanyUserCompanyAssignerConfig getConfig()
  */
-class CompanyUserCompanyAssignerCompanyUserPostCreatePlugin
-    extends AbstractPlugin implements CompanyUserPostCreatePluginInterface
+class CompanyUserCompanyAssignerCompanyUserPostCreatePlugin extends AbstractPlugin implements CompanyUserPostCreatePluginInterface
 {
     /**
      * @param \Generated\Shared\Transfer\CompanyUserResponseTransfer $companyUserResponseTransfer

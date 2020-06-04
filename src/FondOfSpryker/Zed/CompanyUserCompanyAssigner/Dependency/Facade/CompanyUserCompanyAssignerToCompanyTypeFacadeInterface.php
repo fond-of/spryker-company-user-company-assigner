@@ -44,7 +44,7 @@ interface CompanyUserCompanyAssignerToCompanyTypeFacadeInterface
     /**
      * @param \Generated\Shared\Transfer\CompanyTypeTransfer $companyTypeTransfer
      *
-     * @return \Generated\Shared\Transfer\CompanyTypeTransfer
+     * @return \Generated\Shared\Transfer\CompanyTypeTransfer|null
      */
     public function getCompanyTypeById(CompanyTypeTransfer $companyTypeTransfer): ?CompanyTypeTransfer;
 }
