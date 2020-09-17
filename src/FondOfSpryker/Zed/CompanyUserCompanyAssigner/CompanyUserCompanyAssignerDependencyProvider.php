@@ -143,7 +143,7 @@ class CompanyUserCompanyAssignerDependencyProvider extends AbstractBundleDepende
      */
     protected function addCompanyRolePropelQuery(Container $container): Container
     {
-        $container[static::PROPEL_QUERY_COMPANY_ROLE] = static function (Container $container) {
+        $container[static::PROPEL_QUERY_COMPANY_ROLE] = static function () {
             return SpyCompanyRoleQuery::create();
         };
 
@@ -157,7 +157,7 @@ class CompanyUserCompanyAssignerDependencyProvider extends AbstractBundleDepende
      */
     protected function addCompanyUserPropelQuery(Container $container): Container
     {
-        $container[static::PROPEL_QUERY_COMPANY_USER] = static function (Container $container) {
+        $container[static::PROPEL_QUERY_COMPANY_USER] = static function () {
             return SpyCompanyUserQuery::create();
         };
 

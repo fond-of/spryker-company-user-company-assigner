@@ -15,17 +15,18 @@ class CompanyUserCompanyAssignerRepository extends AbstractRepository implements
 {
     /**
      * @param int $idCompany
-     * @param string $name
+     * @param string $companyRoleName
      *
      * @return \Generated\Shared\Transfer\CompanyRoleTransfer|null
      */
-    public function findCompanyRoleTransferByIdCompanyAndName(int $idCompany, string $name): ?CompanyRoleTransfer
+    public function findCompanyRoleTransferByIdCompanyAndCompanyRoleName(int $idCompany, string $companyRoleName): ?CompanyRoleTransfer
     {
         $companyRoleEntity = $this->getFactory()
             ->getCompanyRoleQuery()
-                ->filterByFkCompany($idCompany)
+            ->clear()
+            ->filterByFkCompany($idCompany)
             ->_and()
-                ->filterByName($name)
+            ->filterByName($companyRoleName)
             ->findOne();
 
         if ($companyRoleEntity === null) {
@@ -52,6 +53,7 @@ class CompanyUserCompanyAssignerRepository extends AbstractRepository implements
 
         $companyUserEntity = $this->getFactory()
             ->getCompanyUserQuery()
+            ->clear()
             ->filterByFkCompany($companyTransfer->getIdCompany())
             ->filterByFkCustomer($customerTransfer->getIdCustomer())
             ->findOne();

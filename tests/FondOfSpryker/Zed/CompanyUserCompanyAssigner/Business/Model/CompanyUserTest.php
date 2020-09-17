@@ -403,7 +403,7 @@ class CompanyUserTest extends Unit
             ->willReturn($this->companyTypeRoleMapping);
 
         $this->companyUserCompanyAssignerRepositoryInterfaceMock->expects($this->atLeastOnce())
-            ->method('findCompanyRoleTransferByIdCompanyAndName')
+            ->method('findCompanyRoleTransferByIdCompanyAndCompanyRoleName')
             ->with($this->idCompany, $this->companyRoleConfigName)
             ->willReturn($this->companyRoleTransferMock);
 
@@ -685,7 +685,7 @@ class CompanyUserTest extends Unit
             ->willReturn($this->companyTypeRoleMapping);
 
         $this->companyUserCompanyAssignerRepositoryInterfaceMock->expects($this->atLeastOnce())
-            ->method('findCompanyRoleTransferByIdCompanyAndName')
+            ->method('findCompanyRoleTransferByIdCompanyAndCompanyRoleName')
             ->with($this->idCompany, $this->companyRoleConfigName)
             ->willReturn($this->companyRoleTransferMock);
 
@@ -758,26 +758,14 @@ class CompanyUserTest extends Unit
             ->method('getRoles')
             ->willReturn($this->companyRoleTransferMocks);
 
-        $this->companyBusinessUnitFacadeInterfaceMock->expects($this->atLeastOnce())
-            ->method('findDefaultBusinessUnitByCompanyId')
-            ->with($this->idCompany)
-            ->willReturn($this->companyBusinessUnitTransferMock);
-
-        $this->companyUserTransferMock->expects($this->atLeastOnce())
-            ->method('getCustomer')
-            ->willReturn($this->customerTransferMock);
-
-        $this->companyUserTransferMock->expects($this->atLeastOnce())
-            ->method('getFkCustomer')
-            ->willReturn($this->idCustomer);
-
         $this->companyTransferMock->expects($this->atLeastOnce())
             ->method('getIdCompany')
             ->willReturn($this->idCompany);
 
-        $this->companyBusinessUnitTransferMock->expects($this->atLeastOnce())
-            ->method('getIdCompanyBusinessUnit')
-            ->willReturn($this->idCompanyBusinessUnit);
+        $this->companyBusinessUnitFacadeInterfaceMock->expects($this->atLeastOnce())
+            ->method('findDefaultBusinessUnitByCompanyId')
+            ->with($this->idCompany)
+            ->willReturn($this->companyBusinessUnitTransferMock);
 
         $this->companyRoleFacadeInterfaceMock->expects($this->atLeastOnce())
             ->method('getCompanyRoleById')
@@ -792,11 +780,23 @@ class CompanyUserTest extends Unit
             ->willReturn($this->companyTypeRoleMapping);
 
         $this->companyUserCompanyAssignerRepositoryInterfaceMock->expects($this->atLeastOnce())
-            ->method('findCompanyRoleTransferByIdCompanyAndName')
+            ->method('findCompanyRoleTransferByIdCompanyAndCompanyRoleName')
             ->with($this->idCompany, $this->companyRoleConfigName)
             ->willReturn(null);
 
-        $this->companyUserFacadeInterfaceMock->expects($this->atLeastOnce())
+        $this->companyUserTransferMock->expects($this->never())
+            ->method('getCustomer')
+            ->willReturn($this->customerTransferMock);
+
+        $this->companyUserTransferMock->expects($this->never())
+            ->method('getFkCustomer')
+            ->willReturn($this->idCustomer);
+
+        $this->companyBusinessUnitTransferMock->expects($this->never())
+            ->method('getIdCompanyBusinessUnit')
+            ->willReturn($this->idCompanyBusinessUnit);
+
+        $this->companyUserFacadeInterfaceMock->expects($this->never())
             ->method('create')
             ->willReturn($this->companyUserResponseTransferMock);
 
@@ -911,7 +911,7 @@ class CompanyUserTest extends Unit
             ->willReturn($this->companyTypeRoleMapping);
 
         $this->companyUserCompanyAssignerRepositoryInterfaceMock->expects($this->atLeastOnce())
-            ->method('findCompanyRoleTransferByIdCompanyAndName')
+            ->method('findCompanyRoleTransferByIdCompanyAndCompanyRoleName')
             ->with($this->idCompany, $this->companyRoleConfigName)
             ->willReturn($this->companyRoleTransferMock);
 

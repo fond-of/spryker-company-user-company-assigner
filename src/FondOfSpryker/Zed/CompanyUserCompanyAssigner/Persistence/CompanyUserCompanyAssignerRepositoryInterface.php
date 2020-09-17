@@ -11,11 +11,14 @@ interface CompanyUserCompanyAssignerRepositoryInterface
 {
     /**
      * @param int $idCompany
-     * @param string $name
+     * @param string $companyRoleName
      *
      * @return \Generated\Shared\Transfer\CompanyRoleTransfer|null
      */
-    public function findCompanyRoleTransferByIdCompanyAndName(int $idCompany, string $name): ?CompanyRoleTransfer;
+    public function findCompanyRoleTransferByIdCompanyAndCompanyRoleName(
+        int $idCompany,
+        string $companyRoleName
+    ): ?CompanyRoleTransfer;
 
     /**
      * @param \Generated\Shared\Transfer\CompanyTransfer $companyTransfer
