@@ -5,7 +5,6 @@ namespace FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Facade;
 use FondOfSpryker\Zed\CompanyType\Business\CompanyTypeFacadeInterface;
 use Generated\Shared\Transfer\CompanyCollectionTransfer;
 use Generated\Shared\Transfer\CompanyTypeCollectionTransfer;
-use Generated\Shared\Transfer\CompanyTypeResponseTransfer;
 use Generated\Shared\Transfer\CompanyTypeTransfer;
 
 class CompanyUserCompanyAssignerToCompanyTypeFacadeBridge implements CompanyUserCompanyAssignerToCompanyTypeFacadeInterface
@@ -24,13 +23,13 @@ class CompanyUserCompanyAssignerToCompanyTypeFacadeBridge implements CompanyUser
     }
 
     /**
-     * @param \Generated\Shared\Transfer\CompanyTypeTransfer $companyTypeTransfer
+     * @param int $idCompanyType
      *
-     * @return \Generated\Shared\Transfer\CompanyTypeResponseTransfer
+     * @return \Generated\Shared\Transfer\CompanyTypeTransfer|null
      */
-    public function findCompanyTypeById(CompanyTypeTransfer $companyTypeTransfer ): CompanyTypeResponseTransfer
+    public function findCompanyTypeById(int $idCompanyType): ?CompanyTypeTransfer
     {
-        return $this->companyTypeFacade->findCompanyTypeById($companyTypeTransfer);
+        return $this->companyTypeFacade->findCompanyTypeById($idCompanyType);
     }
 
     /**

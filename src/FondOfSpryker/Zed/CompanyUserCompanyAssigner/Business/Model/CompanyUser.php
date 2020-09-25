@@ -106,17 +106,13 @@ class CompanyUser implements CompanyUserInterface
         if ($companyTransfer === null) {
             return $companyUserResponseTransfer;
         }
+        $companyTypeTransfer = $this->companyTypeFacade->findCompanyTypeById($companyTransfer->getFkCompanyType());
 
-        $companyTypeTransfer = (new CompanyTypeTransfer())->setIdCompanyType($companyTransfer->getFkCompanyType());
-        $companyTypeResponseTransfer = $this->companyTypeFacade->findCompanyTypeById($companyTypeTransfer);
-
-        if ($companyTypeResponseTransfer->getIsSuccessful() === false
-            || $companyTypeResponseTransfer->getCompanyTypeTransfer() === null
-        ) {
+        if ($companyTypeTransfer === null) {
             return $companyUserResponseTransfer;
         }
 
-        if ($this->isCompanyTypeManufacturer($companyTypeResponseTransfer->getCompanyTypeTransfer()) === false) {
+        if ($this->isCompanyTypeManufacturer($companyTypeTransfer) === false) {
             return $companyUserResponseTransfer;
         }
 
@@ -193,15 +189,12 @@ class CompanyUser implements CompanyUserInterface
     ): CompanyBusinessUnitTransfer {
         $companyTransfer = $this->mapCompanyBusinessUnitTransferToCompanyTransfer($companyBusinessUnitTransfer);
 
-        $companyTypeTransfer = (new CompanyTypeTransfer())->setIdCompanyType($companyTransfer->getFkCompanyType());
-        $companyTypeResponseTransfer = $this->companyTypeFacade->findCompanyTypeById($companyTypeTransfer);
-        if ($companyTypeResponseTransfer->getIsSuccessful() === false
-            || $companyTypeResponseTransfer->getCompanyTypeTransfer() === null
-        ) {
+        $companyTypeTransfer = $this->companyTypeFacade->findCompanyTypeById($companyTransfer->getFkCompanyType());
+        if ($companyTypeTransfer === null) {
             return $companyBusinessUnitTransfer;
         }
 
-        if ($this->isCompanyTypeManufacturer($companyTypeResponseTransfer->getCompanyTypeTransfer())) {
+        if ($this->isCompanyTypeManufacturer($companyTypeTransfer)) {
             return $companyBusinessUnitTransfer;
         }
 
