@@ -16,12 +16,17 @@ class CompanyUserCompanyAssignerToCompanyBusinessUnitFacadeBridgeTest extends Un
     /**
      * @var \PHPUnit\Framework\MockObject\MockObject|\Spryker\Zed\CompanyBusinessUnit\Business\CompanyBusinessUnitFacadeInterface
      */
-    protected $companyBusinessUnitFacadeInterfaceMock;
+    protected $companyBusinessUnitFacadeMock;
 
     /**
      * @var int
      */
     protected $idCompany;
+
+    /**
+     * @var int
+     */
+    protected $idCompanyBusinessUnit;
 
     /**
      * @var \PHPUnit\Framework\MockObject\MockObject|\Generated\Shared\Transfer\CompanyBusinessUnitTransfer
@@ -33,18 +38,19 @@ class CompanyUserCompanyAssignerToCompanyBusinessUnitFacadeBridgeTest extends Un
      */
     protected function _before(): void
     {
-        $this->companyBusinessUnitFacadeInterfaceMock = $this->getMockBuilder(CompanyBusinessUnitFacadeInterface::class)
+        $this->companyBusinessUnitFacadeMock = $this->getMockBuilder(CompanyBusinessUnitFacadeInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
         $this->idCompany = 1;
+        $this->idCompanyBusinessUnit = 1;
 
         $this->companyBusinessUnitTransferMock = $this->getMockBuilder(CompanyBusinessUnitTransfer::class)
             ->disableOriginalConstructor()
             ->getMock();
 
         $this->companyUserCompanyAssignerToCompanyBusinessUnitFacadeBridge = new CompanyUserCompanyAssignerToCompanyBusinessUnitFacadeBridge(
-            $this->companyBusinessUnitFacadeInterfaceMock
+            $this->companyBusinessUnitFacadeMock
         );
     }
 
@@ -53,7 +59,7 @@ class CompanyUserCompanyAssignerToCompanyBusinessUnitFacadeBridgeTest extends Un
      */
     public function testFindDefaultBusinessUnitByCompanyId(): void
     {
-        $this->companyBusinessUnitFacadeInterfaceMock->expects($this->atLeastOnce())
+        $this->companyBusinessUnitFacadeMock->expects($this->atLeastOnce())
             ->method('findDefaultBusinessUnitByCompanyId')
             ->with($this->idCompany)
             ->willReturn($this->companyBusinessUnitTransferMock);
@@ -62,6 +68,24 @@ class CompanyUserCompanyAssignerToCompanyBusinessUnitFacadeBridgeTest extends Un
             CompanyBusinessUnitTransfer::class,
             $this->companyUserCompanyAssignerToCompanyBusinessUnitFacadeBridge->findDefaultBusinessUnitByCompanyId(
                 $this->idCompany
+            )
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function testFindCompanyBusinessUnitById(): void
+    {
+        $this->companyBusinessUnitFacadeMock->expects($this->atLeastOnce())
+            ->method('findCompanyBusinessUnitById')
+            ->with($this->idCompanyBusinessUnit)
+            ->willReturn($this->companyBusinessUnitTransferMock);
+
+        $this->assertInstanceOf(
+            CompanyBusinessUnitTransfer::class,
+            $this->companyUserCompanyAssignerToCompanyBusinessUnitFacadeBridge->findCompanyBusinessUnitById(
+                $this->idCompanyBusinessUnit
             )
         );
     }

@@ -4,6 +4,7 @@ namespace FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business;
 
 use Codeception\Test\Unit;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyUserInterface;
+use Generated\Shared\Transfer\CompanyBusinessUnitTransfer;
 use Generated\Shared\Transfer\CompanyResponseTransfer;
 use Generated\Shared\Transfer\CompanyUserResponseTransfer;
 
@@ -20,6 +21,11 @@ class CompanyUserCompanyAssignerFacadeTest extends Unit
     protected $companyUserResponseTransferMock;
 
     /**
+     * @var \PHPUnit\Framework\MockObject\MockObject|\Generated\Shared\Transfer\CompanyBusinessUnitTransfer
+     */
+    protected $companyBusinessUnitTransferMock;
+
+    /**
      * @var \PHPUnit\Framework\MockObject\MockObject|\FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\CompanyUserCompanyAssignerBusinessFactory
      */
     protected $companyUserCompanyAssignerBusinessFactoryMock;
@@ -27,7 +33,7 @@ class CompanyUserCompanyAssignerFacadeTest extends Unit
     /**
      * @var \PHPUnit\Framework\MockObject\MockObject|\FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyUserInterface
      */
-    protected $companyUserInterfaceMock;
+    protected $companyUserMock;
 
     /**
      * @var \PHPUnit\Framework\MockObject\MockObject|\Generated\Shared\Transfer\CompanyResponseTransfer
@@ -47,7 +53,11 @@ class CompanyUserCompanyAssignerFacadeTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->companyUserInterfaceMock = $this->getMockBuilder(CompanyUserInterface::class)
+        $this->companyBusinessUnitTransferMock = $this->getMockBuilder(CompanyBusinessUnitTransfer::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->companyUserMock = $this->getMockBuilder(CompanyUserInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -66,9 +76,9 @@ class CompanyUserCompanyAssignerFacadeTest extends Unit
     {
         $this->companyUserCompanyAssignerBusinessFactoryMock->expects($this->atLeastOnce())
             ->method('createCompanyUser')
-            ->willReturn($this->companyUserInterfaceMock);
+            ->willReturn($this->companyUserMock);
 
-        $this->companyUserInterfaceMock->expects($this->atLeastOnce())
+        $this->companyUserMock->expects($this->atLeastOnce())
             ->method('addManufacturerUserToCompanies')
             ->willReturn($this->companyUserResponseTransferMock);
 
@@ -87,9 +97,9 @@ class CompanyUserCompanyAssignerFacadeTest extends Unit
     {
         $this->companyUserCompanyAssignerBusinessFactoryMock->expects($this->atLeastOnce())
             ->method('createCompanyUser')
-            ->willReturn($this->companyUserInterfaceMock);
+            ->willReturn($this->companyUserMock);
 
-        $this->companyUserInterfaceMock->expects($this->atLeastOnce())
+        $this->companyUserMock->expects($this->atLeastOnce())
             ->method('addManufacturerUsersToCompany')
             ->willReturn($this->companyResponseTransferMock);
 
@@ -97,6 +107,27 @@ class CompanyUserCompanyAssignerFacadeTest extends Unit
             CompanyResponseTransfer::class,
             $this->companyUserCompanyAssignerFacade->addManufacturerUsersToCompany(
                 $this->companyResponseTransferMock
+            )
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function testAddManufacturerUsersToCompanyBusinessUnit(): void
+    {
+        $this->companyUserCompanyAssignerBusinessFactoryMock->expects($this->atLeastOnce())
+            ->method('createCompanyUser')
+            ->willReturn($this->companyUserMock);
+
+        $this->companyUserMock->expects($this->atLeastOnce())
+            ->method('addManufacturerUsersToCompanyBusinessUnit')
+            ->willReturn($this->companyBusinessUnitTransferMock);
+
+        $this->assertInstanceOf(
+            CompanyBusinessUnitTransfer::class,
+            $this->companyUserCompanyAssignerFacade->addManufacturerUsersToCompanyBusinessUnit(
+                $this->companyBusinessUnitTransferMock
             )
         );
     }
