@@ -106,13 +106,18 @@ class CompanyUser implements CompanyUserInterface
         if ($companyTransfer === null) {
             return $companyUserResponseTransfer;
         }
-        $companyTypeTransfer = $this->companyTypeFacade->findCompanyTypeById($companyTransfer->getFkCompanyType());
+        $companyTypeTransfer = (new CompanyTypeTransfer())->setIdCompanyType($companyTransfer->getFkCompanyType());
+        $companyTypeResponseTransfer = $this->companyTypeFacade->findCompanyTypeById($companyTypeTransfer);
 
-        if ($companyTypeTransfer === null) {
+        if ($companyTypeResponseTransfer->getCompanyTypeTransfer() === false
+            || $companyTypeResponseTransfer->getCompanyTypeTransfer() === null
+        ) {
             return $companyUserResponseTransfer;
         }
 
-        if ($this->isCompanyTypeManufacturer($companyTypeTransfer) === false) {
+        if ($this->isCompanyTypeManufacturer(
+            $companyTypeResponseTransfer->getCompanyTypeTransfer()
+            ) === false) {
             return $companyUserResponseTransfer;
         }
 
@@ -168,8 +173,10 @@ class CompanyUser implements CompanyUserInterface
         }
 
         foreach ($companyCollectionTransfer->getCompanies() as $manufacturerCompanyTransfer) {
-            $manufacturerCompanyUserCriteriaFilterTransfer = (new CompanyUserCriteriaFilterTransfer())->setIdCompany($manufacturerCompanyTransfer->getIdCompany());
-            $manufacturerCompanyUserCollectionTransfer = $this->companyUserFacade->getCompanyUserCollection($manufacturerCompanyUserCriteriaFilterTransfer);
+            $manufacturerCompanyUserCriteriaFilterTransfer = (new CompanyUserCriteriaFilterTransfer())
+                ->setIdCompany($manufacturerCompanyTransfer->getIdCompany());
+            $manufacturerCompanyUserCollectionTransfer = $this->companyUserFacade
+                ->getCompanyUserCollection($manufacturerCompanyUserCriteriaFilterTransfer);
 
             foreach ($manufacturerCompanyUserCollectionTransfer->getCompanyUsers() as $manufacturerCompanyUserTransfer) {
                 if ($manufacturerCompanyUserTransfer->getCompanyRoleCollection() === null) {
@@ -197,12 +204,18 @@ class CompanyUser implements CompanyUserInterface
     ): CompanyBusinessUnitTransfer {
         $companyTransfer = $this->mapCompanyBusinessUnitTransferToCompanyTransfer($companyBusinessUnitTransfer);
 
-        $companyTypeTransfer = $this->companyTypeFacade->findCompanyTypeById($companyTransfer->getFkCompanyType());
-        if ($companyTypeTransfer === null) {
-            return $companyBusinessUnitTransfer;
+        $companyTypeTransfer = (new CompanyTypeTransfer())->setIdCompanyType($companyTransfer->getFkCompanyType());
+        $companyTypeResponseTransfer = $this->companyTypeFacade->findCompanyTypeById($companyTypeTransfer);
+
+        if ($companyTypeResponseTransfer->getCompanyTypeTransfer() === false
+            || $companyTypeResponseTransfer->getCompanyTypeTransfer() === null
+        ) {
+            return $companyUserResponseTransfer;
         }
 
-        if ($this->isCompanyTypeManufacturer($companyTypeTransfer)) {
+        if ($this->isCompanyTypeManufacturer(
+            $companyTypeResponseTransfer->getCompanyTypeTransfer()
+            ) === true) {
             return $companyBusinessUnitTransfer;
         }
 
