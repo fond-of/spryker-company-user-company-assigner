@@ -109,15 +109,14 @@ class CompanyUser implements CompanyUserInterface
         $companyTypeTransfer = (new CompanyTypeTransfer())->setIdCompanyType($companyTransfer->getFkCompanyType());
         $companyTypeResponseTransfer = $this->companyTypeFacade->findCompanyTypeById($companyTypeTransfer);
 
-        if ($companyTypeResponseTransfer->getCompanyTypeTransfer() === false
+        if ($companyTypeResponseTransfer->getIsSuccessful() === false
             || $companyTypeResponseTransfer->getCompanyTypeTransfer() === null
         ) {
             return $companyUserResponseTransfer;
         }
 
         if ($this->isCompanyTypeManufacturer(
-            $companyTypeResponseTransfer->getCompanyTypeTransfer()
-            ) === false) {
+            $companyTypeResponseTransfer->getCompanyTypeTransfer()) === false) {
             return $companyUserResponseTransfer;
         }
 
@@ -207,15 +206,14 @@ class CompanyUser implements CompanyUserInterface
         $companyTypeTransfer = (new CompanyTypeTransfer())->setIdCompanyType($companyTransfer->getFkCompanyType());
         $companyTypeResponseTransfer = $this->companyTypeFacade->findCompanyTypeById($companyTypeTransfer);
 
-        if ($companyTypeResponseTransfer->getCompanyTypeTransfer() === false
+        if ($companyTypeResponseTransfer->getIsSuccessful() === false
             || $companyTypeResponseTransfer->getCompanyTypeTransfer() === null
         ) {
             return $companyUserResponseTransfer;
         }
 
         if ($this->isCompanyTypeManufacturer(
-            $companyTypeResponseTransfer->getCompanyTypeTransfer()
-            ) === true) {
+            $companyTypeResponseTransfer->getCompanyTypeTransfer()) === true) {
             return $companyBusinessUnitTransfer;
         }
 
