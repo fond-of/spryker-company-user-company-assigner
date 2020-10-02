@@ -6,6 +6,7 @@ use Codeception\Test\Unit;
 use FondOfSpryker\Zed\CompanyType\Business\CompanyTypeFacadeInterface;
 use Generated\Shared\Transfer\CompanyCollectionTransfer;
 use Generated\Shared\Transfer\CompanyTypeCollectionTransfer;
+use Generated\Shared\Transfer\CompanyTypeResponseTransfer;
 use Generated\Shared\Transfer\CompanyTypeTransfer;
 
 class CompanyUserCompanyAssignerToCompanyTypeFacadeBridgeTest extends Unit
@@ -18,17 +19,17 @@ class CompanyUserCompanyAssignerToCompanyTypeFacadeBridgeTest extends Unit
     /**
      * @var \PHPUnit\Framework\MockObject\MockObject|\FondOfSpryker\Zed\CompanyType\Business\CompanyTypeFacadeInterface
      */
-    protected $companyTypeFacadeInterfaceMock;
-
-    /**
-     * @var int
-     */
-    protected $idCompanyType;
+    protected $companyTypeFacadeMock;
 
     /**
      * @var \PHPUnit\Framework\MockObject\MockObject|\Generated\Shared\Transfer\CompanyTypeTransfer
      */
     protected $companyTypeTransferMock;
+
+    /**
+     * @var \PHPUnit\Framework\MockObject\MockObject|\Generated\Shared\Transfer\CompanyTypeResponseTransfer
+     */
+    protected $companyTypeResponeTransferMock;
 
     /**
      * @var \PHPUnit\Framework\MockObject\MockObject|\Generated\Shared\Transfer\CompanyTypeCollectionTransfer
@@ -50,13 +51,15 @@ class CompanyUserCompanyAssignerToCompanyTypeFacadeBridgeTest extends Unit
      */
     protected function _before(): void
     {
-        $this->companyTypeFacadeInterfaceMock = $this->getMockBuilder(CompanyTypeFacadeInterface::class)
+        $this->companyTypeFacadeMock = $this->getMockBuilder(CompanyTypeFacadeInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->idCompanyType = 1;
-
         $this->companyTypeTransferMock = $this->getMockBuilder(CompanyTypeTransfer::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->companyTypeResponeTransferMock = $this->getMockBuilder(CompanyTypeResponseTransfer::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -71,8 +74,9 @@ class CompanyUserCompanyAssignerToCompanyTypeFacadeBridgeTest extends Unit
         $this->manufacturerName = 'manufacturer-name';
 
         $this->companyUserCompanyAssignerToCompanyTypeFacadeBridge = new CompanyUserCompanyAssignerToCompanyTypeFacadeBridge(
-            $this->companyTypeFacadeInterfaceMock
+            $this->companyTypeFacadeMock
         );
+
     }
 
     /**
@@ -80,15 +84,15 @@ class CompanyUserCompanyAssignerToCompanyTypeFacadeBridgeTest extends Unit
      */
     public function testFindCompanyTypeById(): void
     {
-        $this->companyTypeFacadeInterfaceMock->expects($this->atLeastOnce())
+        $this->companyTypeFacadeMock->expects($this->atLeastOnce())
             ->method('findCompanyTypeById')
-            ->with($this->idCompanyType)
-            ->willReturn($this->companyTypeTransferMock);
+            ->with($this->companyTypeTransferMock)
+            ->willReturn($this->companyTypeResponeTransferMock);
 
         $this->assertInstanceOf(
-            CompanyTypeTransfer::class,
+            CompanyTypeResponseTransfer::class,
             $this->companyUserCompanyAssignerToCompanyTypeFacadeBridge->findCompanyTypeById(
-                $this->idCompanyType
+                $this->companyTypeTransferMock
             )
         );
     }
@@ -98,7 +102,7 @@ class CompanyUserCompanyAssignerToCompanyTypeFacadeBridgeTest extends Unit
      */
     public function testGetCompanyTypes(): void
     {
-        $this->companyTypeFacadeInterfaceMock->expects($this->atLeastOnce())
+        $this->companyTypeFacadeMock->expects($this->atLeastOnce())
             ->method('getCompanyTypes')
             ->willReturn($this->companyTypeCollectionTransferMock);
 
@@ -113,7 +117,7 @@ class CompanyUserCompanyAssignerToCompanyTypeFacadeBridgeTest extends Unit
      */
     public function testFindCompaniesByCompanyTypeIds(): void
     {
-        $this->companyTypeFacadeInterfaceMock->expects($this->atLeastOnce())
+        $this->companyTypeFacadeMock->expects($this->atLeastOnce())
             ->method('findCompaniesByCompanyTypeIds')
             ->willReturn($this->companyCollectionTransferMock);
 
@@ -130,7 +134,7 @@ class CompanyUserCompanyAssignerToCompanyTypeFacadeBridgeTest extends Unit
      */
     public function testGetCompanyTypeManufacturerName(): void
     {
-        $this->companyTypeFacadeInterfaceMock->expects($this->atLeastOnce())
+        $this->companyTypeFacadeMock->expects($this->atLeastOnce())
             ->method('getCompanyTypeManufacturerName')
             ->willReturn($this->manufacturerName);
 
@@ -145,7 +149,7 @@ class CompanyUserCompanyAssignerToCompanyTypeFacadeBridgeTest extends Unit
      */
     public function testGetCompanyTypeByName(): void
     {
-        $this->companyTypeFacadeInterfaceMock->expects($this->atLeastOnce())
+        $this->companyTypeFacadeMock->expects($this->atLeastOnce())
             ->method('getCompanyTypeByName')
             ->with($this->companyTypeTransferMock)
             ->willReturn($this->companyTypeTransferMock);
@@ -163,7 +167,7 @@ class CompanyUserCompanyAssignerToCompanyTypeFacadeBridgeTest extends Unit
      */
     public function testGetCompanyTypeById(): void
     {
-        $this->companyTypeFacadeInterfaceMock->expects($this->atLeastOnce())
+        $this->companyTypeFacadeMock->expects($this->atLeastOnce())
             ->method('getCompanyTypeById')
             ->with($this->companyTypeTransferMock)
             ->willReturn($this->companyTypeTransferMock);

@@ -18,6 +18,7 @@ use Generated\Shared\Transfer\CompanyRoleCollectionTransfer;
 use Generated\Shared\Transfer\CompanyRoleTransfer;
 use Generated\Shared\Transfer\CompanyTransfer;
 use Generated\Shared\Transfer\CompanyTypeCollectionTransfer;
+use Generated\Shared\Transfer\CompanyTypeResponseTransfer;
 use Generated\Shared\Transfer\CompanyTypeTransfer;
 use Generated\Shared\Transfer\CompanyUserCollectionTransfer;
 use Generated\Shared\Transfer\CompanyUserResponseTransfer;
@@ -39,32 +40,32 @@ class CompanyUserTest extends Unit
     /**
      * @var \PHPUnit\Framework\MockObject\MockObject|\FondOfSpryker\Zed\CompanyUserCompanyAssigner\Persistence\CompanyUserCompanyAssignerRepositoryInterface
      */
-    protected $companyUserCompanyAssignerRepositoryInterfaceMock;
+    protected $companyUserCompanyAssignerRepositoryMock;
 
     /**
      * @var \PHPUnit\Framework\MockObject\MockObject|\FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Facade\CompanyUserCompanyAssignerToCompanyUserFacadeInterface
      */
-    protected $companyUserFacadeInterfaceMock;
+    protected $companyUserFacadeMock;
 
     /**
      * @var \PHPUnit\Framework\MockObject\MockObject|\FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Facade\CompanyUserCompanyAssignerToCompanyFacadeInterface
      */
-    protected $companyFacadeInterfaceMock;
+    protected $companyFacadeMock;
 
     /**
      * @var \PHPUnit\Framework\MockObject\MockObject|\FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Facade\CompanyUserCompanyAssignerToCompanyTypeFacadeInterface
      */
-    protected $companyTypeFacadeInterfaceMock;
+    protected $companyTypeFacadeMock;
 
     /**
      * @var \PHPUnit\Framework\MockObject\MockObject|\FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Facade\CompanyUserCompanyAssignerToCompanyRoleFacadeInterface
      */
-    protected $companyRoleFacadeInterfaceMock;
+    protected $companyRoleFacadeMock;
 
     /**
      * @var \PHPUnit\Framework\MockObject\MockObject|\FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Facade\CompanyUserCompanyAssignerToCompanyBusinessUnitFacadeInterface
      */
-    protected $companyBusinessUnitFacadeInterfaceMock;
+    protected $companyBusinessUnitFacadeMock;
 
     /**
      * @var \PHPUnit\Framework\MockObject\MockObject|\Generated\Shared\Transfer\CompanyUserResponseTransfer
@@ -90,6 +91,11 @@ class CompanyUserTest extends Unit
      * @var \PHPUnit\Framework\MockObject\MockObject|\Generated\Shared\Transfer\CompanyTypeTransfer
      */
     protected $companyTypeTransferMock;
+
+    /**
+     * @var \PHPUnit\Framework\MockObject\MockObject|\Generated\Shared\Transfer\CompanyTypeResponseTransfer
+     */
+    protected $companyTypeResponseTransferMock;
 
     /**
      * @var string
@@ -195,27 +201,27 @@ class CompanyUserTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->companyUserCompanyAssignerRepositoryInterfaceMock = $this->getMockBuilder(CompanyUserCompanyAssignerRepositoryInterface::class)
+        $this->companyUserCompanyAssignerRepositoryMock = $this->getMockBuilder(CompanyUserCompanyAssignerRepositoryInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->companyUserFacadeInterfaceMock = $this->getMockBuilder(CompanyUserCompanyAssignerToCompanyUserFacadeInterface::class)
+        $this->companyUserFacadeMock = $this->getMockBuilder(CompanyUserCompanyAssignerToCompanyUserFacadeInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->companyFacadeInterfaceMock = $this->getMockBuilder(CompanyUserCompanyAssignerToCompanyFacadeInterface::class)
+        $this->companyFacadeMock = $this->getMockBuilder(CompanyUserCompanyAssignerToCompanyFacadeInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->companyTypeFacadeInterfaceMock = $this->getMockBuilder(CompanyUserCompanyAssignerToCompanyTypeFacadeInterface::class)
+        $this->companyTypeFacadeMock = $this->getMockBuilder(CompanyUserCompanyAssignerToCompanyTypeFacadeInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->companyRoleFacadeInterfaceMock = $this->getMockBuilder(CompanyUserCompanyAssignerToCompanyRoleFacadeInterface::class)
+        $this->companyRoleFacadeMock = $this->getMockBuilder(CompanyUserCompanyAssignerToCompanyRoleFacadeInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->companyBusinessUnitFacadeInterfaceMock = $this->getMockBuilder(CompanyUserCompanyAssignerToCompanyBusinessUnitFacadeInterface::class)
+        $this->companyBusinessUnitFacadeMock = $this->getMockBuilder(CompanyUserCompanyAssignerToCompanyBusinessUnitFacadeInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -234,6 +240,10 @@ class CompanyUserTest extends Unit
             ->getMock();
 
         $this->companyTypeTransferMock = $this->getMockBuilder(CompanyTypeTransfer::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->companyTypeResponseTransferMock = $this->getMockBuilder(CompanyTypeResponseTransfer::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -303,12 +313,12 @@ class CompanyUserTest extends Unit
 
         $this->companyUser = new CompanyUser(
             $this->companyUserCompanyAssignerConfigMock,
-            $this->companyUserCompanyAssignerRepositoryInterfaceMock,
-            $this->companyUserFacadeInterfaceMock,
-            $this->companyFacadeInterfaceMock,
-            $this->companyTypeFacadeInterfaceMock,
-            $this->companyRoleFacadeInterfaceMock,
-            $this->companyBusinessUnitFacadeInterfaceMock
+            $this->companyUserCompanyAssignerRepositoryMock,
+            $this->companyUserFacadeMock,
+            $this->companyFacadeMock,
+            $this->companyTypeFacadeMock,
+            $this->companyRoleFacadeMock,
+            $this->companyBusinessUnitFacadeMock
         );
     }
 
@@ -325,7 +335,7 @@ class CompanyUserTest extends Unit
             ->method('getFkCompany')
             ->willReturn($this->idCompany);
 
-        $this->companyFacadeInterfaceMock->expects($this->atLeastOnce())
+        $this->companyFacadeMock->expects($this->atLeastOnce())
             ->method('findCompanyById')
             ->willReturn($this->companyTransferMock);
 
@@ -333,19 +343,27 @@ class CompanyUserTest extends Unit
             ->method('getFkCompanyType')
             ->willReturn($this->idCompanyType);
 
-        $this->companyTypeFacadeInterfaceMock->expects($this->atLeastOnce())
+        $this->companyTypeFacadeMock->expects($this->atLeastOnce())
             ->method('findCompanyTypeById')
+            ->willReturn($this->companyTypeResponseTransferMock);
+
+        $this->companyTypeResponseTransferMock->expects($this->atLeastOnce())
+            ->method('getIsSuccessful')
+            ->willReturn(true);
+
+        $this->companyTypeResponseTransferMock->expects($this->atLeastOnce())
+            ->method('getCompanyTypeTransfer')
             ->willReturn($this->companyTypeTransferMock);
 
         $this->companyTypeTransferMock->expects($this->atLeastOnce())
             ->method('getName')
             ->willReturn($this->companyTypeName);
 
-        $this->companyTypeFacadeInterfaceMock->expects($this->atLeastOnce())
+        $this->companyTypeFacadeMock->expects($this->atLeastOnce())
             ->method('getCompanyTypeManufacturerName')
             ->willReturn($this->companyTypeName);
 
-        $this->companyTypeFacadeInterfaceMock->expects($this->atLeastOnce())
+        $this->companyTypeFacadeMock->expects($this->atLeastOnce())
             ->method('getCompanyTypes')
             ->willReturn($this->companyTypeCollectionTransferMock);
 
@@ -353,7 +371,7 @@ class CompanyUserTest extends Unit
             ->method('getCompanyTypes')
             ->willReturn($this->companyTypeTransferMocks);
 
-        $this->companyTypeFacadeInterfaceMock->expects($this->atLeastOnce())
+        $this->companyTypeFacadeMock->expects($this->atLeastOnce())
             ->method('findCompaniesByCompanyTypeIds')
             ->willReturn($this->companyCollectionTransferMock);
 
@@ -369,7 +387,7 @@ class CompanyUserTest extends Unit
             ->method('getRoles')
             ->willReturn($this->companyRoleTransferMocks);
 
-        $this->companyBusinessUnitFacadeInterfaceMock->expects($this->atLeastOnce())
+        $this->companyBusinessUnitFacadeMock->expects($this->atLeastOnce())
             ->method('findDefaultBusinessUnitByCompanyId')
             ->with($this->idCompany)
             ->willReturn($this->companyBusinessUnitTransferMock);
@@ -390,7 +408,7 @@ class CompanyUserTest extends Unit
             ->method('getIdCompanyBusinessUnit')
             ->willReturn($this->idCompanyBusinessUnit);
 
-        $this->companyRoleFacadeInterfaceMock->expects($this->atLeastOnce())
+        $this->companyRoleFacadeMock->expects($this->atLeastOnce())
             ->method('getCompanyRoleById')
             ->willReturn($this->companyRoleTransferMock);
 
@@ -402,12 +420,12 @@ class CompanyUserTest extends Unit
             ->method('getManufacturerCompanyTypeRoleMapping')
             ->willReturn($this->companyTypeRoleMapping);
 
-        $this->companyUserCompanyAssignerRepositoryInterfaceMock->expects($this->atLeastOnce())
+        $this->companyUserCompanyAssignerRepositoryMock->expects($this->atLeastOnce())
             ->method('findCompanyRoleTransferByIdCompanyAndCompanyRoleName')
             ->with($this->idCompany, $this->companyRoleConfigName)
             ->willReturn($this->companyRoleTransferMock);
 
-        $this->companyUserFacadeInterfaceMock->expects($this->atLeastOnce())
+        $this->companyUserFacadeMock->expects($this->atLeastOnce())
             ->method('create')
             ->willReturn($this->companyUserResponseTransferMock);
 
@@ -449,7 +467,7 @@ class CompanyUserTest extends Unit
             ->method('getFkCompany')
             ->willReturn($this->idCompany);
 
-        $this->companyFacadeInterfaceMock->expects($this->atLeastOnce())
+        $this->companyFacadeMock->expects($this->atLeastOnce())
             ->method('findCompanyById')
             ->willReturn(null);
 
@@ -474,7 +492,7 @@ class CompanyUserTest extends Unit
             ->method('getFkCompany')
             ->willReturn($this->idCompany);
 
-        $this->companyFacadeInterfaceMock->expects($this->atLeastOnce())
+        $this->companyFacadeMock->expects($this->atLeastOnce())
             ->method('findCompanyById')
             ->willReturn($this->companyTransferMock);
 
@@ -482,9 +500,9 @@ class CompanyUserTest extends Unit
             ->method('getFkCompanyType')
             ->willReturn($this->idCompanyType);
 
-        $this->companyTypeFacadeInterfaceMock->expects($this->atLeastOnce())
+        $this->companyTypeFacadeMock->expects($this->atLeastOnce())
             ->method('findCompanyTypeById')
-            ->willReturn(null);
+            ->willReturn($this->companyTypeResponseTransferMock);
 
         $this->assertInstanceOf(
             CompanyUserResponseTransfer::class,
@@ -507,7 +525,7 @@ class CompanyUserTest extends Unit
             ->method('getFkCompany')
             ->willReturn($this->idCompany);
 
-        $this->companyFacadeInterfaceMock->expects($this->atLeastOnce())
+        $this->companyFacadeMock->expects($this->atLeastOnce())
             ->method('findCompanyById')
             ->willReturn($this->companyTransferMock);
 
@@ -515,15 +533,23 @@ class CompanyUserTest extends Unit
             ->method('getFkCompanyType')
             ->willReturn($this->idCompanyType);
 
-        $this->companyTypeFacadeInterfaceMock->expects($this->atLeastOnce())
+        $this->companyTypeFacadeMock->expects($this->atLeastOnce())
             ->method('findCompanyTypeById')
+            ->willReturn($this->companyTypeResponseTransferMock);
+
+        $this->companyTypeResponseTransferMock->expects($this->atLeastOnce())
+            ->method('getIsSuccessful')
+            ->willReturn(true);
+
+        $this->companyTypeResponseTransferMock->expects($this->atLeastOnce())
+            ->method('getCompanyTypeTransfer')
             ->willReturn($this->companyTypeTransferMock);
 
         $this->companyTypeTransferMock->expects($this->atLeastOnce())
             ->method('getName')
             ->willReturn($this->companyTypeName);
 
-        $this->companyTypeFacadeInterfaceMock->expects($this->atLeastOnce())
+        $this->companyTypeFacadeMock->expects($this->atLeastOnce())
             ->method('getCompanyTypeManufacturerName')
             ->willReturn('');
 
@@ -548,7 +574,7 @@ class CompanyUserTest extends Unit
             ->method('getFkCompany')
             ->willReturn($this->idCompany);
 
-        $this->companyFacadeInterfaceMock->expects($this->atLeastOnce())
+        $this->companyFacadeMock->expects($this->atLeastOnce())
             ->method('findCompanyById')
             ->willReturn($this->companyTransferMock);
 
@@ -556,19 +582,27 @@ class CompanyUserTest extends Unit
             ->method('getFkCompanyType')
             ->willReturn($this->idCompanyType);
 
-        $this->companyTypeFacadeInterfaceMock->expects($this->atLeastOnce())
+        $this->companyTypeFacadeMock->expects($this->atLeastOnce())
             ->method('findCompanyTypeById')
+            ->willReturn($this->companyTypeResponseTransferMock);
+
+        $this->companyTypeResponseTransferMock->expects($this->atLeastOnce())
+            ->method('getIsSuccessful')
+            ->willReturn(true);
+
+        $this->companyTypeResponseTransferMock->expects($this->atLeastOnce())
+            ->method('getCompanyTypeTransfer')
             ->willReturn($this->companyTypeTransferMock);
 
         $this->companyTypeTransferMock->expects($this->atLeastOnce())
             ->method('getName')
             ->willReturn($this->companyTypeName);
 
-        $this->companyTypeFacadeInterfaceMock->expects($this->atLeastOnce())
+        $this->companyTypeFacadeMock->expects($this->atLeastOnce())
             ->method('getCompanyTypeManufacturerName')
             ->willReturn($this->companyTypeName);
 
-        $this->companyTypeFacadeInterfaceMock->expects($this->atLeastOnce())
+        $this->companyTypeFacadeMock->expects($this->atLeastOnce())
             ->method('getCompanyTypes')
             ->willReturn($this->companyTypeCollectionTransferMock);
 
@@ -576,7 +610,7 @@ class CompanyUserTest extends Unit
             ->method('getCompanyTypes')
             ->willReturn($this->companyTypeTransferMocks);
 
-        $this->companyTypeFacadeInterfaceMock->expects($this->atLeastOnce())
+        $this->companyTypeFacadeMock->expects($this->atLeastOnce())
             ->method('findCompaniesByCompanyTypeIds')
             ->willReturn(null);
 
@@ -601,7 +635,7 @@ class CompanyUserTest extends Unit
             ->method('getFkCompany')
             ->willReturn($this->idCompany);
 
-        $this->companyFacadeInterfaceMock->expects($this->atLeastOnce())
+        $this->companyFacadeMock->expects($this->atLeastOnce())
             ->method('findCompanyById')
             ->willReturn($this->companyTransferMock);
 
@@ -609,8 +643,16 @@ class CompanyUserTest extends Unit
             ->method('getFkCompanyType')
             ->willReturn($this->idCompanyType);
 
-        $this->companyTypeFacadeInterfaceMock->expects($this->atLeastOnce())
+        $this->companyTypeFacadeMock->expects($this->atLeastOnce())
             ->method('findCompanyTypeById')
+            ->willReturn($this->companyTypeResponseTransferMock);
+
+        $this->companyTypeResponseTransferMock->expects($this->atLeastOnce())
+            ->method('getIsSuccessful')
+            ->willReturn(true);
+
+        $this->companyTypeResponseTransferMock->expects($this->atLeastOnce())
+            ->method('getCompanyTypeTransfer')
             ->willReturn($this->companyTypeTransferMock);
 
         $this->companyTypeTransferMock->expects($this->atLeastOnce())
@@ -620,14 +662,14 @@ class CompanyUserTest extends Unit
                 $this->companyTypeName
             );
 
-        $this->companyTypeFacadeInterfaceMock->expects($this->atLeastOnce())
+        $this->companyTypeFacadeMock->expects($this->atLeastOnce())
             ->method('getCompanyTypeManufacturerName')
             ->willReturnOnConsecutiveCalls(
                 $this->companyTypeName,
                 ''
             );
 
-        $this->companyTypeFacadeInterfaceMock->expects($this->atLeastOnce())
+        $this->companyTypeFacadeMock->expects($this->atLeastOnce())
             ->method('getCompanyTypes')
             ->willReturn($this->companyTypeCollectionTransferMock);
 
@@ -635,7 +677,7 @@ class CompanyUserTest extends Unit
             ->method('getCompanyTypes')
             ->willReturn($this->companyTypeTransferMocks);
 
-        $this->companyTypeFacadeInterfaceMock->expects($this->atLeastOnce())
+        $this->companyTypeFacadeMock->expects($this->atLeastOnce())
             ->method('findCompaniesByCompanyTypeIds')
             ->willReturn($this->companyCollectionTransferMock);
 
@@ -651,7 +693,7 @@ class CompanyUserTest extends Unit
             ->method('getRoles')
             ->willReturn($this->companyRoleTransferMocks);
 
-        $this->companyBusinessUnitFacadeInterfaceMock->expects($this->atLeastOnce())
+        $this->companyBusinessUnitFacadeMock->expects($this->atLeastOnce())
             ->method('findDefaultBusinessUnitByCompanyId')
             ->with($this->idCompany)
             ->willReturn($this->companyBusinessUnitTransferMock);
@@ -672,7 +714,7 @@ class CompanyUserTest extends Unit
             ->method('getIdCompanyBusinessUnit')
             ->willReturn($this->idCompanyBusinessUnit);
 
-        $this->companyRoleFacadeInterfaceMock->expects($this->atLeastOnce())
+        $this->companyRoleFacadeMock->expects($this->atLeastOnce())
             ->method('getCompanyRoleById')
             ->willReturn($this->companyRoleTransferMock);
 
@@ -684,12 +726,12 @@ class CompanyUserTest extends Unit
             ->method('getManufacturerCompanyTypeRoleMapping')
             ->willReturn($this->companyTypeRoleMapping);
 
-        $this->companyUserCompanyAssignerRepositoryInterfaceMock->expects($this->atLeastOnce())
+        $this->companyUserCompanyAssignerRepositoryMock->expects($this->atLeastOnce())
             ->method('findCompanyRoleTransferByIdCompanyAndCompanyRoleName')
             ->with($this->idCompany, $this->companyRoleConfigName)
             ->willReturn($this->companyRoleTransferMock);
 
-        $this->companyUserFacadeInterfaceMock->expects($this->atLeastOnce())
+        $this->companyUserFacadeMock->expects($this->atLeastOnce())
             ->method('create')
             ->willReturn($this->companyUserResponseTransferMock);
 
@@ -714,7 +756,7 @@ class CompanyUserTest extends Unit
             ->method('getFkCompany')
             ->willReturn($this->idCompany);
 
-        $this->companyFacadeInterfaceMock->expects($this->atLeastOnce())
+        $this->companyFacadeMock->expects($this->atLeastOnce())
             ->method('findCompanyById')
             ->willReturn($this->companyTransferMock);
 
@@ -722,19 +764,27 @@ class CompanyUserTest extends Unit
             ->method('getFkCompanyType')
             ->willReturn($this->idCompanyType);
 
-        $this->companyTypeFacadeInterfaceMock->expects($this->atLeastOnce())
+        $this->companyTypeFacadeMock->expects($this->atLeastOnce())
             ->method('findCompanyTypeById')
+            ->willReturn($this->companyTypeResponseTransferMock);
+
+        $this->companyTypeResponseTransferMock->expects($this->atLeastOnce())
+            ->method('getIsSuccessful')
+            ->willReturn(true);
+
+        $this->companyTypeResponseTransferMock->expects($this->atLeastOnce())
+            ->method('getCompanyTypeTransfer')
             ->willReturn($this->companyTypeTransferMock);
 
         $this->companyTypeTransferMock->expects($this->atLeastOnce())
             ->method('getName')
             ->willReturn($this->companyTypeName);
 
-        $this->companyTypeFacadeInterfaceMock->expects($this->atLeastOnce())
+        $this->companyTypeFacadeMock->expects($this->atLeastOnce())
             ->method('getCompanyTypeManufacturerName')
             ->willReturn($this->companyTypeName);
 
-        $this->companyTypeFacadeInterfaceMock->expects($this->atLeastOnce())
+        $this->companyTypeFacadeMock->expects($this->atLeastOnce())
             ->method('getCompanyTypes')
             ->willReturn($this->companyTypeCollectionTransferMock);
 
@@ -742,7 +792,7 @@ class CompanyUserTest extends Unit
             ->method('getCompanyTypes')
             ->willReturn($this->companyTypeTransferMocks);
 
-        $this->companyTypeFacadeInterfaceMock->expects($this->atLeastOnce())
+        $this->companyTypeFacadeMock->expects($this->atLeastOnce())
             ->method('findCompaniesByCompanyTypeIds')
             ->willReturn($this->companyCollectionTransferMock);
 
@@ -762,12 +812,12 @@ class CompanyUserTest extends Unit
             ->method('getIdCompany')
             ->willReturn($this->idCompany);
 
-        $this->companyBusinessUnitFacadeInterfaceMock->expects($this->atLeastOnce())
+        $this->companyBusinessUnitFacadeMock->expects($this->atLeastOnce())
             ->method('findDefaultBusinessUnitByCompanyId')
             ->with($this->idCompany)
             ->willReturn($this->companyBusinessUnitTransferMock);
 
-        $this->companyRoleFacadeInterfaceMock->expects($this->atLeastOnce())
+        $this->companyRoleFacadeMock->expects($this->atLeastOnce())
             ->method('getCompanyRoleById')
             ->willReturn($this->companyRoleTransferMock);
 
@@ -779,7 +829,7 @@ class CompanyUserTest extends Unit
             ->method('getManufacturerCompanyTypeRoleMapping')
             ->willReturn($this->companyTypeRoleMapping);
 
-        $this->companyUserCompanyAssignerRepositoryInterfaceMock->expects($this->atLeastOnce())
+        $this->companyUserCompanyAssignerRepositoryMock->expects($this->atLeastOnce())
             ->method('findCompanyRoleTransferByIdCompanyAndCompanyRoleName')
             ->with($this->idCompany, $this->companyRoleConfigName)
             ->willReturn(null);
@@ -796,7 +846,7 @@ class CompanyUserTest extends Unit
             ->method('getIdCompanyBusinessUnit')
             ->willReturn($this->idCompanyBusinessUnit);
 
-        $this->companyUserFacadeInterfaceMock->expects($this->never())
+        $this->companyUserFacadeMock->expects($this->never())
             ->method('create')
             ->willReturn($this->companyUserResponseTransferMock);
 
@@ -825,7 +875,7 @@ class CompanyUserTest extends Unit
             ->method('getFkCompanyType')
             ->willReturn($this->idCompanyType);
 
-        $this->companyTypeFacadeInterfaceMock->expects($this->atLeastOnce())
+        $this->companyTypeFacadeMock->expects($this->atLeastOnce())
             ->method('getCompanyTypeById')
             ->willReturn($this->companyTypeTransferMock);
 
@@ -833,7 +883,7 @@ class CompanyUserTest extends Unit
             ->method('getName')
             ->willReturn($this->companyTypeName);
 
-        $this->companyTypeFacadeInterfaceMock->expects($this->atLeastOnce())
+        $this->companyTypeFacadeMock->expects($this->atLeastOnce())
             ->method('getCompanyTypeManufacturerName')
             ->willReturnOnConsecutiveCalls(
                 '',
@@ -841,7 +891,7 @@ class CompanyUserTest extends Unit
                 $this->companyTypeName
             );
 
-        $this->companyTypeFacadeInterfaceMock->expects($this->atLeastOnce())
+        $this->companyTypeFacadeMock->expects($this->atLeastOnce())
             ->method('getCompanyTypeByName')
             ->willReturn($this->companyTypeTransferMock);
 
@@ -849,7 +899,7 @@ class CompanyUserTest extends Unit
             ->method('getIdCompanyType')
             ->willReturn($this->idCompanyType);
 
-        $this->companyTypeFacadeInterfaceMock->expects($this->atLeastOnce())
+        $this->companyTypeFacadeMock->expects($this->atLeastOnce())
             ->method('findCompaniesByCompanyTypeIds')
             ->willReturn($this->companyCollectionTransferMock);
 
@@ -861,7 +911,7 @@ class CompanyUserTest extends Unit
             ->method('getIdCompany')
             ->willReturn($this->idCompany);
 
-        $this->companyUserFacadeInterfaceMock->expects($this->atLeastOnce())
+        $this->companyUserFacadeMock->expects($this->atLeastOnce())
             ->method('getCompanyUserCollection')
             ->willReturn($this->companyUserCollectionTransferMock);
 
@@ -877,7 +927,7 @@ class CompanyUserTest extends Unit
             ->method('getRoles')
             ->willReturn($this->companyRoleTransferMocks);
 
-        $this->companyBusinessUnitFacadeInterfaceMock->expects($this->atLeastOnce())
+        $this->companyBusinessUnitFacadeMock->expects($this->atLeastOnce())
             ->method('findDefaultBusinessUnitByCompanyId')
             ->with($this->idCompany)
             ->willReturn($this->companyBusinessUnitTransferMock);
@@ -898,7 +948,7 @@ class CompanyUserTest extends Unit
             ->method('getIdCompanyBusinessUnit')
             ->willReturn($this->idCompanyBusinessUnit);
 
-        $this->companyRoleFacadeInterfaceMock->expects($this->atLeastOnce())
+        $this->companyRoleFacadeMock->expects($this->atLeastOnce())
             ->method('getCompanyRoleById')
             ->willReturn($this->companyRoleTransferMock);
 
@@ -910,12 +960,12 @@ class CompanyUserTest extends Unit
             ->method('getManufacturerCompanyTypeRoleMapping')
             ->willReturn($this->companyTypeRoleMapping);
 
-        $this->companyUserCompanyAssignerRepositoryInterfaceMock->expects($this->atLeastOnce())
+        $this->companyUserCompanyAssignerRepositoryMock->expects($this->atLeastOnce())
             ->method('findCompanyRoleTransferByIdCompanyAndCompanyRoleName')
             ->with($this->idCompany, $this->companyRoleConfigName)
             ->willReturn($this->companyRoleTransferMock);
 
-        $this->companyUserFacadeInterfaceMock->expects($this->atLeastOnce())
+        $this->companyUserFacadeMock->expects($this->atLeastOnce())
             ->method('create')
             ->willReturn($this->companyUserResponseTransferMock);
 
@@ -944,7 +994,7 @@ class CompanyUserTest extends Unit
             ->method('getFkCompanyType')
             ->willReturn($this->idCompanyType);
 
-        $this->companyTypeFacadeInterfaceMock->expects($this->atLeastOnce())
+        $this->companyTypeFacadeMock->expects($this->atLeastOnce())
             ->method('getCompanyTypeById')
             ->willReturn($this->companyTypeTransferMock);
 
@@ -952,7 +1002,7 @@ class CompanyUserTest extends Unit
             ->method('getName')
             ->willReturn($this->companyTypeName);
 
-        $this->companyTypeFacadeInterfaceMock->expects($this->atLeastOnce())
+        $this->companyTypeFacadeMock->expects($this->atLeastOnce())
             ->method('getCompanyTypeManufacturerName')
             ->willReturn($this->companyTypeName);
 
@@ -981,7 +1031,7 @@ class CompanyUserTest extends Unit
             ->method('getFkCompanyType')
             ->willReturn($this->idCompanyType);
 
-        $this->companyTypeFacadeInterfaceMock->expects($this->atLeastOnce())
+        $this->companyTypeFacadeMock->expects($this->atLeastOnce())
             ->method('getCompanyTypeById')
             ->willReturn($this->companyTypeTransferMock);
 
@@ -989,7 +1039,7 @@ class CompanyUserTest extends Unit
             ->method('getName')
             ->willReturn($this->companyTypeName);
 
-        $this->companyTypeFacadeInterfaceMock->expects($this->atLeastOnce())
+        $this->companyTypeFacadeMock->expects($this->atLeastOnce())
             ->method('getCompanyTypeManufacturerName')
             ->willReturnOnConsecutiveCalls(
                 '',
@@ -997,7 +1047,7 @@ class CompanyUserTest extends Unit
                 $this->companyTypeName
             );
 
-        $this->companyTypeFacadeInterfaceMock->expects($this->atLeastOnce())
+        $this->companyTypeFacadeMock->expects($this->atLeastOnce())
             ->method('getCompanyTypeByName')
             ->willReturn($this->companyTypeTransferMock);
 
@@ -1005,7 +1055,7 @@ class CompanyUserTest extends Unit
             ->method('getIdCompanyType')
             ->willReturn($this->idCompanyType);
 
-        $this->companyTypeFacadeInterfaceMock->expects($this->atLeastOnce())
+        $this->companyTypeFacadeMock->expects($this->atLeastOnce())
             ->method('findCompaniesByCompanyTypeIds')
             ->willReturn(null);
 
@@ -1034,7 +1084,7 @@ class CompanyUserTest extends Unit
             ->method('getFkCompanyType')
             ->willReturn($this->idCompanyType);
 
-        $this->companyTypeFacadeInterfaceMock->expects($this->atLeastOnce())
+        $this->companyTypeFacadeMock->expects($this->atLeastOnce())
             ->method('getCompanyTypeById')
             ->willReturn($this->companyTypeTransferMock);
 
@@ -1042,7 +1092,7 @@ class CompanyUserTest extends Unit
             ->method('getName')
             ->willReturn($this->companyTypeName);
 
-        $this->companyTypeFacadeInterfaceMock->expects($this->atLeastOnce())
+        $this->companyTypeFacadeMock->expects($this->atLeastOnce())
             ->method('getCompanyTypeManufacturerName')
             ->willReturnOnConsecutiveCalls(
                 '',
@@ -1050,7 +1100,7 @@ class CompanyUserTest extends Unit
                 $this->companyTypeName
             );
 
-        $this->companyTypeFacadeInterfaceMock->expects($this->atLeastOnce())
+        $this->companyTypeFacadeMock->expects($this->atLeastOnce())
             ->method('getCompanyTypeByName')
             ->willReturn(null);
 
