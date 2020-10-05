@@ -876,12 +876,16 @@ class CompanyUserTest extends Unit
             ->willReturn($this->idCompanyType);
 
         $this->companyTypeFacadeMock->expects($this->atLeastOnce())
-            ->method('getCompanyTypeById')
-            ->willReturn($this->companyTypeTransferMock);
+            ->method('findCompanyTypeById')
+            ->willReturn($this->companyTypeResponseTransferMock);
 
-        $this->companyTypeTransferMock->expects($this->atLeastOnce())
-            ->method('getName')
-            ->willReturn($this->companyTypeName);
+        $this->companyTypeResponseTransferMock->expects($this->atLeastOnce())
+            ->method('getIsSuccessful')
+            ->willReturn(true);
+
+        $this->companyTypeResponseTransferMock->expects($this->atLeastOnce())
+            ->method('getCompanyTypeTransfer')
+            ->willReturn($this->companyTypeTransferMock);
 
         $this->companyTypeFacadeMock->expects($this->atLeastOnce())
             ->method('getCompanyTypeManufacturerName')
@@ -980,43 +984,6 @@ class CompanyUserTest extends Unit
     /**
      * @return void
      */
-    public function testAddManufacturerUsersToCompanyIsManufacturer(): void
-    {
-        $this->companyResponseTransferMock->expects($this->atLeastOnce())
-            ->method('getCompanyTransfer')
-            ->willReturn($this->companyTransferMock);
-
-        $this->companyTransferMock->expects($this->atLeastOnce())
-            ->method('getCompanyType')
-            ->willReturn(null);
-
-        $this->companyTransferMock->expects($this->atLeastOnce())
-            ->method('getFkCompanyType')
-            ->willReturn($this->idCompanyType);
-
-        $this->companyTypeFacadeMock->expects($this->atLeastOnce())
-            ->method('getCompanyTypeById')
-            ->willReturn($this->companyTypeTransferMock);
-
-        $this->companyTypeTransferMock->expects($this->atLeastOnce())
-            ->method('getName')
-            ->willReturn($this->companyTypeName);
-
-        $this->companyTypeFacadeMock->expects($this->atLeastOnce())
-            ->method('getCompanyTypeManufacturerName')
-            ->willReturn($this->companyTypeName);
-
-        $this->assertInstanceOf(
-            CompanyResponseTransfer::class,
-            $this->companyUser->addManufacturerUsersToCompany(
-                $this->companyResponseTransferMock
-            )
-        );
-    }
-
-    /**
-     * @return void
-     */
     public function testAddManufacturerUsersToCompanyCompanyCollectionNull(): void
     {
         $this->companyResponseTransferMock->expects($this->atLeastOnce())
@@ -1032,12 +999,16 @@ class CompanyUserTest extends Unit
             ->willReturn($this->idCompanyType);
 
         $this->companyTypeFacadeMock->expects($this->atLeastOnce())
-            ->method('getCompanyTypeById')
-            ->willReturn($this->companyTypeTransferMock);
+            ->method('findCompanyTypeById')
+            ->willReturn($this->companyTypeResponseTransferMock);
 
-        $this->companyTypeTransferMock->expects($this->atLeastOnce())
-            ->method('getName')
-            ->willReturn($this->companyTypeName);
+        $this->companyTypeResponseTransferMock->expects($this->atLeastOnce())
+            ->method('getIsSuccessful')
+            ->willReturn(true);
+
+        $this->companyTypeResponseTransferMock->expects($this->atLeastOnce())
+            ->method('getCompanyTypeTransfer')
+            ->willReturn($this->companyTypeTransferMock);
 
         $this->companyTypeFacadeMock->expects($this->atLeastOnce())
             ->method('getCompanyTypeManufacturerName')
@@ -1085,12 +1056,16 @@ class CompanyUserTest extends Unit
             ->willReturn($this->idCompanyType);
 
         $this->companyTypeFacadeMock->expects($this->atLeastOnce())
-            ->method('getCompanyTypeById')
-            ->willReturn($this->companyTypeTransferMock);
+            ->method('findCompanyTypeById')
+            ->willReturn($this->companyTypeResponseTransferMock);
 
-        $this->companyTypeTransferMock->expects($this->atLeastOnce())
-            ->method('getName')
-            ->willReturn($this->companyTypeName);
+        $this->companyTypeResponseTransferMock->expects($this->atLeastOnce())
+            ->method('getIsSuccessful')
+            ->willReturn(true);
+
+        $this->companyTypeResponseTransferMock->expects($this->atLeastOnce())
+            ->method('getCompanyTypeTransfer')
+            ->willReturn($this->companyTypeTransferMock);
 
         $this->companyTypeFacadeMock->expects($this->atLeastOnce())
             ->method('getCompanyTypeManufacturerName')

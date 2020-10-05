@@ -156,10 +156,12 @@ class CompanyUser implements CompanyUserInterface
 
         if ($companyTypeTransfer === null) {
             $companyTypeTransfer = (new CompanyTypeTransfer())->setIdCompanyType($companyTransfer->getFkCompanyType());
-            $companyTypeTransfer = $this->companyTypeFacade->getCompanyTypeById($companyTypeTransfer);
+            $companyTypeResponseTransfer = $this->companyTypeFacade->findCompanyTypeById($companyTypeTransfer);
         }
 
-        if ($this->isCompanyTypeManufacturer($companyTypeTransfer)) {
+        if ($companyTypeResponseTransfer->getIsSuccessful() === false
+            || $companyTypeResponseTransfer->getCompanyTypeTransfer() === null
+        ) {
             return $companyResponseTransfer;
         }
 
