@@ -118,7 +118,7 @@ class CompanyUser implements CompanyUserInterface
 
         if (
             $this->isCompanyTypeManufacturer(
-                $companyTypeResponseTransfer->getCompanyTypeTransfer()
+                $companyTypeResponseTransfer->getCompanyTypeTransfer(),
             ) === false
         ) {
             return $companyUserResponseTransfer;
@@ -140,7 +140,7 @@ class CompanyUser implements CompanyUserInterface
             $this->createAndAssignCompanyUser(
                 $noneManufacturerCompanyTransfer,
                 $companyUserTransfer,
-                $companyUserTransfer->getCompanyRoleCollection()->getRoles()
+                $companyUserTransfer->getCompanyRoleCollection()->getRoles(),
             );
         }
 
@@ -172,7 +172,7 @@ class CompanyUser implements CompanyUserInterface
         }
 
         $companyCollectionTransfer = $this->getCompanyCollectionByCompanyTypeName(
-            $this->companyTypeFacade->getCompanyTypeManufacturerName()
+            $this->companyTypeFacade->getCompanyTypeManufacturerName(),
         );
 
         if ($companyCollectionTransfer === null) {
@@ -193,7 +193,7 @@ class CompanyUser implements CompanyUserInterface
                 $this->createAndAssignCompanyUser(
                     $companyTransfer,
                     $manufacturerCompanyUserTransfer,
-                    $manufacturerCompanyUserTransfer->getCompanyRoleCollection()->getRoles()
+                    $manufacturerCompanyUserTransfer->getCompanyRoleCollection()->getRoles(),
                 );
             }
         }
@@ -228,7 +228,7 @@ class CompanyUser implements CompanyUserInterface
         }
 
         $manufacturerCompanyCollectionTransfer = $this->getCompanyCollectionByCompanyTypeName(
-            $this->companyTypeFacade->getCompanyTypeManufacturerName()
+            $this->companyTypeFacade->getCompanyTypeManufacturerName(),
         );
 
         if ($manufacturerCompanyCollectionTransfer === null) {
@@ -240,7 +240,7 @@ class CompanyUser implements CompanyUserInterface
                 ->setIdCompany($manufacturerCompanyTransfer->getIdCompany());
 
             $manufacturerCompanyUserCollectionTransfer = $this->companyUserFacade->getCompanyUserCollection(
-                $manufacturerCompanyUserCriteriaFilterTransfer
+                $manufacturerCompanyUserCriteriaFilterTransfer,
             );
 
             foreach ($manufacturerCompanyUserCollectionTransfer->getCompanyUsers() as $manufacturerCompanyUserTransfer) {
@@ -255,7 +255,7 @@ class CompanyUser implements CompanyUserInterface
                 $this->createAndAssignCompanyUser(
                     $companyTransfer,
                     $manufacturerCompanyUserTransfer,
-                    $manufacturerCompanyUserTransfer->getCompanyRoleCollection()->getRoles()
+                    $manufacturerCompanyUserTransfer->getCompanyRoleCollection()->getRoles(),
                 );
             }
         }
@@ -284,7 +284,7 @@ class CompanyUser implements CompanyUserInterface
     /**
      * @param \Generated\Shared\Transfer\CompanyTransfer $companyTransfer
      * @param \Generated\Shared\Transfer\CompanyUserTransfer $companyUserTransfer
-     * @param \ArrayObject<CompanyRoleTransfer> $companyRoleTransfers
+     * @param \ArrayObject<\Generated\Shared\Transfer\CompanyRoleTransfer> $companyRoleTransfers
      *
      * @return \Generated\Shared\Transfer\CompanyUserResponseTransfer
      */
@@ -294,12 +294,12 @@ class CompanyUser implements CompanyUserInterface
         ArrayObject $companyRoleTransfers
     ): CompanyUserResponseTransfer {
         $companyBusinessUnitTransfer = $this->companyBusinessUnitFacade->findDefaultBusinessUnitByCompanyId(
-            $companyTransfer->getIdCompany()
+            $companyTransfer->getIdCompany(),
         );
 
         $companyRoleCollectionTransfer = $this->createCompanyRoleCollectionTransfer(
             $companyTransfer,
-            $companyRoleTransfers
+            $companyRoleTransfers,
         );
 
         if ($companyRoleCollectionTransfer->getRoles()->count() === 0) {
@@ -319,7 +319,7 @@ class CompanyUser implements CompanyUserInterface
 
     /**
      * @param \Generated\Shared\Transfer\CompanyTransfer $companyTransfer
-     * @param \ArrayObject<CompanyRoleTransfer> $companyRoleTransfers
+     * @param \ArrayObject<\Generated\Shared\Transfer\CompanyRoleTransfer> $companyRoleTransfers
      *
      * @return \Generated\Shared\Transfer\CompanyRoleCollectionTransfer
      */
@@ -332,7 +332,7 @@ class CompanyUser implements CompanyUserInterface
         foreach ($companyRoleTransfers as $companyRoleTransfer) {
             $companyRoleTransfer = $this->findCompanyRoleTransferByIdCompanyAndName(
                 $companyTransfer,
-                $companyRoleTransfer
+                $companyRoleTransfer,
             );
 
             if ($companyRoleTransfer === null) {
@@ -365,7 +365,7 @@ class CompanyUser implements CompanyUserInterface
 
         return $this->companyUserCompanyAssignerRepository->findCompanyRoleTransferByIdCompanyAndCompanyRoleName(
             $companyTransfer->getIdCompany(),
-            $manufacturerCompanyTypeRoleMapping[$companyRoleTransfer->getName()]
+            $manufacturerCompanyTypeRoleMapping[$companyRoleTransfer->getName()],
         );
     }
 
@@ -402,7 +402,7 @@ class CompanyUser implements CompanyUserInterface
         }
 
         $companyBusinessUnitTransfer = $this->companyBusinessUnitFacade->findCompanyBusinessUnitById(
-            $companyBusinessUnitTransfer->getIdCompanyBusinessUnit()
+            $companyBusinessUnitTransfer->getIdCompanyBusinessUnit(),
         );
 
         return $this->companyFacade->findCompanyById($companyBusinessUnitTransfer->getFkCompany());
@@ -432,7 +432,7 @@ class CompanyUser implements CompanyUserInterface
 
         return $this->companyUserCompanyAssignerRepository->findCompanyUserByIdCompanyAndIdCustomer(
             $companyTransfer,
-            $customerTransfer
+            $customerTransfer,
         ) !== null;
     }
 }

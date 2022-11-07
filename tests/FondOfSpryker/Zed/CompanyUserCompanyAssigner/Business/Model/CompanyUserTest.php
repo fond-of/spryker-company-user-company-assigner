@@ -108,7 +108,7 @@ class CompanyUserTest extends Unit
     protected $companyTypeCollectionTransferMock;
 
     /**
-     * @var \Generated\Shared\Transfer\CompanyTypeTransfer[]
+     * @var array<\Generated\Shared\Transfer\CompanyTypeTransfer>
      */
     protected $companyTypeTransferMocks;
 
@@ -118,7 +118,7 @@ class CompanyUserTest extends Unit
     protected $companyCollectionTransferMock;
 
     /**
-     * @var \Generated\Shared\Transfer\CompanyTransfer[]
+     * @var array<\Generated\Shared\Transfer\CompanyTransfer>
      */
     protected $companyTransferMocks;
 
@@ -133,7 +133,7 @@ class CompanyUserTest extends Unit
     protected $companyRoleTransferMock;
 
     /**
-     * @var \Generated\Shared\Transfer\CompanyRoleTransfer[]
+     * @var array<\Generated\Shared\Transfer\CompanyRoleTransfer>
      */
     protected $companyRoleTransferMocks;
 
@@ -188,7 +188,7 @@ class CompanyUserTest extends Unit
     protected $companyUserCollectionTransferMock;
 
     /**
-     * @var \ArrayObject|\Generated\Shared\Transfer\CompanyUserTransfer[]
+     * @var \ArrayObject<\Generated\Shared\Transfer\CompanyUserTransfer>
      */
     protected $companyUserTransferMocks;
 
@@ -318,7 +318,7 @@ class CompanyUserTest extends Unit
             $this->companyFacadeMock,
             $this->companyTypeFacadeMock,
             $this->companyRoleFacadeMock,
-            $this->companyBusinessUnitFacadeMock
+            $this->companyBusinessUnitFacadeMock,
         );
     }
 
@@ -432,8 +432,8 @@ class CompanyUserTest extends Unit
         $this->assertInstanceOf(
             CompanyUserResponseTransfer::class,
             $this->companyUser->addManufacturerUserToCompanies(
-                $this->companyUserResponseTransferMock
-            )
+                $this->companyUserResponseTransferMock,
+            ),
         );
     }
 
@@ -449,8 +449,8 @@ class CompanyUserTest extends Unit
         $this->assertInstanceOf(
             CompanyUserResponseTransfer::class,
             $this->companyUser->addManufacturerUserToCompanies(
-                $this->companyUserResponseTransferMock
-            )
+                $this->companyUserResponseTransferMock,
+            ),
         );
     }
 
@@ -474,8 +474,8 @@ class CompanyUserTest extends Unit
         $this->assertInstanceOf(
             CompanyUserResponseTransfer::class,
             $this->companyUser->addManufacturerUserToCompanies(
-                $this->companyUserResponseTransferMock
-            )
+                $this->companyUserResponseTransferMock,
+            ),
         );
     }
 
@@ -507,8 +507,8 @@ class CompanyUserTest extends Unit
         $this->assertInstanceOf(
             CompanyUserResponseTransfer::class,
             $this->companyUser->addManufacturerUserToCompanies(
-                $this->companyUserResponseTransferMock
-            )
+                $this->companyUserResponseTransferMock,
+            ),
         );
     }
 
@@ -556,8 +556,8 @@ class CompanyUserTest extends Unit
         $this->assertInstanceOf(
             CompanyUserResponseTransfer::class,
             $this->companyUser->addManufacturerUserToCompanies(
-                $this->companyUserResponseTransferMock
-            )
+                $this->companyUserResponseTransferMock,
+            ),
         );
     }
 
@@ -617,8 +617,8 @@ class CompanyUserTest extends Unit
         $this->assertInstanceOf(
             CompanyUserResponseTransfer::class,
             $this->companyUser->addManufacturerUserToCompanies(
-                $this->companyUserResponseTransferMock
-            )
+                $this->companyUserResponseTransferMock,
+            ),
         );
     }
 
@@ -659,14 +659,14 @@ class CompanyUserTest extends Unit
             ->method('getName')
             ->willReturnOnConsecutiveCalls(
                 $this->companyTypeName,
-                $this->companyTypeName
+                $this->companyTypeName,
             );
 
         $this->companyTypeFacadeMock->expects($this->atLeastOnce())
             ->method('getCompanyTypeManufacturerName')
             ->willReturnOnConsecutiveCalls(
                 $this->companyTypeName,
-                ''
+                '',
             );
 
         $this->companyTypeFacadeMock->expects($this->atLeastOnce())
@@ -738,8 +738,8 @@ class CompanyUserTest extends Unit
         $this->assertInstanceOf(
             CompanyUserResponseTransfer::class,
             $this->companyUser->addManufacturerUserToCompanies(
-                $this->companyUserResponseTransferMock
-            )
+                $this->companyUserResponseTransferMock,
+            ),
         );
     }
 
@@ -853,8 +853,8 @@ class CompanyUserTest extends Unit
         $this->assertInstanceOf(
             CompanyUserResponseTransfer::class,
             $this->companyUser->addManufacturerUserToCompanies(
-                $this->companyUserResponseTransferMock
-            )
+                $this->companyUserResponseTransferMock,
+            ),
         );
     }
 
@@ -892,7 +892,7 @@ class CompanyUserTest extends Unit
             ->willReturnOnConsecutiveCalls(
                 '',
                 $this->companyTypeName,
-                $this->companyTypeName
+                $this->companyTypeName,
             );
 
         $this->companyTypeFacadeMock->expects($this->atLeastOnce())
@@ -976,8 +976,8 @@ class CompanyUserTest extends Unit
         $this->assertInstanceOf(
             CompanyResponseTransfer::class,
             $this->companyUser->addManufacturerUsersToCompany(
-                $this->companyResponseTransferMock
-            )
+                $this->companyResponseTransferMock,
+            ),
         );
     }
 
@@ -1015,7 +1015,7 @@ class CompanyUserTest extends Unit
             ->willReturnOnConsecutiveCalls(
                 '',
                 $this->companyTypeName,
-                $this->companyTypeName
+                $this->companyTypeName,
             );
 
         $this->companyTypeFacadeMock->expects($this->atLeastOnce())
@@ -1033,8 +1033,8 @@ class CompanyUserTest extends Unit
         $this->assertInstanceOf(
             CompanyResponseTransfer::class,
             $this->companyUser->addManufacturerUsersToCompany(
-                $this->companyResponseTransferMock
-            )
+                $this->companyResponseTransferMock,
+            ),
         );
     }
 
@@ -1072,7 +1072,7 @@ class CompanyUserTest extends Unit
             ->willReturnOnConsecutiveCalls(
                 '',
                 $this->companyTypeName,
-                $this->companyTypeName
+                $this->companyTypeName,
             );
 
         $this->companyTypeFacadeMock->expects($this->atLeastOnce())
@@ -1082,8 +1082,8 @@ class CompanyUserTest extends Unit
         $this->assertInstanceOf(
             CompanyResponseTransfer::class,
             $this->companyUser->addManufacturerUsersToCompany(
-                $this->companyResponseTransferMock
-            )
+                $this->companyResponseTransferMock,
+            ),
         );
     }
 }

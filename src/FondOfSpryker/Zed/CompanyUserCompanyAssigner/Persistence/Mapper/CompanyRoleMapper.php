@@ -19,7 +19,7 @@ class CompanyRoleMapper implements CompanyRoleMapperInterface
     ): CompanyRoleTransfer {
         return $companyRoleTransfer->fromArray(
             $spyCompanyRole->toArray(),
-            true
+            true,
         );
     }
 }

@@ -120,18 +120,18 @@ class CompanyUserCompanyAssignerBusinessFactoryTest extends Unit
                 [CompanyUserCompanyAssignerDependencyProvider::FACADE_COMPANY],
                 [CompanyUserCompanyAssignerDependencyProvider::FACADE_COMPANY_TYPE],
                 [CompanyUserCompanyAssignerDependencyProvider::FACADE_COMPANY_ROLE],
-                [CompanyUserCompanyAssignerDependencyProvider::FACADE_COMPANY_BUSINESS_UNIT]
+                [CompanyUserCompanyAssignerDependencyProvider::FACADE_COMPANY_BUSINESS_UNIT],
             )->willReturnOnConsecutiveCalls(
                 $this->companyUserFacadeInterfaceMock,
                 $this->companyFacadeInterfaceMock,
                 $this->companyTypeFacadeInterfaceMock,
                 $this->companyRoleFacadeInterfaceMock,
-                $this->companyBusinessUnitFacadeInterfaceMock
+                $this->companyBusinessUnitFacadeInterfaceMock,
             );
 
         $this->assertInstanceOf(
             CompanyUser::class,
-            $this->companyUserCompanyAssignerBusinessFactory->createCompanyUser()
+            $this->companyUserCompanyAssignerBusinessFactory->createCompanyUser(),
         );
     }
 }

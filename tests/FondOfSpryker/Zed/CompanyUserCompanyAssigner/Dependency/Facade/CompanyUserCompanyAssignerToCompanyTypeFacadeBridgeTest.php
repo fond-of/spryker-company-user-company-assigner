@@ -74,9 +74,8 @@ class CompanyUserCompanyAssignerToCompanyTypeFacadeBridgeTest extends Unit
         $this->manufacturerName = 'manufacturer-name';
 
         $this->companyUserCompanyAssignerToCompanyTypeFacadeBridge = new CompanyUserCompanyAssignerToCompanyTypeFacadeBridge(
-            $this->companyTypeFacadeMock
+            $this->companyTypeFacadeMock,
         );
-
     }
 
     /**
@@ -92,8 +91,8 @@ class CompanyUserCompanyAssignerToCompanyTypeFacadeBridgeTest extends Unit
         $this->assertInstanceOf(
             CompanyTypeResponseTransfer::class,
             $this->companyUserCompanyAssignerToCompanyTypeFacadeBridge->findCompanyTypeById(
-                $this->companyTypeTransferMock
-            )
+                $this->companyTypeTransferMock,
+            ),
         );
     }
 
@@ -108,7 +107,7 @@ class CompanyUserCompanyAssignerToCompanyTypeFacadeBridgeTest extends Unit
 
         $this->assertInstanceOf(
             CompanyTypeCollectionTransfer::class,
-            $this->companyUserCompanyAssignerToCompanyTypeFacadeBridge->getCompanyTypes()
+            $this->companyUserCompanyAssignerToCompanyTypeFacadeBridge->getCompanyTypes(),
         );
     }
 
@@ -124,8 +123,8 @@ class CompanyUserCompanyAssignerToCompanyTypeFacadeBridgeTest extends Unit
         $this->assertInstanceOf(
             CompanyCollectionTransfer::class,
             $this->companyUserCompanyAssignerToCompanyTypeFacadeBridge->findCompaniesByCompanyTypeIds(
-                $this->companyTypeCollectionTransferMock
-            )
+                $this->companyTypeCollectionTransferMock,
+            ),
         );
     }
 
@@ -140,7 +139,7 @@ class CompanyUserCompanyAssignerToCompanyTypeFacadeBridgeTest extends Unit
 
         $this->assertSame(
             $this->manufacturerName,
-            $this->companyUserCompanyAssignerToCompanyTypeFacadeBridge->getCompanyTypeManufacturerName()
+            $this->companyUserCompanyAssignerToCompanyTypeFacadeBridge->getCompanyTypeManufacturerName(),
         );
     }
 
@@ -157,8 +156,8 @@ class CompanyUserCompanyAssignerToCompanyTypeFacadeBridgeTest extends Unit
         $this->assertInstanceOf(
             CompanyTypeTransfer::class,
             $this->companyUserCompanyAssignerToCompanyTypeFacadeBridge->getCompanyTypeByName(
-                $this->companyTypeTransferMock
-            )
+                $this->companyTypeTransferMock,
+            ),
         );
     }
 
@@ -175,8 +174,8 @@ class CompanyUserCompanyAssignerToCompanyTypeFacadeBridgeTest extends Unit
         $this->assertInstanceOf(
             CompanyTypeTransfer::class,
             $this->companyUserCompanyAssignerToCompanyTypeFacadeBridge->getCompanyTypeById(
-                $this->companyTypeTransferMock
-            )
+                $this->companyTypeTransferMock,
+            ),
         );
     }
 }

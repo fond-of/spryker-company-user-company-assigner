@@ -67,7 +67,7 @@ class CompanyUserCompanyAssignerToCompanyUserFacadeBridgeTest extends Unit
             ->getMock();
 
         $this->companyUserCompanyAssignerToCompanyUserFacadeBridge = new CompanyUserCompanyAssignerToCompanyUserFacadeBridge(
-            $this->companyUserFacadeInterfaceMock
+            $this->companyUserFacadeInterfaceMock,
         );
     }
 
@@ -84,8 +84,8 @@ class CompanyUserCompanyAssignerToCompanyUserFacadeBridgeTest extends Unit
         $this->assertInstanceOf(
             CompanyUserCollectionTransfer::class,
             $this->companyUserCompanyAssignerToCompanyUserFacadeBridge->getCompanyUserCollection(
-                $this->companyUserCriteriaFilterTransferMock
-            )
+                $this->companyUserCriteriaFilterTransferMock,
+            ),
         );
     }
 
@@ -102,8 +102,8 @@ class CompanyUserCompanyAssignerToCompanyUserFacadeBridgeTest extends Unit
         $this->assertInstanceOf(
             CompanyUserResponseTransfer::class,
             $this->companyUserCompanyAssignerToCompanyUserFacadeBridge->create(
-                $this->companyUserTransferMock
-            )
+                $this->companyUserTransferMock,
+            ),
         );
     }
 }
