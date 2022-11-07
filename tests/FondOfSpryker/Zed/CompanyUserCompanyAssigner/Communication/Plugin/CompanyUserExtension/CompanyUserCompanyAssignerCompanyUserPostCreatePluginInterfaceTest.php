@@ -53,8 +53,8 @@ class CompanyUserCompanyAssignerCompanyUserPostCreatePluginInterfaceTest extends
         $this->assertInstanceOf(
             CompanyUserResponseTransfer::class,
             $this->companyUserCompanyAssignerCompanyUserPostCreatePluginInterface->postCreate(
-                $this->companyUserResponseTransferMock
-            )
+                $this->companyUserResponseTransferMock,
+            ),
         );
     }
 }

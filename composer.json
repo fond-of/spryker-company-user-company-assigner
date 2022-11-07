@@ -1,6 +1,6 @@
 {
   "name": "fond-of-spryker/company-user-company-assigner",
-  "description": "CompanyUserCompanyAssigner module",
+  "description": "Company user company assigner bundle",
   "license": "MIT",
   "authors": [
     {
@@ -12,8 +12,14 @@
       "email": "gengjozsef86@gmail.com"
     }
   ],
+  "scripts": {
+    "ci": "make ci",
+    "codeception": "make codeception",
+    "phpcs": "make phpcs",
+    "phpstan": "make phpstan"
+  },
   "require": {
-    "php": ">=7.1",
+    "php": ">=7.3",
     "fond-of-spryker/company": "dev-master",
     "fond-of-spryker/company-type": "dev-master",
     "spryker/company-business-unit": "^1.0.0 || ^2.0.0",
@@ -21,13 +27,9 @@
     "spryker/company-user": "^1.0.0 || ^2.0.0"
   },
   "require-dev": {
-    "spryker/code-sniffer": "^0.12",
-    "codeception/codeception": "^2.4",
-    "mikey179/vfsstream": "^1.6",
-    "phpro/grumphp": "^0.14",
-    "sebastian/phpcpd": "^4.0",
-    "php-coveralls/php-coveralls": "^2.1",
-    "fond-of-codeception/spryker": "^1.0"
+    "fond-of-codeception/spryker": "^1.0",
+    "spryker/code-sniffer": "*",
+    "spryker-sdk/phpstan-spryker": "*"
   },
   "minimum-stability": "dev",
   "prefer-stable": true,
@@ -39,7 +41,13 @@
   "autoload-dev": {
     "psr-4": {
       "FondOfSpryker\\": "tests/FondOfSpryker/",
-      "Generated\\": "src/Generated/"
+      "Generated\\": "src/Generated/",
+      "Orm\\Zed\\": "src/Orm/Zed/"
+    }
+  },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
     }
   }
 }

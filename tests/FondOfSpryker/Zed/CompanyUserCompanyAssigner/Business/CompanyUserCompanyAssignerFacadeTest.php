@@ -85,8 +85,8 @@ class CompanyUserCompanyAssignerFacadeTest extends Unit
         $this->assertInstanceOf(
             CompanyUserResponseTransfer::class,
             $this->companyUserCompanyAssignerFacade->addManufacturerUserToCompanies(
-                $this->companyUserResponseTransferMock
-            )
+                $this->companyUserResponseTransferMock,
+            ),
         );
     }
 
@@ -106,8 +106,8 @@ class CompanyUserCompanyAssignerFacadeTest extends Unit
         $this->assertInstanceOf(
             CompanyResponseTransfer::class,
             $this->companyUserCompanyAssignerFacade->addManufacturerUsersToCompany(
-                $this->companyResponseTransferMock
-            )
+                $this->companyResponseTransferMock,
+            ),
         );
     }
 
@@ -127,8 +127,8 @@ class CompanyUserCompanyAssignerFacadeTest extends Unit
         $this->assertInstanceOf(
             CompanyBusinessUnitTransfer::class,
             $this->companyUserCompanyAssignerFacade->addManufacturerUsersToCompanyBusinessUnit(
-                $this->companyBusinessUnitTransferMock
-            )
+                $this->companyBusinessUnitTransferMock,
+            ),
         );
     }
 }

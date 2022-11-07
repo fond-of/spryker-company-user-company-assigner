@@ -37,8 +37,8 @@ class CompanyUserCompanyAssignerDependencyProviderTest extends Unit
         $this->assertInstanceOf(
             Container::class,
             $this->companyUserCompanyAssignerDependencyProvider->provideBusinessLayerDependencies(
-                $this->containerMock
-            )
+                $this->containerMock,
+            ),
         );
     }
 
@@ -50,8 +50,8 @@ class CompanyUserCompanyAssignerDependencyProviderTest extends Unit
         $this->assertInstanceOf(
             Container::class,
             $this->companyUserCompanyAssignerDependencyProvider->providePersistenceLayerDependencies(
-                $this->containerMock
-            )
+                $this->containerMock,
+            ),
         );
     }
 }

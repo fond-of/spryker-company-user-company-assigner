@@ -44,7 +44,7 @@ class CompanyUserCompanyAssignerToCompanyFacadeBridgeTest extends Unit
             ->getMock();
 
         $this->companyUserCompanyAssignerToCompanyFacadeBridge = new CompanyUserCompanyAssignerToCompanyFacadeBridge(
-            $this->companyFacadeInterfaceMock
+            $this->companyFacadeInterfaceMock,
         );
     }
 
@@ -61,8 +61,8 @@ class CompanyUserCompanyAssignerToCompanyFacadeBridgeTest extends Unit
         $this->assertInstanceOf(
             CompanyTransfer::class,
             $this->companyUserCompanyAssignerToCompanyFacadeBridge->findCompanyById(
-                $this->idCompany
-            )
+                $this->idCompany,
+            ),
         );
     }
 }
