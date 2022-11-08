@@ -19,6 +19,14 @@ class CompanyUserCompanyAssignerCompanyUserPostCreatePlugin extends AbstractPlug
      */
     public function postCreate(CompanyUserResponseTransfer $companyUserResponseTransfer): CompanyUserResponseTransfer
     {
-        return $this->getFacade()->addManufacturerUserToCompanies($companyUserResponseTransfer);
+        $companyUserTransfer = $companyUserResponseTransfer->getCompanyUser();
+
+        if ($companyUserTransfer === null || $companyUserResponseTransfer->getIsSuccessful() !== true) {
+            return $companyUserResponseTransfer;
+        }
+
+        $this->getFacade()->assignManufacturerUserNonManufacturerCompanies($companyUserTransfer);
+
+        return $companyUserResponseTransfer;
     }
 }

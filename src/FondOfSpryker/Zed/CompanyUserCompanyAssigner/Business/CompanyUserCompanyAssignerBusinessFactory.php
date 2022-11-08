@@ -2,6 +2,14 @@
 
 namespace FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business;
 
+use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Assigner\ManufacturerUserAssigner;
+use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Assigner\ManufacturerUserAssignerInterface;
+use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Filter\CompanyRoleNameFilter;
+use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Filter\CompanyRoleNameFilterInterface;
+use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Mapper\CompanyRoleNameMapper;
+use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Mapper\CompanyRoleNameMapperInterface;
+use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Mapper\CompanyUserMapper;
+use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Mapper\CompanyUserMapperInterface;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyUser;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyUserInterface;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\CompanyUserCompanyAssignerDependencyProvider;
@@ -32,6 +40,49 @@ class CompanyUserCompanyAssignerBusinessFactory extends AbstractBusinessFactory
             $this->getCompanyRoleFacade(),
             $this->getCompanyBusinessUnitFacade(),
         );
+    }
+
+    /**
+     * @return \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Assigner\ManufacturerUserAssignerInterface
+     */
+    public function createManufacturerUserAssigner(): ManufacturerUserAssignerInterface
+    {
+        return new ManufacturerUserAssigner(
+            $this->createCompanyRoleNameMapper(),
+            $this->createCompanyUserMapper(),
+            $this->getRepository(),
+            $this->getCompanyTypeFacade(),
+            $this->getCompanyUserFacade(),
+        );
+    }
+
+    /**
+     * @return \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Mapper\CompanyRoleNameMapperInterface
+     */
+    protected function createCompanyRoleNameMapper(): CompanyRoleNameMapperInterface
+    {
+        return new CompanyRoleNameMapper(
+            $this->createCompanyRoleNameFilter(),
+            $this->getConfig(),
+        );
+    }
+
+    /**
+     * @return \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Filter\CompanyRoleNameFilterInterface
+     */
+    protected function createCompanyRoleNameFilter(): CompanyRoleNameFilterInterface
+    {
+        return new CompanyRoleNameFilter(
+            $this->getRepository(),
+        );
+    }
+
+    /**
+     * @return \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Mapper\CompanyUserMapperInterface
+     */
+    protected function createCompanyUserMapper(): CompanyUserMapperInterface
+    {
+        return new CompanyUserMapper();
     }
 
     /**
