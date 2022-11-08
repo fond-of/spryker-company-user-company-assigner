@@ -3,18 +3,15 @@
 namespace FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business;
 
 use Codeception\Test\Unit;
+use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Assigner\ManufacturerUserAssigner;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyUserInterface;
 use Generated\Shared\Transfer\CompanyBusinessUnitTransfer;
 use Generated\Shared\Transfer\CompanyResponseTransfer;
 use Generated\Shared\Transfer\CompanyUserResponseTransfer;
+use Generated\Shared\Transfer\CompanyUserTransfer;
 
 class CompanyUserCompanyAssignerFacadeTest extends Unit
 {
-    /**
-     * @var \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\CompanyUserCompanyAssignerFacade
-     */
-    protected $companyUserCompanyAssignerFacade;
-
     /**
      * @var \PHPUnit\Framework\MockObject\MockObject|\Generated\Shared\Transfer\CompanyUserResponseTransfer
      */
@@ -28,7 +25,7 @@ class CompanyUserCompanyAssignerFacadeTest extends Unit
     /**
      * @var \PHPUnit\Framework\MockObject\MockObject|\FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\CompanyUserCompanyAssignerBusinessFactory
      */
-    protected $companyUserCompanyAssignerBusinessFactoryMock;
+    protected $factoryMock;
 
     /**
      * @var \PHPUnit\Framework\MockObject\MockObject|\FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyUserInterface
@@ -41,11 +38,26 @@ class CompanyUserCompanyAssignerFacadeTest extends Unit
     protected $companyResponseTransferMock;
 
     /**
+     * @var \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Assigner\ManufacturerUserAssigner|\PHPUnit\Framework\MockObject\MockObject
+     */
+    protected $manufacturerUserAssignerMock;
+
+    /**
+     * @var \Generated\Shared\Transfer\CompanyUserTransfer|\PHPUnit\Framework\MockObject\MockObject
+     */
+    protected $companyUserTransferMock;
+
+    /**
+     * @var \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\CompanyUserCompanyAssignerFacade
+     */
+    protected $facade;
+
+    /**
      * @return void
      */
     protected function _before(): void
     {
-        $this->companyUserCompanyAssignerBusinessFactoryMock = $this->getMockBuilder(CompanyUserCompanyAssignerBusinessFactory::class)
+        $this->factoryMock = $this->getMockBuilder(CompanyUserCompanyAssignerBusinessFactory::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -65,8 +77,16 @@ class CompanyUserCompanyAssignerFacadeTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->companyUserCompanyAssignerFacade = new CompanyUserCompanyAssignerFacade();
-        $this->companyUserCompanyAssignerFacade->setFactory($this->companyUserCompanyAssignerBusinessFactoryMock);
+        $this->manufacturerUserAssignerMock = $this->getMockBuilder(ManufacturerUserAssigner::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->companyUserTransferMock = $this->getMockBuilder(CompanyUserTransfer::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->facade = new CompanyUserCompanyAssignerFacade();
+        $this->facade->setFactory($this->factoryMock);
     }
 
     /**
@@ -74,17 +94,17 @@ class CompanyUserCompanyAssignerFacadeTest extends Unit
      */
     public function testAddManufacturerUserToCompanies(): void
     {
-        $this->companyUserCompanyAssignerBusinessFactoryMock->expects($this->atLeastOnce())
+        $this->factoryMock->expects(static::atLeastOnce())
             ->method('createCompanyUser')
             ->willReturn($this->companyUserMock);
 
-        $this->companyUserMock->expects($this->atLeastOnce())
+        $this->companyUserMock->expects(static::atLeastOnce())
             ->method('addManufacturerUserToCompanies')
             ->willReturn($this->companyUserResponseTransferMock);
 
-        $this->assertInstanceOf(
-            CompanyUserResponseTransfer::class,
-            $this->companyUserCompanyAssignerFacade->addManufacturerUserToCompanies(
+        static::assertEquals(
+            $this->companyUserResponseTransferMock,
+            $this->facade->addManufacturerUserToCompanies(
                 $this->companyUserResponseTransferMock,
             ),
         );
@@ -95,17 +115,17 @@ class CompanyUserCompanyAssignerFacadeTest extends Unit
      */
     public function testAddManufacturerToCompany(): void
     {
-        $this->companyUserCompanyAssignerBusinessFactoryMock->expects($this->atLeastOnce())
+        $this->factoryMock->expects(static::atLeastOnce())
             ->method('createCompanyUser')
             ->willReturn($this->companyUserMock);
 
-        $this->companyUserMock->expects($this->atLeastOnce())
+        $this->companyUserMock->expects(static::atLeastOnce())
             ->method('addManufacturerUsersToCompany')
             ->willReturn($this->companyResponseTransferMock);
 
-        $this->assertInstanceOf(
-            CompanyResponseTransfer::class,
-            $this->companyUserCompanyAssignerFacade->addManufacturerUsersToCompany(
+        static::assertEquals(
+            $this->companyResponseTransferMock,
+            $this->facade->addManufacturerUsersToCompany(
                 $this->companyResponseTransferMock,
             ),
         );
@@ -116,19 +136,37 @@ class CompanyUserCompanyAssignerFacadeTest extends Unit
      */
     public function testAddManufacturerUsersToCompanyBusinessUnit(): void
     {
-        $this->companyUserCompanyAssignerBusinessFactoryMock->expects($this->atLeastOnce())
+        $this->factoryMock->expects(static::atLeastOnce())
             ->method('createCompanyUser')
             ->willReturn($this->companyUserMock);
 
-        $this->companyUserMock->expects($this->atLeastOnce())
+        $this->companyUserMock->expects(static::atLeastOnce())
             ->method('addManufacturerUsersToCompanyBusinessUnit')
             ->willReturn($this->companyBusinessUnitTransferMock);
 
-        $this->assertInstanceOf(
-            CompanyBusinessUnitTransfer::class,
-            $this->companyUserCompanyAssignerFacade->addManufacturerUsersToCompanyBusinessUnit(
+        static::assertEquals(
+            $this->companyBusinessUnitTransferMock,
+            $this->facade->addManufacturerUsersToCompanyBusinessUnit(
                 $this->companyBusinessUnitTransferMock,
             ),
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function testAssignManufacturerUserNonManufacturerCompanies(): void
+    {
+        $this->factoryMock->expects(static::atLeastOnce())
+            ->method('createManufacturerUserAssigner')
+            ->willReturn($this->manufacturerUserAssignerMock);
+
+        $this->manufacturerUserAssignerMock->expects(static::atLeastOnce())
+            ->method('assignToNonManufacturerCompanies')
+            ->with($this->companyUserTransferMock);
+
+        $this->facade->assignManufacturerUserNonManufacturerCompanies(
+            $this->companyUserTransferMock,
         );
     }
 }

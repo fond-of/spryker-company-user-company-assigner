@@ -5,6 +5,7 @@ namespace FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business;
 use Generated\Shared\Transfer\CompanyBusinessUnitTransfer;
 use Generated\Shared\Transfer\CompanyResponseTransfer;
 use Generated\Shared\Transfer\CompanyUserResponseTransfer;
+use Generated\Shared\Transfer\CompanyUserTransfer;
 use Spryker\Zed\Kernel\Business\AbstractFacade;
 
 /**
@@ -50,5 +51,17 @@ class CompanyUserCompanyAssignerFacade extends AbstractFacade implements Company
         return $this->getFactory()
             ->createCompanyUser()
             ->addManufacturerUsersToCompanyBusinessUnit($companyBusinessUnitTransfer);
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\CompanyUserTransfer $manufacturerUserTransfer
+     *
+     * @return void
+     */
+    public function assignManufacturerUserNonManufacturerCompanies(CompanyUserTransfer $manufacturerUserTransfer): void
+    {
+        $this->getFactory()
+            ->createManufacturerUserAssigner()
+            ->assignToNonManufacturerCompanies($manufacturerUserTransfer);
     }
 }
