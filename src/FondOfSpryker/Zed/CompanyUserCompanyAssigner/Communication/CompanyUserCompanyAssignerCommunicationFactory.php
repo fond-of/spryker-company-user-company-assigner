@@ -9,7 +9,7 @@ use Spryker\Zed\Kernel\Communication\AbstractCommunicationFactory;
 class CompanyUserCompanyAssignerCommunicationFactory extends AbstractCommunicationFactory
 {
     /**
-     * @return \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Facade\CompanyUserCompanyAssignerToEventFacadeInterfac
+     * @return \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Facade\CompanyUserCompanyAssignerToEventFacadeInterface
      */
     public function getEventFacade(): CompanyUserCompanyAssignerToEventFacadeInterface
     {
