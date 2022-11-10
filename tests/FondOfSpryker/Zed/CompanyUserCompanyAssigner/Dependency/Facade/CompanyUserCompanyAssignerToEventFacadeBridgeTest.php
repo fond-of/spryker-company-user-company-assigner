@@ -3,12 +3,10 @@
 namespace FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Facade;
 
 use Codeception\Test\Unit;
-use FondOfSpryker\Zed\Company\Business\CompanyFacadeInterface;
-use Generated\Shared\Transfer\CompanyTransfer;
 use Spryker\Shared\Kernel\Transfer\TransferInterface;
 use Spryker\Zed\Event\Business\EventFacadeInterface;
 
-class CompanyUserCompanyAssignerToEventFacadeBridgeTest  extends Unit
+class CompanyUserCompanyAssignerToEventFacadeBridgeTest extends Unit
 {
     /**
      * @var \PHPUnit\Framework\MockObject\MockObject|\Spryker\Zed\Event\Business\EventFacadeInterface

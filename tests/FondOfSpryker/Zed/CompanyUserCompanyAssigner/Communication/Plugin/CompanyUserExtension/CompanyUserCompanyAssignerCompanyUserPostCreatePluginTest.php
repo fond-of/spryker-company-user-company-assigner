@@ -3,7 +3,6 @@
 namespace FondOfSpryker\Zed\CompanyUserCompanyAssigner\Communication\Plugin\CompanyUserExtension;
 
 use Codeception\Test\Unit;
-use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\CompanyUserCompanyAssignerFacade;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Communication\CompanyUserCompanyAssignerCommunicationFactory;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\CompanyUserCompanyAssignerEvents;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Facade\CompanyUserCompanyAssignerToEventFacadeInterface;
@@ -87,7 +86,7 @@ class CompanyUserCompanyAssignerCompanyUserPostCreatePluginTest extends Unit
             ->method('trigger')
             ->with(
                 CompanyUserCompanyAssignerEvents::MANUFACTURER_USER_MARK_FOR_ASSIGMENT,
-                $this->companyUserTransferMock
+                $this->companyUserTransferMock,
             );
 
         static::assertEquals(

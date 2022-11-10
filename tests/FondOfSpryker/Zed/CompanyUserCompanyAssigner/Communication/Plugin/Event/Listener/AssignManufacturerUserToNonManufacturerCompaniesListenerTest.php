@@ -54,7 +54,7 @@ class AssignManufacturerUserToNonManufacturerCompaniesListenerTest extends Unit
 
         $this->listener->handle(
             $this->companyUserTransferMock,
-            CompanyUserCompanyAssignerEvents::MANUFACTURER_USER_MARK_FOR_ASSIGMENT
+            CompanyUserCompanyAssignerEvents::MANUFACTURER_USER_MARK_FOR_ASSIGMENT,
         );
     }
 
@@ -68,7 +68,7 @@ class AssignManufacturerUserToNonManufacturerCompaniesListenerTest extends Unit
 
         $this->listener->handle(
             $this->companyUserTransferMock,
-            'foo'
+            'foo',
         );
     }
 }

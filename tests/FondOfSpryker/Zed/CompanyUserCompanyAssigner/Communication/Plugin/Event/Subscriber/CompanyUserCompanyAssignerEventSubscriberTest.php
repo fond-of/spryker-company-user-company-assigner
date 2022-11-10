@@ -44,18 +44,18 @@ class CompanyUserCompanyAssignerEventSubscriberTest extends Unit
             ->with(
                 CompanyUserCompanyAssignerEvents::MANUFACTURER_USER_MARK_FOR_ASSIGMENT,
                 static::callback(
-                    static function(EventBaseHandlerInterface $eventBaseHandler) {
+                    static function (EventBaseHandlerInterface $eventBaseHandler) {
                         return $eventBaseHandler instanceof AssignManufacturerUserToNonManufacturerCompaniesListener;
-                    }
+                    },
                 ),
                 0,
                 null,
-                null
+                null,
             )->willReturn($this->eventCollectionMock);
 
         static::assertEquals(
             $this->eventCollectionMock,
-            $this->subscriber->getSubscribedEvents($this->eventCollectionMock)
+            $this->subscriber->getSubscribedEvents($this->eventCollectionMock),
         );
     }
 }
