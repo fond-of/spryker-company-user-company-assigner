@@ -7,6 +7,7 @@ use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Facade\CompanyUserCo
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Facade\CompanyUserCompanyAssignerToCompanyRoleFacadeBridge;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Facade\CompanyUserCompanyAssignerToCompanyTypeFacadeBridge;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Facade\CompanyUserCompanyAssignerToCompanyUserFacadeBridge;
+use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Facade\CompanyUserCompanyAssignerToEventFacadeBridge;
 use Orm\Zed\Company\Persistence\Base\SpyCompanyQuery;
 use Orm\Zed\CompanyRole\Persistence\SpyCompanyRoleQuery;
 use Orm\Zed\CompanyType\Persistence\Base\FosCompanyTypeQuery;
@@ -14,6 +15,9 @@ use Orm\Zed\CompanyUser\Persistence\SpyCompanyUserQuery;
 use Spryker\Zed\Kernel\AbstractBundleDependencyProvider;
 use Spryker\Zed\Kernel\Container;
 
+/**
+ * @codeCoverageIgnore
+ */
 class CompanyUserCompanyAssignerDependencyProvider extends AbstractBundleDependencyProvider
 {
     /**
@@ -40,6 +44,11 @@ class CompanyUserCompanyAssignerDependencyProvider extends AbstractBundleDepende
      * @var string
      */
     public const FACADE_COMPANY_USER = 'FACADE_COMPANY_USER';
+
+    /**
+     * @var string
+     */
+    public const FACADE_EVENT = 'FACADE_EVENT';
 
     /**
      * @var string
@@ -76,6 +85,18 @@ class CompanyUserCompanyAssignerDependencyProvider extends AbstractBundleDepende
         $container = $this->addCompanyUserFacade($container);
 
         return $this->addCompanyRoleFacade($container);
+    }
+
+    /**
+     * @param \Spryker\Zed\Kernel\Container $container
+     *
+     * @return \Spryker\Zed\Kernel\Container
+     */
+    public function provideCommunicationLayerDependencies(Container $container): Container
+    {
+        $container = parent::provideCommunicationLayerDependencies($container);
+
+        return $this->addEventFacade($container);
     }
 
     /**
@@ -225,6 +246,22 @@ class CompanyUserCompanyAssignerDependencyProvider extends AbstractBundleDepende
     {
         $container[static::PROPEL_QUERY_COMPANY] = static function () {
             return SpyCompanyQuery::create();
+        };
+
+        return $container;
+    }
+
+    /**
+     * @param \Spryker\Zed\Kernel\Container $container
+     *
+     * @return \Spryker\Zed\Kernel\Container
+     */
+    protected function addEventFacade(Container $container): Container
+    {
+        $container[static::FACADE_EVENT] = static function (Container $container) {
+            return new CompanyUserCompanyAssignerToEventFacadeBridge(
+                $container->getLocator()->event()->facade(),
+            );
         };
 
         return $container;

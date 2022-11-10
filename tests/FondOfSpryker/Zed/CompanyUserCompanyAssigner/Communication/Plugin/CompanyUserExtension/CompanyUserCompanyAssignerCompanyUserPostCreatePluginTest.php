@@ -3,16 +3,18 @@
 namespace FondOfSpryker\Zed\CompanyUserCompanyAssigner\Communication\Plugin\CompanyUserExtension;
 
 use Codeception\Test\Unit;
-use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\CompanyUserCompanyAssignerFacade;
+use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Communication\CompanyUserCompanyAssignerCommunicationFactory;
+use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\CompanyUserCompanyAssignerEvents;
+use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Facade\CompanyUserCompanyAssignerToEventFacadeInterface;
 use Generated\Shared\Transfer\CompanyUserResponseTransfer;
 use Generated\Shared\Transfer\CompanyUserTransfer;
 
-class CompanyUserCompanyAssignerCompanyUserPostCreatePluginInterfaceTest extends Unit
+class CompanyUserCompanyAssignerCompanyUserPostCreatePluginTest extends Unit
 {
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|\FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\CompanyUserCompanyAssignerFacade
+     * @var \PHPUnit\Framework\MockObject\MockObject|\FondOfSpryker\Zed\CompanyUserCompanyAssigner\Communication\CompanyUserCompanyAssignerCommunicationFactory
      */
-    protected $facadeMock;
+    protected $factoryMock;
 
     /**
      * @var \PHPUnit\Framework\MockObject\MockObject|\Generated\Shared\Transfer\CompanyUserResponseTransfer
@@ -25,6 +27,11 @@ class CompanyUserCompanyAssignerCompanyUserPostCreatePluginInterfaceTest extends
     protected $companyUserTransferMock;
 
     /**
+     * @var \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Facade\CompanyUserCompanyAssignerToEventFacadeInterface&\PHPUnit\Framework\MockObject\MockObject|\PHPUnit\Framework\MockObject\MockObject
+     */
+    protected $eventFacadeMock;
+
+    /**
      * @var \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Communication\Plugin\CompanyUserExtension\CompanyUserCompanyAssignerCompanyUserPostCreatePlugin
      */
     protected $plugin;
@@ -34,7 +41,7 @@ class CompanyUserCompanyAssignerCompanyUserPostCreatePluginInterfaceTest extends
      */
     protected function _before(): void
     {
-        $this->facadeMock = $this->getMockBuilder(CompanyUserCompanyAssignerFacade::class)
+        $this->factoryMock = $this->getMockBuilder(CompanyUserCompanyAssignerCommunicationFactory::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -46,8 +53,12 @@ class CompanyUserCompanyAssignerCompanyUserPostCreatePluginInterfaceTest extends
             ->disableOriginalConstructor()
             ->getMock();
 
+        $this->eventFacadeMock = $this->getMockBuilder(CompanyUserCompanyAssignerToEventFacadeInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $this->plugin = new CompanyUserCompanyAssignerCompanyUserPostCreatePlugin();
-        $this->plugin->setFacade($this->facadeMock);
+        $this->plugin->setFactory($this->factoryMock);
     }
 
     /**
@@ -59,13 +70,24 @@ class CompanyUserCompanyAssignerCompanyUserPostCreatePluginInterfaceTest extends
             ->method('getCompanyUser')
             ->willReturn($this->companyUserTransferMock);
 
+        $this->companyUserTransferMock->expects(static::atLeastOnce())
+            ->method('getSkipAssignmentToNonManufacturerCompanies')
+            ->willReturn(null);
+
         $this->companyUserResponseTransferMock->expects(static::atLeastOnce())
             ->method('getIsSuccessful')
             ->willReturn(true);
 
-        $this->facadeMock->expects(static::atLeastOnce())
-            ->method('assignManufacturerUserNonManufacturerCompanies')
-            ->with($this->companyUserTransferMock);
+        $this->factoryMock->expects(static::atLeastOnce())
+            ->method('getEventFacade')
+            ->willReturn($this->eventFacadeMock);
+
+        $this->eventFacadeMock->expects(static::atLeastOnce())
+            ->method('trigger')
+            ->with(
+                CompanyUserCompanyAssignerEvents::MANUFACTURER_USER_MARK_FOR_ASSIGMENT,
+                $this->companyUserTransferMock,
+            );
 
         static::assertEquals(
             $this->companyUserResponseTransferMock,
@@ -87,8 +109,11 @@ class CompanyUserCompanyAssignerCompanyUserPostCreatePluginInterfaceTest extends
         $this->companyUserResponseTransferMock->expects(static::never())
             ->method('getIsSuccessful');
 
-        $this->facadeMock->expects(static::never())
-            ->method('assignManufacturerUserNonManufacturerCompanies');
+        $this->factoryMock->expects(static::never())
+            ->method('getEventFacade');
+
+        $this->eventFacadeMock->expects(static::never())
+            ->method('trigger');
 
         static::assertEquals(
             $this->companyUserResponseTransferMock,
