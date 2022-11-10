@@ -2,12 +2,14 @@
 
 namespace FondOfSpryker\Zed\CompanyUserCompanyAssigner\Communication\Plugin\CompanyUserExtension;
 
+use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\CompanyUserCompanyAssignerEvents;
 use Generated\Shared\Transfer\CompanyUserResponseTransfer;
 use Spryker\Zed\CompanyUserExtension\Dependency\Plugin\CompanyUserPostCreatePluginInterface;
 use Spryker\Zed\Kernel\Communication\AbstractPlugin;
 
 /**
  * @method \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\CompanyUserCompanyAssignerFacadeInterface getFacade()
+ * @method \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Communication\CompanyUserCompanyAssignerCommunicationFactory getFactory()
  * @method \FondOfSpryker\Zed\CompanyUserCompanyAssigner\CompanyUserCompanyAssignerConfig getConfig()
  */
 class CompanyUserCompanyAssignerCompanyUserPostCreatePlugin extends AbstractPlugin implements CompanyUserPostCreatePluginInterface
@@ -21,11 +23,20 @@ class CompanyUserCompanyAssignerCompanyUserPostCreatePlugin extends AbstractPlug
     {
         $companyUserTransfer = $companyUserResponseTransfer->getCompanyUser();
 
-        if ($companyUserTransfer === null || $companyUserResponseTransfer->getIsSuccessful() !== true) {
+        if (
+            $companyUserTransfer === null
+            || $companyUserTransfer->getSkipAssignmentToNonManufacturerCompanies() === true
+            || $companyUserResponseTransfer->getIsSuccessful() !== true
+        ) {
             return $companyUserResponseTransfer;
         }
 
-        $this->getFacade()->assignManufacturerUserNonManufacturerCompanies($companyUserTransfer);
+        $this->getFactory()
+            ->getEventFacade()
+            ->trigger(
+                CompanyUserCompanyAssignerEvents::MANUFACTURER_USER_MARK_FOR_ASSIGMENT,
+                $companyUserTransfer,
+            );
 
         return $companyUserResponseTransfer;
     }
