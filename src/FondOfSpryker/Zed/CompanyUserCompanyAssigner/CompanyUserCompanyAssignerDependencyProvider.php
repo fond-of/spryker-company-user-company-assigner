@@ -251,6 +251,11 @@ class CompanyUserCompanyAssignerDependencyProvider extends AbstractBundleDepende
         return $container;
     }
 
+    /**
+     * @param \Spryker\Zed\Kernel\Container $container
+     *
+     * @return \Spryker\Zed\Kernel\Container
+     */
     protected function addEventFacade(Container $container): Container
     {
         $container[static::FACADE_EVENT] = static function (Container $container) {
