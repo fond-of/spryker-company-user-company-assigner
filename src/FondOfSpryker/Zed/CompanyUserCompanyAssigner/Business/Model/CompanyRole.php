@@ -74,7 +74,7 @@ class CompanyRole implements CompanyRoleInterface
     }
 
     /**
-     * @param \Generated\Shared\Transfer\CompanyUserTransfer $companyUserTransfer
+     * @param \Generated\Shared\Transfer\CompanyUserTransfer $manufacturerCompanyUserTransfer
      *
      * @return void
      */
