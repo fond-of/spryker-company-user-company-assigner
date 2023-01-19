@@ -169,7 +169,7 @@ class CompanyUserCompanyAssignerRepository extends AbstractRepository implements
      *
      * @api
      *
-     * @param \Generated\Shared\Transfer\CompanyUserCriteriaFilterTransfer $criteriaFilterTransfer
+     * @param \Generated\Shared\Transfer\CompanyUserCriteriaFilterTransfer $companyUserCriteriaTransfer
      *
      * @return \Generated\Shared\Transfer\CompanyUserCollectionTransfer
      */
