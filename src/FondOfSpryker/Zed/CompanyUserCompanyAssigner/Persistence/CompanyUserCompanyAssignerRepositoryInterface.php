@@ -4,6 +4,8 @@ namespace FondOfSpryker\Zed\CompanyUserCompanyAssigner\Persistence;
 
 use Generated\Shared\Transfer\CompanyRoleTransfer;
 use Generated\Shared\Transfer\CompanyTransfer;
+use Generated\Shared\Transfer\CompanyUserCollectionTransfer;
+use Generated\Shared\Transfer\CompanyUserCriteriaFilterTransfer;
 use Generated\Shared\Transfer\CompanyUserTransfer;
 use Generated\Shared\Transfer\CustomerTransfer;
 
@@ -62,4 +64,13 @@ interface CompanyUserCompanyAssignerRepositoryInterface
      * @return string|null
      */
     public function findCompanyRoleNameByIdCompanyRole(int $idCompanyRole): ?string;
+
+    /**
+     * @param \Generated\Shared\Transfer\CompanyUserCriteriaTransfer $companyUserCriteriaTransfer
+     *
+     * @return \Generated\Shared\Transfer\CompanyUserCollectionTransfer
+     */
+    public function getCompanyUserCollectionByCompanyUserCriteriaFilterTransfer(
+        CompanyUserCriteriaFilterTransfer $companyUserCriteriaTransfer
+    ): CompanyUserCollectionTransfer;
 }
