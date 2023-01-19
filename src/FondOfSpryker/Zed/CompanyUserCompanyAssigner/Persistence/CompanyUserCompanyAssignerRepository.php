@@ -169,12 +169,12 @@ class CompanyUserCompanyAssignerRepository extends AbstractRepository implements
      *
      * @api
      *
-     * @param \Generated\Shared\Transfer\CompanyUserCriteriaFilterTransfer $companyUserCriteriaTransfer
+     * @param \Generated\Shared\Transfer\CompanyUserCriteriaFilterTransfer $companyUserCriteriaFilterTransfer
      *
      * @return \Generated\Shared\Transfer\CompanyUserCollectionTransfer
      */
     public function getCompanyUserCollectionByCompanyUserCriteriaFilterTransfer(
-        CompanyUserCriteriaFilterTransfer $companyUserCriteriaTransfer
+        CompanyUserCriteriaFilterTransfer $companyUserCriteriaFilterTransfer
     ): CompanyUserCollectionTransfer {
         /** @var \Orm\Zed\CompanyUser\Persistence\SpyCompanyUserQuery $queryCompanyUser */
         $queryCompanyUser = $this->getFactory()
@@ -184,17 +184,17 @@ class CompanyUserCompanyAssignerRepository extends AbstractRepository implements
             ->filterByAnonymizedAt(null, Criteria::ISNULL)
             ->endUse();
 
-        $this->applyFilters($queryCompanyUser, $companyUserCriteriaTransfer);
+        $this->applyFilters($queryCompanyUser, $companyUserCriteriaFilterTransfer);
 
-        $collection = $this->buildQueryFromCriteria($queryCompanyUser, $companyUserCriteriaTransfer->getFilter());
+        $collection = $this->buildQueryFromCriteria($queryCompanyUser, $companyUserCriteriaFilterTransfer->getFilter());
         /** @var array<\Generated\Shared\Transfer\SpyCompanyUserEntityTransfer> $companyUserCollection */
-        $companyUserCollection = $this->getPaginatedCollection($collection, $companyUserCriteriaTransfer->getPagination());
+        $companyUserCollection = $this->getPaginatedCollection($collection, $companyUserCriteriaFilterTransfer->getPagination());
 
         $collectionTransfer = $this->getFactory()
             ->createCompanyUserMapper()
             ->mapCompanyUserCollection($companyUserCollection);
 
-        $collectionTransfer->setPagination($companyUserCriteriaTransfer->getPagination());
+        $collectionTransfer->setPagination($companyUserCriteriaFilterTransfer->getPagination());
 
         return $collectionTransfer;
     }

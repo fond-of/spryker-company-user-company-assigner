@@ -66,11 +66,11 @@ interface CompanyUserCompanyAssignerRepositoryInterface
     public function findCompanyRoleNameByIdCompanyRole(int $idCompanyRole): ?string;
 
     /**
-     * @param \Generated\Shared\Transfer\CompanyUserCriteriaTransfer $companyUserCriteriaTransfer
+     * @param \Generated\Shared\Transfer\CompanyUserCriteriaFilterTransfer $companyUserCriteriaTransfeFilterTransfer
      *
      * @return \Generated\Shared\Transfer\CompanyUserCollectionTransfer
      */
     public function getCompanyUserCollectionByCompanyUserCriteriaFilterTransfer(
-        CompanyUserCriteriaFilterTransfer $companyUserCriteriaTransfer
+        CompanyUserCriteriaFilterTransfer $companyUserCriteriaTransfeFilterTransfer
     ): CompanyUserCollectionTransfer;
 }
