@@ -4,6 +4,7 @@ namespace FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business;
 
 use Generated\Shared\Transfer\CompanyBusinessUnitTransfer;
 use Generated\Shared\Transfer\CompanyResponseTransfer;
+use Generated\Shared\Transfer\CompanyRoleCollectionTransfer;
 use Generated\Shared\Transfer\CompanyUserResponseTransfer;
 use Generated\Shared\Transfer\CompanyUserTransfer;
 use Spryker\Zed\Kernel\Business\AbstractFacade;
@@ -25,6 +26,19 @@ class CompanyUserCompanyAssignerFacade extends AbstractFacade implements Company
         return $this->getFactory()
             ->createCompanyUser()
             ->addManufacturerUserToCompanies($companyUserResponseTransfer);
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\CompanyUserTransfer $companyUserTransfer
+     * 
+     * @return void
+     */
+    public function updateNonManufacturerUsersCompanyRole(
+        CompanyUserTransfer $companyUserTransfer
+    ): void {
+        $this->getFactory()
+            ->createCompanyRole()
+            ->updateNonManufacturerUsersCompanyRole($companyUserTransfer);
     }
 
     /**
@@ -63,5 +77,18 @@ class CompanyUserCompanyAssignerFacade extends AbstractFacade implements Company
         $this->getFactory()
             ->createManufacturerUserAssigner()
             ->assignToNonManufacturerCompanies($manufacturerUserTransfer);
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\CompanyUserTransfer $companyUserTransfer
+     *
+     * @return \Generated\Shared\Transfer\CompanyRoleCollectionTransfer
+     */
+    public function getCompanyUserRoleCollection(
+        CompanyUserTransfer $companyUserTransfer
+    ): CompanyRoleCollectionTransfer {
+        return $this->getFactory()
+            ->createCompanyRole()
+            ->getCompanyUserRoleCollection($companyUserTransfer);
     }
 }
