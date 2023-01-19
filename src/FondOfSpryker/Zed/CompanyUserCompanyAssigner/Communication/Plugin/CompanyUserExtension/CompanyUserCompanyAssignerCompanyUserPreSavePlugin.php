@@ -6,8 +6,6 @@ use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\CompanyUserCompanyAs
 use Generated\Shared\Transfer\CompanyRoleCollectionTransfer;
 use Generated\Shared\Transfer\CompanyUserResponseTransfer;
 use Generated\Shared\Transfer\CompanyUserTransfer;
-use Spryker\Zed\CompanyUser\Dependency\CompanyUserEvents;
-use Spryker\Zed\CompanyUserExtension\Dependency\Plugin\CompanyUserPostSavePluginInterface;
 use Spryker\Zed\CompanyUserExtension\Dependency\Plugin\CompanyUserPreSavePluginInterface;
 use Spryker\Zed\Kernel\Communication\AbstractPlugin;
 
@@ -70,7 +68,7 @@ class CompanyUserCompanyAssignerCompanyUserPreSavePlugin extends AbstractPlugin 
     /**
      * @param \Generated\Shared\Transfer\CompanyRoleCollectionTransfer $companyRoleCollectionTransfer
      *
-     * @return int[]
+     * @return array<int>
      */
     protected function getCompanyRoles(
         CompanyRoleCollectionTransfer $companyRoleCollectionTransfer
@@ -78,7 +76,7 @@ class CompanyUserCompanyAssignerCompanyUserPreSavePlugin extends AbstractPlugin 
         $companyRoles = [];
 
         foreach ($companyRoleCollectionTransfer->getRoles() as $companyRoleTransfer) {
-            $companyRoles [] = $companyRoleTransfer->getIdCompanyRole();
+            $companyRoles[] = $companyRoleTransfer->getIdCompanyRole();
         }
 
         return $companyRoles;

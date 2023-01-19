@@ -12,7 +12,7 @@ interface CompanyRoleInterface
      *
      * @return \Generated\Shared\Transfer\CompanyRoleCollectionTransfer
      */
-    public function getCompanyUserCollection(
+    public function getCompanyUserRoleCollection(
         CompanyUserTransfer $companyUserTransfer
     ): CompanyRoleCollectionTransfer;
 
