@@ -119,14 +119,14 @@ class CompanyUserCompanyAssignerBusinessFactoryTest extends Unit
             ->withConsecutive(
                 [CompanyUserCompanyAssignerDependencyProvider::FACADE_COMPANY_USER],
                 [CompanyUserCompanyAssignerDependencyProvider::FACADE_COMPANY],
-                [CompanyUserCompanyAssignerDependencyProvider::FACADE_COMPANY_TYPE],
                 [CompanyUserCompanyAssignerDependencyProvider::FACADE_COMPANY_ROLE],
+                [CompanyUserCompanyAssignerDependencyProvider::FACADE_COMPANY_TYPE],
                 [CompanyUserCompanyAssignerDependencyProvider::FACADE_COMPANY_BUSINESS_UNIT],
             )->willReturnOnConsecutiveCalls(
                 $this->companyUserFacadeMock,
                 $this->companyFacadeMock,
-                $this->companyTypeFacadeMock,
                 $this->companyRoleFacadeMock,
+                $this->companyTypeFacadeMock,
                 $this->companyBusinessUnitFacadeMock,
             );
 
