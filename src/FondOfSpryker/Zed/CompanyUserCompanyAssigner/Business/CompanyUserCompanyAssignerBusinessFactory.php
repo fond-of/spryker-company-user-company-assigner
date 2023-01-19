@@ -10,6 +10,8 @@ use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Mapper\CompanyRoleName
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Mapper\CompanyRoleNameMapperInterface;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Mapper\CompanyUserMapper;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Mapper\CompanyUserMapperInterface;
+use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyRole;
+use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyRoleInterface;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyUser;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyUserInterface;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\CompanyUserCompanyAssignerDependencyProvider;
@@ -36,9 +38,23 @@ class CompanyUserCompanyAssignerBusinessFactory extends AbstractBusinessFactory
             $this->getRepository(),
             $this->getCompanyUserFacade(),
             $this->getCompanyFacade(),
-            $this->getCompanyTypeFacade(),
             $this->getCompanyRoleFacade(),
+            $this->getCompanyTypeFacade(),
             $this->getCompanyBusinessUnitFacade(),
+        );
+    }
+
+    /**
+     * @return \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyUserInterface
+     */
+    public function createCompanyRole(): CompanyRoleInterface
+    {
+        return new CompanyRole(
+            $this->getCompanyFacade(),
+            $this->getCompanyRoleFacade(),
+            $this->getCompanyTypeFacade(),
+            $this->createCompanyUser(),
+            $this->getCompanyUserFacade(),
         );
     }
 
