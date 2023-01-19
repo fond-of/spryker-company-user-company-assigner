@@ -30,4 +30,9 @@
         <property name="fkCompany" type="int"/>
         <property name="name" type="string"/>
     </transfer>
+
+    <transfer name="CompanyUserCriteriaFilter">
+        <property name="idCustomer" type="int"/>
+    </transfer>
+
 </transfers>
