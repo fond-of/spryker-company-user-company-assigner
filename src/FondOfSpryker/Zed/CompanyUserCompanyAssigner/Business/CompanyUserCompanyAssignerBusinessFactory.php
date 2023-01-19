@@ -45,20 +45,6 @@ class CompanyUserCompanyAssignerBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyUserInterface
-     */
-    public function createCompanyRole(): CompanyRoleInterface
-    {
-        return new CompanyRole(
-            $this->getCompanyFacade(),
-            $this->getCompanyRoleFacade(),
-            $this->getCompanyTypeFacade(),
-            $this->createCompanyUser(),
-            $this->getCompanyUserFacade(),
-        );
-    }
-
-    /**
      * @return \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Assigner\ManufacturerUserAssignerInterface
      */
     public function createManufacturerUserAssigner(): ManufacturerUserAssignerInterface
