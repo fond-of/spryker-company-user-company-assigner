@@ -3,7 +3,9 @@
 namespace FondOfSpryker\Zed\CompanyUserCompanyAssigner\Communication\Plugin\Event\Subscriber;
 
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Communication\Plugin\Event\Listener\AssignManufacturerUserToNonManufacturerCompaniesListener;
+use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Communication\Plugin\Event\Listener\UpdateNonManufacturerUsersCompanyRole;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\CompanyUserCompanyAssignerEvents;
+use Spryker\Zed\CompanyUser\Dependency\CompanyUserEvents;
 use Spryker\Zed\Event\Dependency\EventCollectionInterface;
 use Spryker\Zed\Event\Dependency\Plugin\EventSubscriberInterface;
 use Spryker\Zed\Kernel\Communication\AbstractPlugin;
@@ -17,9 +19,16 @@ class CompanyUserCompanyAssignerEventSubscriber extends AbstractPlugin implement
   */
     public function getSubscribedEvents(EventCollectionInterface $eventCollection): EventCollectionInterface
     {
-        return $eventCollection->addListenerQueued(
+        $eventCollection->addListenerQueued(
             CompanyUserCompanyAssignerEvents::MANUFACTURER_USER_MARK_FOR_ASSIGMENT,
             new AssignManufacturerUserToNonManufacturerCompaniesListener(),
         );
+
+        $eventCollection->addListenerQueued(
+            CompanyUserCompanyAssignerEvents::MANUFACTURER_COMPANY_USER_COMPANY_ROLE_UPDATE,
+            new UpdateNonManufacturerUsersCompanyRole(),
+        );
+
+        return $eventCollection;
     }
 }

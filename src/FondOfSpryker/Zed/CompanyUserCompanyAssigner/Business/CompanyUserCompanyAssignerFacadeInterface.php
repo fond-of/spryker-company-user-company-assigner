@@ -4,6 +4,7 @@ namespace FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business;
 
 use Generated\Shared\Transfer\CompanyBusinessUnitTransfer;
 use Generated\Shared\Transfer\CompanyResponseTransfer;
+use Generated\Shared\Transfer\CompanyRoleCollectionTransfer;
 use Generated\Shared\Transfer\CompanyUserResponseTransfer;
 use Generated\Shared\Transfer\CompanyUserTransfer;
 
@@ -17,6 +18,15 @@ interface CompanyUserCompanyAssignerFacadeInterface
     public function addManufacturerUserToCompanies(
         CompanyUserResponseTransfer $companyUserResponseTransfer
     ): CompanyUserResponseTransfer;
+
+    /**
+     * @param \Generated\Shared\Transfer\CompanyUserTransfer $companyUserTransfer
+     *
+     * @return void
+     */
+    public function updateNonManufacturerUsersCompanyRole(
+        CompanyUserTransfer $companyUserTransfer
+    ): void;
 
     /**
      * @param \Generated\Shared\Transfer\CompanyResponseTransfer $companyResponseTransfer
@@ -44,4 +54,13 @@ interface CompanyUserCompanyAssignerFacadeInterface
     public function assignManufacturerUserNonManufacturerCompanies(
         CompanyUserTransfer $manufacturerUserTransfer
     ): void;
+
+    /**
+     * @param \Generated\Shared\Transfer\CompanyUserTransfer $companyUserTransfer
+     *
+     * @return \Generated\Shared\Transfer\CompanyRoleCollectionTransfer
+     */
+    public function getCompanyUserRoleCollection(
+        CompanyUserTransfer $companyUserTransfer
+    ): CompanyRoleCollectionTransfer;
 }
