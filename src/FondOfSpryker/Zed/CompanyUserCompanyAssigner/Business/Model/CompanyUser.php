@@ -18,6 +18,7 @@ use Generated\Shared\Transfer\CompanyRoleTransfer;
 use Generated\Shared\Transfer\CompanyTransfer;
 use Generated\Shared\Transfer\CompanyTypeCollectionTransfer;
 use Generated\Shared\Transfer\CompanyTypeTransfer;
+use Generated\Shared\Transfer\CompanyUserCollectionTransfer;
 use Generated\Shared\Transfer\CompanyUserCriteriaFilterTransfer;
 use Generated\Shared\Transfer\CompanyUserResponseTransfer;
 use Generated\Shared\Transfer\CompanyUserTransfer;
@@ -74,8 +75,8 @@ class CompanyUser implements CompanyUserInterface
         CompanyUserCompanyAssignerRepositoryInterface $companyUserCompanyAssignerRepository,
         CompanyUserCompanyAssignerToCompanyUserFacadeInterface $companyUserFacade,
         CompanyUserCompanyAssignerToCompanyFacadeInterface $companyFacade,
-        CompanyUserCompanyAssignerToCompanyTypeFacadeInterface $companyTypeFacade,
         CompanyUserCompanyAssignerToCompanyRoleFacadeInterface $companyRoleFacade,
+        CompanyUserCompanyAssignerToCompanyTypeFacadeInterface $companyTypeFacade,
         CompanyUserCompanyAssignerToCompanyBusinessUnitFacadeInterface $companyBusinessUnitFacade
     ) {
         $this->companyFacade = $companyFacade;
@@ -434,5 +435,20 @@ class CompanyUser implements CompanyUserInterface
             $companyTransfer,
             $customerTransfer,
         ) !== null;
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\ClaimCartRequestTransfer $claimCartRequestTransfer
+     * @param \Generated\Shared\Transfer\QuoteTransfer $quoteTransfer
+     *
+     * @return \Generated\Shared\Transfer\CompanyUserTransfer
+     */
+    public function getCompanyUserCollectionByCompanyUserCriteriaFilterTransfer(
+        CompanyUserCriteriaFilterTransfer $companyUserCriteriaFilterTransfer
+    ): CompanyUserCollectionTransfer {
+        $companyUserCollectionTransfer = $this->companyUserCompanyAssignerRepository
+            ->getCompanyUserCollectionByCompanyUserCriteriaFilterTransfer($companyUserCriteriaFilterTransfer);
+
+        return $companyUserCollectionTransfer;
     }
 }
