@@ -10,8 +10,6 @@ use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Mapper\CompanyRoleName
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Mapper\CompanyRoleNameMapperInterface;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Mapper\CompanyUserMapper;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Mapper\CompanyUserMapperInterface;
-use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyRole;
-use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyRoleInterface;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyUser;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyUserInterface;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\CompanyUserCompanyAssignerDependencyProvider;
