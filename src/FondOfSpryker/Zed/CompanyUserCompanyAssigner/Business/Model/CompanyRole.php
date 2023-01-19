@@ -2,7 +2,6 @@
 
 namespace FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model;
 
-
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Facade\CompanyUserCompanyAssignerToCompanyFacadeInterface;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Facade\CompanyUserCompanyAssignerToCompanyRoleFacadeInterface;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Facade\CompanyUserCompanyAssignerToCompanyTypeFacadeInterface;
@@ -80,6 +79,6 @@ class CompanyRole implements CompanyRoleInterface
      * @return void
      */
     public function updateNonManufacturerUsersCompanyRole(CompanyUserTransfer $manufacturerCompanyUserTransfer): void
-    {}
-
+    {
+    }
 }
