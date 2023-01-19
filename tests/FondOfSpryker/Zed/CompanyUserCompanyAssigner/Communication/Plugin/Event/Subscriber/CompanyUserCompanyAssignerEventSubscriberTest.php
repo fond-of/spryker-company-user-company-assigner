@@ -52,7 +52,7 @@ class CompanyUserCompanyAssignerEventSubscriberTest extends Unit
                     ),
                     0,
                     null,
-                    null
+                    null,
                 ],
                 [
                     CompanyUserCompanyAssignerEvents::MANUFACTURER_COMPANY_USER_COMPANY_ROLE_UPDATE,
@@ -63,7 +63,7 @@ class CompanyUserCompanyAssignerEventSubscriberTest extends Unit
                     ),
                     0,
                     null,
-                    null
+                    null,
                 ],
             )->willReturn($this->eventCollectionMock);
 
