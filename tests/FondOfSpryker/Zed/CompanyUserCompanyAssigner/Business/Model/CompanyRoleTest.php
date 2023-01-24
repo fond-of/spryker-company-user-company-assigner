@@ -65,7 +65,6 @@ class CompanyRoleTest extends Unit
      */
     protected $companyRoleTransferMock;
 
-
     /**
      * @return void
      */
@@ -107,10 +106,9 @@ class CompanyRoleTest extends Unit
             $this->companyRoleFacadeMock,
             $this->companyTypeFacadeMock,
             $this->configMock,
-            $this->repositoryMock
+            $this->repositoryMock,
         );
     }
-
 
     /**
      * @return void
@@ -124,8 +122,8 @@ class CompanyRoleTest extends Unit
             '1' => [
                 'id_company_user' => 1,
                 'id_company' => 1,
-                'company_roles' => []
-            ]
+                'company_roles' => [],
+            ],
         ];
 
         $this->companyUserTransferMock->expects($this->atLeastOnce())
@@ -165,7 +163,7 @@ class CompanyRoleTest extends Unit
                 'company-role',
                 'company-role',
                 'company-role',
-                'company-role'
+                'company-role',
             );
 
         $this->repositoryMock->expects($this->atLeastOnce())
