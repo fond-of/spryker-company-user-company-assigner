@@ -181,7 +181,7 @@ class CompanyRole implements CompanyRoleInterface
 
         $companyIds = $this->repository->findManufacturerCompanyIdsByCustomerId(
             $companyUserTransfer->getFkCustomer(),
-            $this->companyTypeFacade->getCompanyTypeManufacturer()->getIdCompanyType()
+            $this->companyTypeFacade->getManufacturerCompanyType()->getIdCompanyType()
         );
 
         $companyUserCollection = $this->repository->findCompanyUserswithDiffCompanyRolesAsManufacturer(
