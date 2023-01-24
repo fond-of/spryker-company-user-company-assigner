@@ -204,26 +204,4 @@ class CompanyUserCompanyAssignerFacadeTest extends Unit
 
         $this->facade->updateNonManufacturerUsersCompanyRole($this->companyUserTransferMock);
     }
-
-    /**
-     * @return void
-     */
-    public function testGetCompanyUserRoleCollection(): void
-    {
-        $this->factoryMock->expects(static::atLeastOnce())
-            ->method('createCompanyRole')
-            ->willReturn($this->companyRoleMock);
-
-        $this->companyRoleMock->expects(static::atLeastOnce())
-            ->method('getCompanyUserRoleCollection')
-            ->with($this->companyUserTransferMock)
-            ->willReturn($this->companyRoleCollectionTransferMock);
-
-        static::assertEquals(
-             $this->companyRoleCollectionTransferMock,
-             $this->facade->getCompanyUserRoleCollection(
-                 $this->companyUserTransferMock,
-             ),
-        );
-    }
 }

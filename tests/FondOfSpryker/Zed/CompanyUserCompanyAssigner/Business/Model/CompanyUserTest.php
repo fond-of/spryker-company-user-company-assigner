@@ -316,8 +316,8 @@ class CompanyUserTest extends Unit
             $this->companyUserCompanyAssignerRepositoryMock,
             $this->companyUserFacadeMock,
             $this->companyFacadeMock,
-            $this->companyRoleFacadeMock,
             $this->companyTypeFacadeMock,
+            $this->companyRoleFacadeMock,
             $this->companyBusinessUnitFacadeMock,
         );
     }
