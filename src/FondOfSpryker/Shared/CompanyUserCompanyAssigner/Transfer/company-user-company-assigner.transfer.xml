@@ -30,5 +30,4 @@
         <property name="fkCompany" type="int"/>
         <property name="name" type="string"/>
     </transfer>
-
 </transfers>
