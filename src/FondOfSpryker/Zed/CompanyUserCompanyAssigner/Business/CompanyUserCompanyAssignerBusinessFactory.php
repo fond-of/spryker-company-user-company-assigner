@@ -40,8 +40,8 @@ class CompanyUserCompanyAssignerBusinessFactory extends AbstractBusinessFactory
             $this->getRepository(),
             $this->getCompanyUserFacade(),
             $this->getCompanyFacade(),
-            $this->getCompanyRoleFacade(),
             $this->getCompanyTypeFacade(),
+            $this->getCompanyRoleFacade(),
             $this->getCompanyBusinessUnitFacade(),
         );
     }

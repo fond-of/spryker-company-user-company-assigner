@@ -14,12 +14,10 @@ use Generated\Shared\Transfer\CompanyBusinessUnitTransfer;
 use Generated\Shared\Transfer\CompanyCollectionTransfer;
 use Generated\Shared\Transfer\CompanyResponseTransfer;
 use Generated\Shared\Transfer\CompanyRoleCollectionTransfer;
-use Generated\Shared\Transfer\CompanyRoleCriteriaFilterTransfer;
 use Generated\Shared\Transfer\CompanyRoleTransfer;
 use Generated\Shared\Transfer\CompanyTransfer;
 use Generated\Shared\Transfer\CompanyTypeCollectionTransfer;
 use Generated\Shared\Transfer\CompanyTypeTransfer;
-use Generated\Shared\Transfer\CompanyUserCollectionTransfer;
 use Generated\Shared\Transfer\CompanyUserCriteriaFilterTransfer;
 use Generated\Shared\Transfer\CompanyUserResponseTransfer;
 use Generated\Shared\Transfer\CompanyUserTransfer;
@@ -76,8 +74,8 @@ class CompanyUser implements CompanyUserInterface
         CompanyUserCompanyAssignerRepositoryInterface $companyUserCompanyAssignerRepository,
         CompanyUserCompanyAssignerToCompanyUserFacadeInterface $companyUserFacade,
         CompanyUserCompanyAssignerToCompanyFacadeInterface $companyFacade,
-        CompanyUserCompanyAssignerToCompanyRoleFacadeInterface $companyRoleFacade,
         CompanyUserCompanyAssignerToCompanyTypeFacadeInterface $companyTypeFacade,
+        CompanyUserCompanyAssignerToCompanyRoleFacadeInterface $companyRoleFacade,
         CompanyUserCompanyAssignerToCompanyBusinessUnitFacadeInterface $companyBusinessUnitFacade
     ) {
         $this->companyFacade = $companyFacade;
@@ -433,9 +431,8 @@ class CompanyUser implements CompanyUserInterface
         $customerTransfer = (new CustomerTransfer())->setIdCustomer($companyUserTransfer->getFkCustomer());
 
         return $this->companyUserCompanyAssignerRepository->findCompanyUserByIdCompanyAndIdCustomer(
-            $companyTransfer,
-            $customerTransfer,
-        ) !== null;
+                $companyTransfer,
+                $customerTransfer,
+            ) !== null;
     }
-
 }
