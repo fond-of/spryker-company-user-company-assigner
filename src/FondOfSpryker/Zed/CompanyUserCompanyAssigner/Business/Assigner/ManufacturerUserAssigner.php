@@ -91,7 +91,7 @@ class ManufacturerUserAssigner implements ManufacturerUserAssignerInterface
 
         $nonManufacturerData = $this->repository->findNonManufacturerData($companyTypeNameForManufacturer, $companyRoleName);
         $companyUserTransfers = $this->companyUserMapper->fromNonManufacturerData($nonManufacturerData);
-
+        
         foreach ($companyUserTransfers as $companyUserTransfer) {
             $companyUserTransfer = $companyUserTransfer->setFkCustomer($idCustomer)
                 ->setCustomer($manufacturerUserTransfer->getCustomer());
