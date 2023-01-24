@@ -2,10 +2,15 @@
 
 namespace FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business;
 
+use ArrayObject;
 use Generated\Shared\Transfer\CompanyBusinessUnitTransfer;
 use Generated\Shared\Transfer\CompanyResponseTransfer;
 use Generated\Shared\Transfer\CompanyRoleCollectionTransfer;
+use Generated\Shared\Transfer\CompanyTransfer;
+use Generated\Shared\Transfer\CompanyTypeTransfer;
+use Generated\Shared\Transfer\CompanyUserCollectionTransfer;
 use Generated\Shared\Transfer\CompanyUserResponseTransfer;
+use Generated\Shared\Transfer\CompanyUserRoleCriteriaFilterTransfer;
 use Generated\Shared\Transfer\CompanyUserTransfer;
 
 interface CompanyUserCompanyAssignerFacadeInterface
@@ -56,11 +61,23 @@ interface CompanyUserCompanyAssignerFacadeInterface
     ): void;
 
     /**
+     * @return \Generated\Shared\Transfer\CompanyTypeTransfer
+     */
+    public function getCompanyTypeManufacturer(): CompanyTypeTransfer;
+
+    /**
+     * @param \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\CompanyTransfer $companyTransfer
+     *
+     * @return \Generated\Shared\Transfer\CompanyTypeTransfer
+     */
+    public function getCompanyTypeByCompany(CompanyTransfer $companyTransfer): CompanyTypeTransfer;
+
+    /**
      * @param \Generated\Shared\Transfer\CompanyUserTransfer $companyUserTransfer
      *
-     * @return \Generated\Shared\Transfer\CompanyRoleCollectionTransfer
+     * @return array
      */
-    public function getCompanyUserRoleCollection(
+    public function findCompanyUsersWithDiffCompanyRolesAsManufacturer(
         CompanyUserTransfer $companyUserTransfer
-    ): CompanyRoleCollectionTransfer;
+    ): array;
 }

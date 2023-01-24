@@ -12,6 +12,8 @@ use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Mapper\CompanyUserMapp
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Mapper\CompanyUserMapperInterface;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyRole;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyRoleInterface;
+use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyType;
+use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyTypeInterface;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyUser;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyUserInterface;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\CompanyUserCompanyAssignerDependencyProvider;
@@ -45,7 +47,7 @@ class CompanyUserCompanyAssignerBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyRoleInterface
+     * @return \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyUserInterface
      */
     public function createCompanyRole(): CompanyRoleInterface
     {
@@ -55,6 +57,18 @@ class CompanyUserCompanyAssignerBusinessFactory extends AbstractBusinessFactory
             $this->getCompanyTypeFacade(),
             $this->createCompanyUser(),
             $this->getCompanyUserFacade(),
+            $this->getConfig(),
+            $this->getRepository(),
+        );
+    }
+
+    /**
+     * @return \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyTypeInterface
+     */
+    public function createCompanyType(): CompanyTypeInterface
+    {
+        return new CompanyType(
+            $this->getCompanyTypeFacade(),
         );
     }
 

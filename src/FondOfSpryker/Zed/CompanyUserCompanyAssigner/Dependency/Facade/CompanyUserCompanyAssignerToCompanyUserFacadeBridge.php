@@ -6,6 +6,7 @@ use Generated\Shared\Transfer\CompanyUserCollectionTransfer;
 use Generated\Shared\Transfer\CompanyUserCriteriaFilterTransfer;
 use Generated\Shared\Transfer\CompanyUserResponseTransfer;
 use Generated\Shared\Transfer\CompanyUserTransfer;
+use Generated\Shared\Transfer\CustomerTransfer;
 use Spryker\Zed\CompanyUser\Business\CompanyUserFacadeInterface;
 
 class CompanyUserCompanyAssignerToCompanyUserFacadeBridge implements CompanyUserCompanyAssignerToCompanyUserFacadeInterface
@@ -32,6 +33,10 @@ class CompanyUserCompanyAssignerToCompanyUserFacadeBridge implements CompanyUser
         CompanyUserCriteriaFilterTransfer $companyUserCriteriaFilterTransfer
     ): CompanyUserCollectionTransfer {
         return $this->companyUserFacade->getCompanyUserCollection($companyUserCriteriaFilterTransfer);
+    }
+
+    public function findCompanyUserByCustomerId(CustomerTransfer $customerTransfer): ?CompanyUserTransfer {
+        
     }
 
     /**

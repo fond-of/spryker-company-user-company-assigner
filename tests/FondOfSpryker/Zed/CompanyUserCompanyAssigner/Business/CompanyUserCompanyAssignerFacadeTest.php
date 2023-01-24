@@ -4,9 +4,11 @@ namespace FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business;
 
 use Codeception\Test\Unit;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Assigner\ManufacturerUserAssigner;
+use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyRole;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyUserInterface;
 use Generated\Shared\Transfer\CompanyBusinessUnitTransfer;
 use Generated\Shared\Transfer\CompanyResponseTransfer;
+use Generated\Shared\Transfer\CompanyRoleCollectionTransfer;
 use Generated\Shared\Transfer\CompanyUserResponseTransfer;
 use Generated\Shared\Transfer\CompanyUserTransfer;
 
@@ -43,9 +45,19 @@ class CompanyUserCompanyAssignerFacadeTest extends Unit
     protected $manufacturerUserAssignerMock;
 
     /**
+     * @var \Generated\Shared\Transfer\CompanyRoleCollectionTransfer|\PHPUnit\Framework\MockObject\MockObject
+     */
+    protected $companyRoleCollectionTransferMock;
+
+    /**
      * @var \Generated\Shared\Transfer\CompanyUserTransfer|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $companyUserTransferMock;
+
+    /**
+     * @var \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyRoleInterface|\PHPUnit\Framework\MockObject\MockObject
+     */
+    protected $companyRoleMock;
 
     /**
      * @var \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\CompanyUserCompanyAssignerFacade
@@ -81,7 +93,15 @@ class CompanyUserCompanyAssignerFacadeTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
+        $this->companyRoleCollectionTransferMock = $this->getMockBuilder(CompanyRoleCollectionTransfer::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $this->companyUserTransferMock = $this->getMockBuilder(CompanyUserTransfer::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->companyRoleMock = $this->getMockBuilder(CompanyRole::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -167,6 +187,43 @@ class CompanyUserCompanyAssignerFacadeTest extends Unit
 
         $this->facade->assignManufacturerUserNonManufacturerCompanies(
             $this->companyUserTransferMock,
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function testUpdateNonManufacturerUsersCompanyRole(): void
+    {
+        $this->factoryMock->expects(static::atLeastOnce())
+            ->method('createCompanyRole')
+            ->willReturn($this->companyRoleMock);
+
+        $this->companyRoleMock->expects(static::atLeastOnce())
+            ->method('updateNonManufacturerUsersCompanyRole');
+
+        $this->facade->updateNonManufacturerUsersCompanyRole($this->companyUserTransferMock);
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetCompanyUserRoleCollection(): void
+    {
+        $this->factoryMock->expects(static::atLeastOnce())
+            ->method('createCompanyRole')
+            ->willReturn($this->companyRoleMock);
+
+        $this->companyRoleMock->expects(static::atLeastOnce())
+            ->method('getCompanyUserRoleCollection')
+            ->with($this->companyUserTransferMock)
+            ->willReturn($this->companyRoleCollectionTransferMock);
+
+        static::assertEquals(
+             $this->companyRoleCollectionTransferMock,
+             $this->facade->getCompanyUserRoleCollection(
+                 $this->companyUserTransferMock,
+             ),
         );
     }
 }

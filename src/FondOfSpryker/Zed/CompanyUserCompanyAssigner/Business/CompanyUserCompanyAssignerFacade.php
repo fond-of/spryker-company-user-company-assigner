@@ -5,6 +5,9 @@ namespace FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business;
 use Generated\Shared\Transfer\CompanyBusinessUnitTransfer;
 use Generated\Shared\Transfer\CompanyResponseTransfer;
 use Generated\Shared\Transfer\CompanyRoleCollectionTransfer;
+use Generated\Shared\Transfer\CompanyTransfer;
+use Generated\Shared\Transfer\CompanyTypeTransfer;
+use Generated\Shared\Transfer\CompanyUserCollectionTransfer;
 use Generated\Shared\Transfer\CompanyUserResponseTransfer;
 use Generated\Shared\Transfer\CompanyUserTransfer;
 use Spryker\Zed\Kernel\Business\AbstractFacade;
@@ -80,15 +83,33 @@ class CompanyUserCompanyAssignerFacade extends AbstractFacade implements Company
     }
 
     /**
-     * @param \Generated\Shared\Transfer\CompanyUserTransfer $companyUserTransfer
-     *
-     * @return \Generated\Shared\Transfer\CompanyRoleCollectionTransfer
+     * @return \Generated\Shared\Transfer\CompanyTypeTransfer
      */
-    public function getCompanyUserRoleCollection(
+    public function getCompanyTypeManufacturer(): CompanyTypeTransfer
+    {
+        return $this->getFactory()
+            ->createCompanyType()
+            ->getCompanyTypeManufacturer();
+    }
+
+    /**
+     * @param \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\CompanyTransfer $companyTransfer
+     *
+     * @return \Generated\Shared\Transfer\CompanyTypeTransfer
+     */
+    public function getCompanyTypeByCompany(CompanyTransfer $companyTransfer): CompanyTypeTransfer
+    {
+        return $this
+            ->getFactory()
+            ->createCompanyType()
+            ->getCompanyTypeByCompany($companyTransfer);
+    }
+
+    public function findCompanyUsersWithDiffCompanyRolesAsManufacturer(
         CompanyUserTransfer $companyUserTransfer
-    ): CompanyRoleCollectionTransfer {
+    ): array {
         return $this->getFactory()
             ->createCompanyRole()
-            ->getCompanyUserRoleCollection($companyUserTransfer);
+            ->findCompanyUsersWithDiffCompanyRolesAsManufacturer($companyUserTransfer);
     }
 }

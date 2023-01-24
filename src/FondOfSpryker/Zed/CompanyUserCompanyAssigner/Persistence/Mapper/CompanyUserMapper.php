@@ -35,7 +35,7 @@ class CompanyUserMapper implements CompanyUserMapperInterface
      */
     public function mapCompanyUserCollection(array $collection): CompanyUserCollectionTransfer
     {
-        $companyUsers = new ArrayObject();
+        $companyUsers = new ArrayObject;
         $companyUserCollectionTransfer = new CompanyUserCollectionTransfer();
 
         foreach ($collection as $companyUserEntityTransfer) {

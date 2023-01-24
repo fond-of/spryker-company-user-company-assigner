@@ -4,6 +4,7 @@ namespace FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business;
 
 use Codeception\Test\Unit;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Assigner\ManufacturerUserAssigner;
+use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyRole;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyUser;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\CompanyUserCompanyAssignerConfig;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\CompanyUserCompanyAssignerDependencyProvider;
@@ -158,6 +159,45 @@ class CompanyUserCompanyAssignerBusinessFactoryTest extends Unit
         static::assertInstanceOf(
             ManufacturerUserAssigner::class,
             $this->factory->createManufacturerUserAssigner(),
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function testCreateCompanyRole(): void
+    {
+        $this->containerMock->expects(static::atLeastOnce())
+            ->method('has')
+            ->willReturn(true);
+
+        $this->containerMock->expects(static::atLeastOnce())
+            ->method('get')
+            ->withConsecutive(
+                [CompanyUserCompanyAssignerDependencyProvider::FACADE_COMPANY],
+                [CompanyUserCompanyAssignerDependencyProvider::FACADE_COMPANY_ROLE],
+                [CompanyUserCompanyAssignerDependencyProvider::FACADE_COMPANY_TYPE],
+                [CompanyUserCompanyAssignerDependencyProvider::FACADE_COMPANY_USER],
+                [CompanyUserCompanyAssignerDependencyProvider::FACADE_COMPANY],
+                [CompanyUserCompanyAssignerDependencyProvider::FACADE_COMPANY_ROLE],
+                [CompanyUserCompanyAssignerDependencyProvider::FACADE_COMPANY_TYPE],
+                [CompanyUserCompanyAssignerDependencyProvider::FACADE_COMPANY_BUSINESS_UNIT],
+                [CompanyUserCompanyAssignerDependencyProvider::FACADE_COMPANY_USER],
+            )->willReturnOnConsecutiveCalls(
+                $this->companyFacadeMock,
+                $this->companyRoleFacadeMock,
+                $this->companyTypeFacadeMock,
+                $this->companyUserFacadeMock,
+                $this->companyFacadeMock,
+                $this->companyRoleFacadeMock,
+                $this->companyTypeFacadeMock,
+                $this->companyBusinessUnitFacadeMock,
+                $this->companyUserFacadeMock,
+            );
+
+        static::assertInstanceOf(
+            CompanyRole::class,
+            $this->factory->createCompanyRole(),
         );
     }
 }

@@ -5,6 +5,7 @@ namespace FondOfSpryker\Zed\CompanyUserCompanyAssigner\Communication\Plugin\Even
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Communication\Plugin\Event\Listener\AssignManufacturerUserToNonManufacturerCompaniesListener;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Communication\Plugin\Event\Listener\UpdateNonManufacturerUsersCompanyRole;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\CompanyUserCompanyAssignerEvents;
+use Spryker\Zed\CompanyUser\Dependency\CompanyUserEvents;
 use Spryker\Zed\Event\Dependency\EventCollectionInterface;
 use Spryker\Zed\Event\Dependency\Plugin\EventSubscriberInterface;
 use Spryker\Zed\Kernel\Communication\AbstractPlugin;

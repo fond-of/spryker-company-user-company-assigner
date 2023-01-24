@@ -2,6 +2,7 @@
 
 namespace FondOfSpryker\Zed\CompanyUserCompanyAssigner\Persistence;
 
+use Generated\Shared\Transfer\CompanyRoleCollectionTransfer;
 use Generated\Shared\Transfer\CompanyRoleTransfer;
 use Generated\Shared\Transfer\CompanyTransfer;
 use Generated\Shared\Transfer\CompanyUserCollectionTransfer;
@@ -13,6 +14,7 @@ use Orm\Zed\Company\Persistence\Map\SpyCompanyTableMap;
 use Orm\Zed\CompanyBusinessUnit\Persistence\Map\SpyCompanyBusinessUnitTableMap;
 use Orm\Zed\CompanyRole\Persistence\Map\SpyCompanyRoleTableMap;
 use Orm\Zed\CompanyType\Persistence\Map\FosCompanyTypeTableMap;
+use Orm\Zed\CompanyUser\Persistence\Map\SpyCompanyUserTableMap;
 use Orm\Zed\CompanyUser\Persistence\SpyCompanyUserQuery;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
@@ -169,91 +171,113 @@ class CompanyUserCompanyAssignerRepository extends AbstractRepository implements
      *
      * @api
      *
-     * @param \Generated\Shared\Transfer\CompanyUserCriteriaFilterTransfer $companyUserCriteriaFilterTransfer
+     * @param \Generated\Shared\Transfer\CompanyUserCriteriaFilterTransfer $criteriaFilterTransfer
      *
      * @return \Generated\Shared\Transfer\CompanyUserCollectionTransfer
      */
-    public function getCompanyUserCollectionByCompanyUserCriteriaFilterTransfer(
-        CompanyUserCriteriaFilterTransfer $companyUserCriteriaFilterTransfer
+    public function getCompanyUserRoleCollection(
+        CompanyUserCriteriaFilterTransfer $companyUserCriteriaTransfer
     ): CompanyUserCollectionTransfer {
         /** @var \Orm\Zed\CompanyUser\Persistence\SpyCompanyUserQuery $queryCompanyUser */
         $queryCompanyUser = $this->getFactory()
             ->getCompanyUserQuery()
-            ->joinWithCustomer()
-            ->useCustomerQuery()
-            ->filterByAnonymizedAt(null, Criteria::ISNULL)
+            ->joinWithSpyCompanyRoleToCompanyUser()
+            ->useSpyCompanyRoleToCompanyUserQuery()
+                ->joinWithCompanyRole()
+            ->endUse()
+            ->filterByFkCustomer()
             ->endUse();
-
-        $this->applyFilters($queryCompanyUser, $companyUserCriteriaFilterTransfer);
-
-        $collection = $this->buildQueryFromCriteria($queryCompanyUser, $companyUserCriteriaFilterTransfer->getFilter());
-        /** @var array<\Generated\Shared\Transfer\SpyCompanyUserEntityTransfer> $companyUserCollection */
-        $companyUserCollection = $this->getPaginatedCollection($collection, $companyUserCriteriaFilterTransfer->getPagination());
-
-        $collectionTransfer = $this->getFactory()
-            ->createCompanyUserMapper()
-            ->mapCompanyUserCollection($companyUserCollection);
-
-        $collectionTransfer->setPagination($companyUserCriteriaFilterTransfer->getPagination());
 
         return $collectionTransfer;
     }
 
+    public function findManufacturerCompanyIdsByCustomerId(
+        int $idCustomer,
+        int $idCompanyType
+    ): array {
+        return $this->getFactory()
+            ->getCompanyUserQuery()
+            ->joinWithCompany()
+            ->useCompanyQuery()
+                ->filterByFkCompanyType($idCompanyType)
+            ->endUse()
+            ->filterByFkCustomer($idCustomer)
+            ->select('fk_company')
+            ->find()
+            ->toArray();
+    }
+
+
     /**
-     * @param \Orm\Zed\CompanyUser\Persistence\SpyCompanyUserQuery $queryCompanyUser
-     * @param \Generated\Shared\Transfer\CompanyUserCriteriaFilterTransfer $criteriaFilterTransfer
+     * @param int $idCustomer
+     * @param string[] $roles
+     * @param int[] $companyIds
      *
-     * @return void
+     * @return mixed
      */
-    protected function applyFilters(SpyCompanyUserQuery $queryCompanyUser, CompanyUserCriteriaFilterTransfer $criteriaFilterTransfer): void
-    {
-        if ($criteriaFilterTransfer->getIdCompany() !== null) {
-            $queryCompanyUser->filterByFkCompany($criteriaFilterTransfer->getIdCompany());
+    public function findCompanyUserswithDiffCompanyRolesAsManufacturer(
+        int $idCustomer,
+        array $roles,
+        array $companyIds
+    ) {
+        $collection = $this->getFactory()
+            ->getCompanyUserQuery()
+            ->leftJoinWithSpyCompanyRoleToCompanyUser()
+                ->useSpyCompanyRoleToCompanyUserQuery()
+                    ->leftJoinWithCompanyRole()
+                        ->useCompanyRoleQuery()
+                            ->filterByName($roles, Criteria::NOT_IN)
+                        ->endUse()
+                ->endUse()
+            ->filterByFkCustomer($idCustomer)
+            ->filterByFkCompany($companyIds, Criteria::NOT_IN)
+            ->select(
+                [
+                    SpyCompanyUserTableMap::COL_ID_COMPANY_USER,
+                    SpyCompanyUserTableMap::COL_FK_COMPANY,
+                    SpyCompanyRoleTableMap::COL_NAME,
+                ],
+            )
+            ->find()
+            ->toArray();
+
+        $companyUserRoles = [];
+        foreach ($collection as $index => $item) {
+            if (!array_key_exists($item[SpyCompanyUserTableMap::COL_ID_COMPANY_USER], $companyUserRoles)) {
+                $companyUserRoles[$item[SpyCompanyUserTableMap::COL_ID_COMPANY_USER]] =
+                    [
+                        'id_company_user' => $item[SpyCompanyUserTableMap::COL_ID_COMPANY_USER],
+                        'id_company' => $item[SpyCompanyUserTableMap::COL_FK_COMPANY],
+                        'company_roles' => [
+                            $item[SpyCompanyRoleTableMap::COL_NAME]
+                        ]
+                    ];
+
+                continue;
+            }
+
+            $companyUserRoles[$item[SpyCompanyUserTableMap::COL_ID_COMPANY_USER]]['company_roles'][]
+                = $item[SpyCompanyRoleTableMap::COL_NAME];
         }
 
-        if ($criteriaFilterTransfer->getIdCustomer() !== null) {
-            $queryCompanyUser->filterByFkCustomer($criteriaFilterTransfer->getIdCustomer());
-        }
-
-        if ($criteriaFilterTransfer->getCompanyUserIds()) {
-            $queryCompanyUser->filterByIdCompanyUser_In($criteriaFilterTransfer->getCompanyUserIds());
-        }
-
-        if ($criteriaFilterTransfer->getIsActive() !== null) {
-            $queryCompanyUser->filterByIsActive($criteriaFilterTransfer->getIsActive());
-        }
+        return $companyUserRoles;
     }
 
     /**
-     * @param \Propel\Runtime\ActiveQuery\ModelCriteria $query
-     * @param \Generated\Shared\Transfer\PaginationTransfer|null $paginationTransfer
+     * @param int $idCompany
      *
-     * @return \Propel\Runtime\Collection\Collection|\Propel\Runtime\Collection\ObjectCollection|\Propel\Runtime\ActiveRecord\ActiveRecordInterface[]
+     * @return \Generated\Shared\Transfer\CompanyRoleCollectionTransfer
      */
-    protected function getPaginatedCollection(ModelCriteria $query, ?PaginationTransfer $paginationTransfer = null)
+    public function getCompanyRoleCollectionByCompanyId(int $idCompany): CompanyRoleCollectionTransfer
     {
-        if ($paginationTransfer !== null) {
-            $page = $paginationTransfer
-                ->requirePage()
-                ->getPage();
-
-            $maxPerPage = $paginationTransfer
-                ->requireMaxPerPage()
-                ->getMaxPerPage();
-
-            $paginationModel = $query->paginate($page, $maxPerPage);
-
-            $paginationTransfer->setNbResults($paginationModel->getNbResults());
-            $paginationTransfer->setFirstIndex($paginationModel->getFirstIndex());
-            $paginationTransfer->setLastIndex($paginationModel->getLastIndex());
-            $paginationTransfer->setFirstPage($paginationModel->getFirstPage());
-            $paginationTransfer->setLastPage($paginationModel->getLastPage());
-            $paginationTransfer->setNextPage($paginationModel->getNextPage());
-            $paginationTransfer->setPreviousPage($paginationModel->getPreviousPage());
-
-            return $paginationModel->getResults();
-        }
-
-        return $query->find();
+        $collection = $this->getFactory()
+            ->getCompanyRoleQuery()
+            ->filterByFkCompany($idCompany)
+            ->find();
+        
+        return $this->getFactory()
+            ->createCompanyRoleMapper()
+            ->mapObjectCollectionToCompanyRoleCollectionTransfer($collection);
     }
+
 }
