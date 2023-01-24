@@ -85,11 +85,11 @@ class CompanyUserCompanyAssignerFacade extends AbstractFacade implements Company
     /**
      * @return \Generated\Shared\Transfer\CompanyTypeTransfer
      */
-    public function getCompanyTypeManufacturer(): CompanyTypeTransfer
+    public function getManufacturerCompanyType(): CompanyTypeTransfer
     {
         return $this->getFactory()
-            ->createCompanyType()
-            ->getCompanyTypeManufacturer();
+            ->createCompanyTypeReader()
+            ->getManufacturerCompanyType();
     }
 
     /**
@@ -101,7 +101,7 @@ class CompanyUserCompanyAssignerFacade extends AbstractFacade implements Company
     {
         return $this
             ->getFactory()
-            ->createCompanyType()
+            ->createCompanyTypeReader()
             ->getCompanyTypeByCompany($companyTransfer);
     }
 

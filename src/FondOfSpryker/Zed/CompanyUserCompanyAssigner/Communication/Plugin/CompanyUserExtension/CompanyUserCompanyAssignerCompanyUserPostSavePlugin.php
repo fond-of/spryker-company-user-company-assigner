@@ -55,7 +55,7 @@ class CompanyUserCompanyAssignerCompanyUserPostSavePlugin extends AbstractPlugin
      */
     protected function isCompanyTypeManufacturer(CompanyUserTransfer $companyUserTransfer): bool
     {
-        $companyTypeManufacturerTransfer = $this->getFacade()->getCompanyTypeManufacturer();
+        $companyTypeManufacturerTransfer = $this->getFacade()->getManufacturerCompanyType();
         $companyTypeTransfer = $this->getFacade()->getCompanyTypeByCompany(
             (new CompanyTransfer())->setIdCompany($companyUserTransfer->getFkCompany())
         );

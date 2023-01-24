@@ -84,7 +84,7 @@ class CompanyUserCompanyAssignerToCompanyTypeFacadeBridge implements CompanyUser
     /**
      * @return \Generated\Shared\Transfer\CompanyTypeTransfer|null
      */
-    public function getCompanyTypeManufacturer(): ?CompanyTypeTransfer
+    public function getManufacturerCompanyType(): ?CompanyTypeTransfer
     {
         return $this->companyTypeFacade->getCompanyTypeManufacturer();
     }

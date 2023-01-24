@@ -174,25 +174,11 @@ class CompanyUserCompanyAssignerBusinessFactoryTest extends Unit
         $this->containerMock->expects(static::atLeastOnce())
             ->method('get')
             ->withConsecutive(
-                [CompanyUserCompanyAssignerDependencyProvider::FACADE_COMPANY],
                 [CompanyUserCompanyAssignerDependencyProvider::FACADE_COMPANY_ROLE],
                 [CompanyUserCompanyAssignerDependencyProvider::FACADE_COMPANY_TYPE],
-                [CompanyUserCompanyAssignerDependencyProvider::FACADE_COMPANY_USER],
-                [CompanyUserCompanyAssignerDependencyProvider::FACADE_COMPANY],
-                [CompanyUserCompanyAssignerDependencyProvider::FACADE_COMPANY_ROLE],
-                [CompanyUserCompanyAssignerDependencyProvider::FACADE_COMPANY_TYPE],
-                [CompanyUserCompanyAssignerDependencyProvider::FACADE_COMPANY_BUSINESS_UNIT],
-                [CompanyUserCompanyAssignerDependencyProvider::FACADE_COMPANY_USER],
             )->willReturnOnConsecutiveCalls(
-                $this->companyFacadeMock,
                 $this->companyRoleFacadeMock,
                 $this->companyTypeFacadeMock,
-                $this->companyUserFacadeMock,
-                $this->companyFacadeMock,
-                $this->companyRoleFacadeMock,
-                $this->companyTypeFacadeMock,
-                $this->companyBusinessUnitFacadeMock,
-                $this->companyUserFacadeMock,
             );
 
         static::assertInstanceOf(

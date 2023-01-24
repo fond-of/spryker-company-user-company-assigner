@@ -53,11 +53,11 @@ interface CompanyUserCompanyAssignerToCompanyTypeFacadeInterface
     /**
      * @return \Generated\Shared\Transfer\CompanyTypeTransfer|null
      */
-    public function getCompanyTypeManufacturer(): ?CompanyTypeTransfer;
+    public function getManufacturerCompanyType(): ?CompanyTypeTransfer;
 
     /**
      * @param \Generated\Shared\Transfer\CompanyTransfer $companyTransfer
-     * 
+     *
      * @return \Generated\Shared\Transfer\CompanyTypeTransfer|null
      */
     public function findCompanyTypeByIdCompany(CompanyTransfer $companyTransfer): ?CompanyTypeTransfer;

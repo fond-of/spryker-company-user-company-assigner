@@ -16,6 +16,8 @@ use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyType;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyTypeInterface;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyUser;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyUserInterface;
+use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Reader\CompanyTypeReader;
+use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Reader\CompanyTypeReaderInterface;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\CompanyUserCompanyAssignerDependencyProvider;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Facade\CompanyUserCompanyAssignerToCompanyBusinessUnitFacadeInterface;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Facade\CompanyUserCompanyAssignerToCompanyFacadeInterface;
@@ -60,13 +62,11 @@ class CompanyUserCompanyAssignerBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyTypeInterface
+     * @return \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Reader\CompanyTypeReaderInterface
      */
-    public function createCompanyType(): CompanyTypeInterface
+    public function createCompanyTypeReader(): CompanyTypeReaderInterface
     {
-        return new CompanyType(
-            $this->getCompanyTypeFacade(),
-        );
+        return new CompanyTypeReader($this->getCompanyTypeFacade());
     }
 
     /**
