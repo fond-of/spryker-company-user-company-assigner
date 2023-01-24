@@ -49,33 +49,4 @@ class CompanyRoleMapper implements CompanyRoleMapperInterface
 
         return $companyRoleCollectionTransfer;
     }
-
-    /**
-     * @param \Generated\Shared\Transfer\CompanyUserCollectionTransfer $companyUserCollectionTransfer
-     * @param array $item
-     *
-     * @return \Generated\Shared\Transfer\CompanyUserCollectionTransfer
-     */
-    protected function setCompanyUser(
-        CompanyUserCollectionTransfer $companyUserCollectionTransfer,
-        array $item,
-    ) {
-        foreach ($companyUserCollectionTransfer->getCompanyUsers() as $companyUserTransfer) {
-            if ($companyUserTransfer->getIdCompanyUser() === $item[SpyCompanyUserTableMap::COL_ID_COMPANY_USER]) {
-                $companyUserTransfer
-                    ->getCompanyRoleCollection()
-                    ->addRole((new CompanyRoleTransfer())->setName($item[SpyCompanyRoleTableMap::COL_NAME]));
-
-                return $companyUserCollectionTransfer;
-            }
-        }
-
-        $roleTransfer = (new CompanyRoleTransfer())->setName($item['spy_company_role.name']);
-        $companyUserTransfer = (new CompanyUserTransfer())
-            ->setIdCompanyUser($item['spy_company_user.id_company_user'])
-            ->setCompanyRoleCollection((new CompanyRoleCollectionTransfer())->addRole( $roleTransfer));
-
-
-        return $companyUserCollectionTransfer->addCompanyUser($companyUserTransfer);
-    }
 }

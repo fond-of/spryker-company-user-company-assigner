@@ -24,6 +24,7 @@ interface CompanyRoleMapperInterface
 
     /**
      * @param \Propel\Runtime\Collection\ObjectCollection $collection
+     * 
      * @return \Generated\Shared\Transfer\CompanyRoleCollectionTransfer
      */
     public function mapObjectCollectionToCompanyRoleCollectionTransfer(

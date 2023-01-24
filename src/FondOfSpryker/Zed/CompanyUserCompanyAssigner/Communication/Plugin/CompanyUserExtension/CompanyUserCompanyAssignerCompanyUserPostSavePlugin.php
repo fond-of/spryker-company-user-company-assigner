@@ -33,7 +33,7 @@ class CompanyUserCompanyAssignerCompanyUserPostSavePlugin extends AbstractPlugin
         if ($companyUserTransfer === null
             || $companyUserResponseTransfer->getIsSuccessful() !== true
             || !$this->isCompanyTypeManufacturer($companyUserTransfer)
-            || !$this->hasDiffCompanyUserRoles($companyUserTransfer)
+            || !$this->hasDiffCompanyUserRolesAsManufacturer($companyUserTransfer)
         ) {
             return $companyUserResponseTransfer;
         }
@@ -68,12 +68,12 @@ class CompanyUserCompanyAssignerCompanyUserPostSavePlugin extends AbstractPlugin
      *
      * @return bool
      */
-    protected function hasDiffCompanyUserRoles(CompanyUserTransfer $companyUserTransfer): bool
+    protected function hasDiffCompanyUserRolesAsManufacturer(CompanyUserTransfer $companyUserTransfer): bool
     {
-        $companyUserCollectionTransfer = $this->getFacade()
+        $companyUserRoles = $this->getFacade()
             ->findCompanyUsersWithDiffCompanyRolesAsManufacturer($companyUserTransfer);
 
-        return (count($companyUserCollectionTransfer) > 0);
+        return (count($companyUserRoles) > 0);
     }
 
 }

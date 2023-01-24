@@ -82,7 +82,7 @@ interface CompanyUserCompanyAssignerRepositoryInterface
      * @param string[] $roles
      * @param int[] $companyIds
      *
-     * @return mixed
+     * @return array<int, array<string, mixed>>
      */
     public function findCompanyUserswithDiffCompanyRolesAsManufacturer(
         int $idCustomer,
@@ -92,7 +92,7 @@ interface CompanyUserCompanyAssignerRepositoryInterface
 
     /**
      * @param int $idCompany
-     * 
+     *
      * @return \Generated\Shared\Transfer\CompanyRoleCollectionTransfer
      */
     public function getCompanyRoleCollectionByCompanyId(int $idCompany): CompanyRoleCollectionTransfer;

@@ -29,7 +29,7 @@ interface CompanyRoleInterface
     /**
      * @param \Generated\Shared\Transfer\CompanyUserTransfer $companyUserTransfer
      *
-     * @return array
+     * @return array<int, array<string, mixed>>
      */
     public function findCompanyUsersWithDiffCompanyRolesAsManufacturer(
         CompanyUserTransfer $companyUserTransfer

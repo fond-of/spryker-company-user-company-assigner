@@ -18,6 +18,7 @@ use Orm\Zed\CompanyUser\Persistence\Map\SpyCompanyUserTableMap;
 use Orm\Zed\CompanyUser\Persistence\SpyCompanyUserQuery;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
+use Propel\Runtime\Collection\ObjectCollection;
 use Spryker\Zed\Kernel\Persistence\AbstractRepository;
 
 /**
@@ -27,6 +28,10 @@ use Spryker\Zed\Kernel\Persistence\AbstractRepository;
  */
 class CompanyUserCompanyAssignerRepository extends AbstractRepository implements CompanyUserCompanyAssignerRepositoryInterface
 {
+    protected const INDEX_ID_COMPANY_USER = "id_company_user";
+    protected const INDEX_ID_COMPANY = "id_company";
+    protected const INDEX_COMPANY_ROLES = "company_roles";
+
     /**
      * @param int $idCompany
      * @param string $companyRoleName
@@ -191,6 +196,12 @@ class CompanyUserCompanyAssignerRepository extends AbstractRepository implements
         return $collectionTransfer;
     }
 
+    /**
+     * @param int $idCustomer
+     * @param int $idCompanyType
+     *
+     * @return array<int,int>
+     */
     public function findManufacturerCompanyIdsByCustomerId(
         int $idCustomer,
         int $idCompanyType
@@ -202,7 +213,7 @@ class CompanyUserCompanyAssignerRepository extends AbstractRepository implements
                 ->filterByFkCompanyType($idCompanyType)
             ->endUse()
             ->filterByFkCustomer($idCustomer)
-            ->select('fk_company')
+            ->select(SpyCompanyUserTableMap::COL_FK_COMPANY)
             ->find()
             ->toArray();
     }
@@ -213,13 +224,13 @@ class CompanyUserCompanyAssignerRepository extends AbstractRepository implements
      * @param string[] $roles
      * @param int[] $companyIds
      *
-     * @return mixed
+     * @return array<int, array<string, mixed>>
      */
     public function findCompanyUserswithDiffCompanyRolesAsManufacturer(
         int $idCustomer,
         array $roles,
         array $companyIds
-    ) {
+    ):array {
         $collection = $this->getFactory()
             ->getCompanyUserQuery()
             ->leftJoinWithSpyCompanyRoleToCompanyUser()
@@ -238,25 +249,33 @@ class CompanyUserCompanyAssignerRepository extends AbstractRepository implements
                     SpyCompanyRoleTableMap::COL_NAME,
                 ],
             )
-            ->find()
-            ->toArray();
+            ->find();
 
+        return $this->groupCompanyRoles($collection);
+    }
+
+    /**
+     * @param \Propel\Runtime\Collection\ObjectCollection $collection
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    protected function groupCompanyRoles(ObjectCollection $collection): array
+    {
         $companyUserRoles = [];
-        foreach ($collection as $index => $item) {
+
+        foreach ($collection->toArray() as $index => $item) {
             if (!array_key_exists($item[SpyCompanyUserTableMap::COL_ID_COMPANY_USER], $companyUserRoles)) {
                 $companyUserRoles[$item[SpyCompanyUserTableMap::COL_ID_COMPANY_USER]] =
                     [
-                        'id_company_user' => $item[SpyCompanyUserTableMap::COL_ID_COMPANY_USER],
-                        'id_company' => $item[SpyCompanyUserTableMap::COL_FK_COMPANY],
-                        'company_roles' => [
-                            $item[SpyCompanyRoleTableMap::COL_NAME]
-                        ]
+                        static::INDEX_ID_COMPANY_USER => $item[SpyCompanyUserTableMap::COL_ID_COMPANY_USER],
+                        static::INDEX_ID_COMPANY => $item[SpyCompanyUserTableMap::COL_FK_COMPANY],
+                        static::INDEX_COMPANY_ROLES => [$item[SpyCompanyRoleTableMap::COL_NAME]]
                     ];
 
                 continue;
             }
 
-            $companyUserRoles[$item[SpyCompanyUserTableMap::COL_ID_COMPANY_USER]]['company_roles'][]
+            $companyUserRoles[$item[SpyCompanyUserTableMap::COL_ID_COMPANY_USER]][static::INDEX_COMPANY_ROLES][]
                 = $item[SpyCompanyRoleTableMap::COL_NAME];
         }
 
@@ -274,10 +293,11 @@ class CompanyUserCompanyAssignerRepository extends AbstractRepository implements
             ->getCompanyRoleQuery()
             ->filterByFkCompany($idCompany)
             ->find();
-        
+
         return $this->getFactory()
             ->createCompanyRoleMapper()
             ->mapObjectCollectionToCompanyRoleCollectionTransfer($collection);
     }
+
 
 }

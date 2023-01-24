@@ -52,11 +52,8 @@ class CompanyUserCompanyAssignerBusinessFactory extends AbstractBusinessFactory
     public function createCompanyRole(): CompanyRoleInterface
     {
         return new CompanyRole(
-            $this->getCompanyFacade(),
             $this->getCompanyRoleFacade(),
             $this->getCompanyTypeFacade(),
-            $this->createCompanyUser(),
-            $this->getCompanyUserFacade(),
             $this->getConfig(),
             $this->getRepository(),
         );

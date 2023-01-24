@@ -105,6 +105,11 @@ class CompanyUserCompanyAssignerFacade extends AbstractFacade implements Company
             ->getCompanyTypeByCompany($companyTransfer);
     }
 
+    /**
+     * @param \Generated\Shared\Transfer\CompanyUserTransfer $companyUserTransfer
+     *
+     * @return array<int, array<string, mixed>>
+     */
     public function findCompanyUsersWithDiffCompanyRolesAsManufacturer(
         CompanyUserTransfer $companyUserTransfer
     ): array {
