@@ -14,7 +14,7 @@ class CompanyTypeReader implements CompanyTypeReaderInterface
     protected $companyTypeFacade;
 
     /**
-     * @param \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyUserCompanyAssignerToCompanyTypeFacadeInterface $companyTypeFacade
+     * @param \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Facade\CompanyUserCompanyAssignerToCompanyTypeFacadeInterface $companyTypeFacade
      */
     public function __construct(
         CompanyUserCompanyAssignerToCompanyTypeFacadeInterface $companyTypeFacade
