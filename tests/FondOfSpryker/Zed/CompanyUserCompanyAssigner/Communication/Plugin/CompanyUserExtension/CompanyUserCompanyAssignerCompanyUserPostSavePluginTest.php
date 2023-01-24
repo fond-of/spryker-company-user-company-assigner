@@ -89,8 +89,8 @@ class CompanyUserCompanyAssignerCompanyUserPostSavePluginTest extends Unit
     {
         $companyUsers = [
             '1' => [
-                'id_company_user' => 1
-            ]
+                'id_company_user' => 1,
+            ],
         ];
 
         $this->companyUserResponseTransferMock->expects(static::atLeastOnce())
@@ -117,7 +117,7 @@ class CompanyUserCompanyAssignerCompanyUserPostSavePluginTest extends Unit
             ->method('getName')
             ->willReturnOnConsecutiveCalls(
                 'company-type',
-                'company-type'
+                'company-type',
             );
 
         $this->facadeMock->expects(static::atLeastOnce())
@@ -160,7 +160,4 @@ class CompanyUserCompanyAssignerCompanyUserPostSavePluginTest extends Unit
             ),
         );
     }
-
-
-
 }

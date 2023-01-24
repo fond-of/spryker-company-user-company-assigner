@@ -3,7 +3,6 @@
 namespace FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business;
 
 use Codeception\Test\Unit;
-use FondOfSpryker\Zed\Company\Business\Reader\CompanyReaderInterface;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Assigner\ManufacturerUserAssigner;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyRole;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyUser;

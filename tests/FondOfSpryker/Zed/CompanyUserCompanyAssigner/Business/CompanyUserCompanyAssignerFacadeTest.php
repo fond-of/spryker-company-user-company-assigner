@@ -250,7 +250,7 @@ class CompanyUserCompanyAssignerFacadeTest extends Unit
 
         static::assertEquals(
             $this->companyTypeTransferMock,
-            $this->facade->getManufacturerCompanyType()
+            $this->facade->getManufacturerCompanyType(),
         );
     }
 
@@ -270,7 +270,7 @@ class CompanyUserCompanyAssignerFacadeTest extends Unit
 
         static::assertEquals(
             $this->companyTypeTransferMock,
-            $this->facade->getCompanyTypeByCompany($this->companyTransferMock)
+            $this->facade->getCompanyTypeByCompany($this->companyTransferMock),
         );
     }
 
@@ -289,7 +289,7 @@ class CompanyUserCompanyAssignerFacadeTest extends Unit
             ->willReturn([]);
 
         static::assertIsArray(
-            $this->facade->findCompanyUsersWithDiffCompanyRolesAsManufacturer($this->companyUserTransferMock)
+            $this->facade->findCompanyUsersWithDiffCompanyRolesAsManufacturer($this->companyUserTransferMock),
         );
     }
 }
