@@ -49,7 +49,8 @@ class CompanyUserCompanyAssignerToCompanyRoleFacadeBridge implements CompanyUser
      *
      * @return void
      */
-    public function saveCompanyUser(CompanyUserTransfer $companyUserTransfer): void {
+    public function saveCompanyUser(CompanyUserTransfer $companyUserTransfer): void
+    {
         $this->companyRoleFacade->saveCompanyUser($companyUserTransfer);
     }
 }

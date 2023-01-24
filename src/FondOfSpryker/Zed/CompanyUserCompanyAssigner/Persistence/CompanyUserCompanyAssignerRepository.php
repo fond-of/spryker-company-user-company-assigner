@@ -5,20 +5,14 @@ namespace FondOfSpryker\Zed\CompanyUserCompanyAssigner\Persistence;
 use Generated\Shared\Transfer\CompanyRoleCollectionTransfer;
 use Generated\Shared\Transfer\CompanyRoleTransfer;
 use Generated\Shared\Transfer\CompanyTransfer;
-use Generated\Shared\Transfer\CompanyUserCollectionTransfer;
-use Generated\Shared\Transfer\CompanyUserCriteriaFilterTransfer;
 use Generated\Shared\Transfer\CompanyUserTransfer;
 use Generated\Shared\Transfer\CustomerTransfer;
-use Generated\Shared\Transfer\PaginationTransfer;
 use Orm\Zed\Company\Persistence\Map\SpyCompanyTableMap;
 use Orm\Zed\CompanyBusinessUnit\Persistence\Map\SpyCompanyBusinessUnitTableMap;
 use Orm\Zed\CompanyRole\Persistence\Map\SpyCompanyRoleTableMap;
 use Orm\Zed\CompanyType\Persistence\Map\FosCompanyTypeTableMap;
 use Orm\Zed\CompanyUser\Persistence\Map\SpyCompanyUserTableMap;
-use Orm\Zed\CompanyUser\Persistence\SpyCompanyUserQuery;
 use Propel\Runtime\ActiveQuery\Criteria;
-use Propel\Runtime\ActiveQuery\ModelCriteria;
-use Propel\Runtime\Collection\ObjectCollection;
 use Spryker\Zed\Kernel\Persistence\AbstractRepository;
 
 /**
@@ -28,9 +22,20 @@ use Spryker\Zed\Kernel\Persistence\AbstractRepository;
  */
 class CompanyUserCompanyAssignerRepository extends AbstractRepository implements CompanyUserCompanyAssignerRepositoryInterface
 {
-    protected const INDEX_ID_COMPANY_USER = "id_company_user";
-    protected const INDEX_ID_COMPANY = "id_company";
-    protected const INDEX_COMPANY_ROLES = "company_roles";
+    /**
+     * @var string
+     */
+    protected const INDEX_ID_COMPANY_USER = 'id_company_user';
+
+    /**
+     * @var string
+     */
+    protected const INDEX_ID_COMPANY = 'id_company';
+
+    /**
+     * @var string
+     */
+    protected const INDEX_COMPANY_ROLES = 'company_roles';
 
     /**
      * @param int $idCompany
@@ -172,35 +177,10 @@ class CompanyUserCompanyAssignerRepository extends AbstractRepository implements
     }
 
     /**
-     * {@inheritDoc}
-     *
-     * @api
-     *
-     * @param \Generated\Shared\Transfer\CompanyUserCriteriaFilterTransfer $criteriaFilterTransfer
-     *
-     * @return \Generated\Shared\Transfer\CompanyUserCollectionTransfer
-     */
-    public function getCompanyUserRoleCollection(
-        CompanyUserCriteriaFilterTransfer $companyUserCriteriaTransfer
-    ): CompanyUserCollectionTransfer {
-        /** @var \Orm\Zed\CompanyUser\Persistence\SpyCompanyUserQuery $queryCompanyUser */
-        $queryCompanyUser = $this->getFactory()
-            ->getCompanyUserQuery()
-            ->joinWithSpyCompanyRoleToCompanyUser()
-            ->useSpyCompanyRoleToCompanyUserQuery()
-                ->joinWithCompanyRole()
-            ->endUse()
-            ->filterByFkCustomer()
-            ->endUse();
-
-        return $collectionTransfer;
-    }
-
-    /**
      * @param int $idCustomer
      * @param int $idCompanyType
      *
-     * @return array<int,int>
+     * @return array<int, int>
      */
     public function findManufacturerCompanyIdsByCustomerId(
         int $idCustomer,
@@ -218,11 +198,10 @@ class CompanyUserCompanyAssignerRepository extends AbstractRepository implements
             ->toArray();
     }
 
-
     /**
      * @param int $idCustomer
-     * @param string[] $roles
-     * @param int[] $companyIds
+     * @param array<string> $roles
+     * @param array<int> $companyIds
      *
      * @return array<int, array<string, mixed>>
      */
@@ -230,7 +209,7 @@ class CompanyUserCompanyAssignerRepository extends AbstractRepository implements
         int $idCustomer,
         array $roles,
         array $companyIds
-    ):array {
+    ): array {
         $collection = $this->getFactory()
             ->getCompanyUserQuery()
             ->leftJoinWithSpyCompanyRoleToCompanyUser()
@@ -263,14 +242,14 @@ class CompanyUserCompanyAssignerRepository extends AbstractRepository implements
     protected function groupCompanyRoles(array $collection): array
     {
         $companyUserRoles = [];
-        
+
         foreach ($collection as $index => $item) {
             if (!array_key_exists($item[SpyCompanyUserTableMap::COL_ID_COMPANY_USER], $companyUserRoles)) {
                 $companyUserRoles[$item[SpyCompanyUserTableMap::COL_ID_COMPANY_USER]] =
                     [
                         static::INDEX_ID_COMPANY_USER => $item[SpyCompanyUserTableMap::COL_ID_COMPANY_USER],
                         static::INDEX_ID_COMPANY => $item[SpyCompanyUserTableMap::COL_FK_COMPANY],
-                        static::INDEX_COMPANY_ROLES => [$item[SpyCompanyRoleTableMap::COL_NAME]]
+                        static::INDEX_COMPANY_ROLES => [$item[SpyCompanyRoleTableMap::COL_NAME]],
                     ];
 
                 continue;
@@ -299,6 +278,4 @@ class CompanyUserCompanyAssignerRepository extends AbstractRepository implements
             ->createCompanyRoleMapper()
             ->mapObjectCollectionToCompanyRoleCollectionTransfer($collection);
     }
-
-
 }

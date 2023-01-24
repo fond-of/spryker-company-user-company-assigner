@@ -2,15 +2,11 @@
 
 namespace FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business;
 
-use ArrayObject;
 use Generated\Shared\Transfer\CompanyBusinessUnitTransfer;
 use Generated\Shared\Transfer\CompanyResponseTransfer;
-use Generated\Shared\Transfer\CompanyRoleCollectionTransfer;
 use Generated\Shared\Transfer\CompanyTransfer;
 use Generated\Shared\Transfer\CompanyTypeTransfer;
-use Generated\Shared\Transfer\CompanyUserCollectionTransfer;
 use Generated\Shared\Transfer\CompanyUserResponseTransfer;
-use Generated\Shared\Transfer\CompanyUserRoleCriteriaFilterTransfer;
 use Generated\Shared\Transfer\CompanyUserTransfer;
 
 interface CompanyUserCompanyAssignerFacadeInterface

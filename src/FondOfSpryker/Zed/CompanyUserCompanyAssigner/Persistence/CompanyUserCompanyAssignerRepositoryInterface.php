@@ -5,9 +5,6 @@ namespace FondOfSpryker\Zed\CompanyUserCompanyAssigner\Persistence;
 use Generated\Shared\Transfer\CompanyRoleCollectionTransfer;
 use Generated\Shared\Transfer\CompanyRoleTransfer;
 use Generated\Shared\Transfer\CompanyTransfer;
-use Generated\Shared\Transfer\CompanyUserCollectionTransfer;
-use Generated\Shared\Transfer\CompanyUserCriteriaFilterTransfer;
-use Generated\Shared\Transfer\CompanyUserCriteriaTransfer;
 use Generated\Shared\Transfer\CompanyUserTransfer;
 use Generated\Shared\Transfer\CustomerTransfer;
 
@@ -68,9 +65,10 @@ interface CompanyUserCompanyAssignerRepositoryInterface
     public function findCompanyRoleNameByIdCompanyRole(int $idCompanyRole): ?string;
 
     /**
-     * @param int $customerId
+     * @param int $IdCustomer
+     * @param int $IdCompanyType
      *
-     * @return int[]
+     * @return array<int, int>
      */
     public function findManufacturerCompanyIdsByCustomerId(
         int $IdCustomer,
@@ -79,8 +77,8 @@ interface CompanyUserCompanyAssignerRepositoryInterface
 
     /**
      * @param int $idCustomer
-     * @param string[] $roles
-     * @param int[] $companyIds
+     * @param array<string> $roles
+     * @param array<int> $companyIds
      *
      * @return array<int, array<string, mixed>>
      */

@@ -31,7 +31,7 @@ class CompanyTypeReader implements CompanyTypeReaderInterface
     }
 
     /**
-     * @param \Generated\Shared\Transfer\CompanyTransfer $com
+     * @param \Generated\Shared\Transfer\CompanyTransfer $companyTransfer
      *
      * @return \Generated\Shared\Transfer\CompanyTypeTransfer
      */

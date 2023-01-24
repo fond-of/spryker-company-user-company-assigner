@@ -431,8 +431,8 @@ class CompanyUser implements CompanyUserInterface
         $customerTransfer = (new CustomerTransfer())->setIdCustomer($companyUserTransfer->getFkCustomer());
 
         return $this->companyUserCompanyAssignerRepository->findCompanyUserByIdCompanyAndIdCustomer(
-                $companyTransfer,
-                $customerTransfer,
-            ) !== null;
+            $companyTransfer,
+            $customerTransfer,
+        ) !== null;
     }
 }

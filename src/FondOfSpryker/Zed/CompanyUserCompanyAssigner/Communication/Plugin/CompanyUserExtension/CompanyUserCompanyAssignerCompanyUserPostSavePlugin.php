@@ -3,15 +3,10 @@
 namespace FondOfSpryker\Zed\CompanyUserCompanyAssigner\Communication\Plugin\CompanyUserExtension;
 
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\CompanyUserCompanyAssignerEvents;
-use Generated\Shared\Transfer\CompanyRoleCollectionTransfer;
 use Generated\Shared\Transfer\CompanyTransfer;
-use Generated\Shared\Transfer\CompanyUserCriteriaFilterTransfer;
 use Generated\Shared\Transfer\CompanyUserResponseTransfer;
-use Generated\Shared\Transfer\CompanyUserRoleCriteriaFilterTransfer;
 use Generated\Shared\Transfer\CompanyUserTransfer;
-use Spryker\Zed\CompanyUser\Dependency\CompanyUserEvents;
 use Spryker\Zed\CompanyUserExtension\Dependency\Plugin\CompanyUserPostSavePluginInterface;
-use Spryker\Zed\CompanyUserExtension\Dependency\Plugin\CompanyUserPreSavePluginInterface;
 use Spryker\Zed\Kernel\Communication\AbstractPlugin;
 
 /**
@@ -30,7 +25,8 @@ class CompanyUserCompanyAssignerCompanyUserPostSavePlugin extends AbstractPlugin
     {
         $companyUserTransfer = $companyUserResponseTransfer->getCompanyUser();
 
-        if ($companyUserTransfer === null
+        if (
+            $companyUserTransfer === null
             || $companyUserResponseTransfer->getIsSuccessful() !== true
             || !$this->isCompanyTypeManufacturer($companyUserTransfer)
             || !$this->hasDiffCompanyUserRolesAsManufacturer($companyUserTransfer)
@@ -57,7 +53,7 @@ class CompanyUserCompanyAssignerCompanyUserPostSavePlugin extends AbstractPlugin
     {
         $companyTypeManufacturerTransfer = $this->getFacade()->getManufacturerCompanyType();
         $companyTypeTransfer = $this->getFacade()->getCompanyTypeByCompany(
-            (new CompanyTransfer())->setIdCompany($companyUserTransfer->getFkCompany())
+            (new CompanyTransfer())->setIdCompany($companyUserTransfer->getFkCompany()),
         );
 
         return ($companyTypeTransfer->getName() === $companyTypeManufacturerTransfer->getName());
@@ -75,5 +71,4 @@ class CompanyUserCompanyAssignerCompanyUserPostSavePlugin extends AbstractPlugin
 
         return (count($companyUserRoles) > 0);
     }
-
 }
