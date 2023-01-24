@@ -62,7 +62,7 @@ interface CompanyUserCompanyAssignerFacadeInterface
     public function getManufacturerCompanyType(): CompanyTypeTransfer;
 
     /**
-     * @param \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\CompanyTransfer $companyTransfer
+     * @param \Generated\Shared\Transfer\CompanyTransfer $companyTransfer
      *
      * @return \Generated\Shared\Transfer\CompanyTypeTransfer
      */

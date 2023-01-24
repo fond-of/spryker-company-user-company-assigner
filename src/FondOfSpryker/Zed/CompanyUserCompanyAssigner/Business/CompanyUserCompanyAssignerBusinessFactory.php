@@ -47,7 +47,7 @@ class CompanyUserCompanyAssignerBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyUserInterface
+     * @return \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyRoleInterface
      */
     public function createCompanyRole(): CompanyRoleInterface
     {

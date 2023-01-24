@@ -91,7 +91,7 @@ class CompanyUserCompanyAssignerFacade extends AbstractFacade implements Company
     }
 
     /**
-     * @param \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\CompanyTransfer $companyTransfer
+     * @param \Generated\Shared\Transfer\CompanyTransfer $companyTransfer
      *
      * @return \Generated\Shared\Transfer\CompanyTypeTransfer
      */
