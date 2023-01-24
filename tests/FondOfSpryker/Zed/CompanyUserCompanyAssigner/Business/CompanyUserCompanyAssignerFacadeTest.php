@@ -6,14 +6,22 @@ use Codeception\Test\Unit;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Assigner\ManufacturerUserAssigner;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyRole;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyUserInterface;
+use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Reader\CompanyTypeReader;
 use Generated\Shared\Transfer\CompanyBusinessUnitTransfer;
 use Generated\Shared\Transfer\CompanyResponseTransfer;
 use Generated\Shared\Transfer\CompanyRoleCollectionTransfer;
+use Generated\Shared\Transfer\CompanyTransfer;
+use Generated\Shared\Transfer\CompanyTypeTransfer;
 use Generated\Shared\Transfer\CompanyUserResponseTransfer;
 use Generated\Shared\Transfer\CompanyUserTransfer;
 
 class CompanyUserCompanyAssignerFacadeTest extends Unit
 {
+    /**
+     * @var \PHPUnit\Framework\MockObject\MockObject|\Generated\Shared\Transfer\CompanyTransfer
+     */
+    protected $companyTransferMock;
+
     /**
      * @var \PHPUnit\Framework\MockObject\MockObject|\Generated\Shared\Transfer\CompanyUserResponseTransfer
      */
@@ -60,6 +68,16 @@ class CompanyUserCompanyAssignerFacadeTest extends Unit
     protected $companyRoleMock;
 
     /**
+     * @var \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Reader\CompanyTypeReaderInterface|\PHPUnit\Framework\MockObject\MockObject
+     */
+    protected $companyTypeReaderMock;
+
+    /**
+     * @var \Generated\Shared\Transfer\CompanyTypeTransfer|\PHPUnit\Framework\MockObject\MockObject
+     */
+    protected $companyTypeTransferMock;
+
+    /**
      * @var \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\CompanyUserCompanyAssignerFacade
      */
     protected $facade;
@@ -69,6 +87,10 @@ class CompanyUserCompanyAssignerFacadeTest extends Unit
      */
     protected function _before(): void
     {
+        $this->companyTransferMock = $this->getMockBuilder(CompanyTransfer::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $this->factoryMock = $this->getMockBuilder(CompanyUserCompanyAssignerBusinessFactory::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -94,6 +116,14 @@ class CompanyUserCompanyAssignerFacadeTest extends Unit
             ->getMock();
 
         $this->companyRoleCollectionTransferMock = $this->getMockBuilder(CompanyRoleCollectionTransfer::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->companyTypeTransferMock = $this->getMockBuilder(CompanyTypeTransfer::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->companyTypeReaderMock = $this->getMockBuilder(CompanyTypeReader::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -203,5 +233,63 @@ class CompanyUserCompanyAssignerFacadeTest extends Unit
             ->method('updateNonManufacturerUsersCompanyRole');
 
         $this->facade->updateNonManufacturerUsersCompanyRole($this->companyUserTransferMock);
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetManufacturerCompanyType(): void
+    {
+        $this->factoryMock->expects(static::atLeastOnce())
+            ->method('createCompanyTypeReader')
+            ->willReturn($this->companyTypeReaderMock);
+
+        $this->companyTypeReaderMock->expects(static::atLeastOnce())
+            ->method('getManufacturerCompanyType')
+            ->willReturn($this->companyTypeTransferMock);
+
+        static::assertEquals(
+            $this->companyTypeTransferMock,
+            $this->facade->getManufacturerCompanyType()
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function testGetCompanyTypeByCompany(): void
+    {
+        $this->factoryMock->expects(static::atLeastOnce())
+            ->method('createCompanyTypeReader')
+            ->willReturn($this->companyTypeReaderMock);
+
+        $this->companyTypeReaderMock->expects(static::atLeastOnce())
+            ->method('getCompanyTypeByCompany')
+            ->with($this->companyTransferMock)
+            ->willReturn($this->companyTypeTransferMock);
+
+        static::assertEquals(
+            $this->companyTypeTransferMock,
+            $this->facade->getCompanyTypeByCompany($this->companyTransferMock)
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function testFindCompanyUsersWithDiffCompanyRolesAsManufacturer(): void
+    {
+        $this->factoryMock->expects(static::atLeastOnce())
+            ->method('createCompanyRole')
+            ->willReturn($this->companyRoleMock);
+
+        $this->companyRoleMock->expects(static::atLeastOnce())
+            ->method('findCompanyUsersWithDiffCompanyRolesAsManufacturer')
+            ->with($this->companyUserTransferMock)
+            ->willReturn([]);
+
+        static::assertIsArray(
+            $this->facade->findCompanyUsersWithDiffCompanyRolesAsManufacturer($this->companyUserTransferMock)
+        );
     }
 }
