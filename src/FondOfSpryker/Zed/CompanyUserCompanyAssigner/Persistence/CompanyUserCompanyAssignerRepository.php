@@ -249,21 +249,22 @@ class CompanyUserCompanyAssignerRepository extends AbstractRepository implements
                     SpyCompanyRoleTableMap::COL_NAME,
                 ],
             )
-            ->find();
+            ->find()
+            ->toArray();
 
         return $this->groupCompanyRoles($collection);
     }
 
     /**
-     * @param \Propel\Runtime\Collection\ObjectCollection $collection
+     * @param array<int, array<string, mixed>> $collection
      *
      * @return array<int, array<string, mixed>>
      */
-    protected function groupCompanyRoles(ObjectCollection $collection): array
+    protected function groupCompanyRoles(array $collection): array
     {
         $companyUserRoles = [];
-
-        foreach ($collection->toArray() as $index => $item) {
+        
+        foreach ($collection as $index => $item) {
             if (!array_key_exists($item[SpyCompanyUserTableMap::COL_ID_COMPANY_USER], $companyUserRoles)) {
                 $companyUserRoles[$item[SpyCompanyUserTableMap::COL_ID_COMPANY_USER]] =
                     [
