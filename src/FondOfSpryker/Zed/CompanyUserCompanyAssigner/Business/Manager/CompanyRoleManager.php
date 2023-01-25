@@ -106,22 +106,22 @@ class CompanyRoleManager implements CompanyRoleManagerInterface
 
     /**
      * @param array<int, array<string, mixed>> $companyUsers
-     * @param \Generated\Shared\Transfer\CompanyUserTransfer $companyUserTransfer
+     * @param \Generated\Shared\Transfer\CompanyUserTransfer $manufacturerUserTransfer
      *
      * @return void
      */
     protected function saveCompanyUsers(
         array $companyUsers,
-        CompanyUserTransfer $companyUserTransfer
+        CompanyUserTransfer $manufacturerUserTransfer
     ): void {
         foreach ($companyUsers as $companyUser) {
-            $companyUserTransfer = (new CompanyUserTransfer())
+            $updatableCompanyUserTransfer = (new CompanyUserTransfer())
                 ->setIdCompanyUser($companyUser[static::KEY_ID_COMPANY_USER])
                 ->setCompanyRoleCollection(
-                    $this->createCompanyUserCompanyRoleCollection($companyUserTransfer, $companyUser),
+                    $this->createCompanyUserCompanyRoleCollection($manufacturerUserTransfer, $companyUser),
                 );
 
-            $this->companyRoleFacade->saveCompanyUser($companyUserTransfer);
+            $this->companyRoleFacade->saveCompanyUser($updatableCompanyUserTransfer);
         }
     }
 
