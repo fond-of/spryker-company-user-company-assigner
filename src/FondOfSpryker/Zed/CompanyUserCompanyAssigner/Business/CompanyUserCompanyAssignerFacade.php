@@ -4,6 +4,8 @@ namespace FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business;
 
 use Generated\Shared\Transfer\CompanyBusinessUnitTransfer;
 use Generated\Shared\Transfer\CompanyResponseTransfer;
+use Generated\Shared\Transfer\CompanyTransfer;
+use Generated\Shared\Transfer\CompanyTypeTransfer;
 use Generated\Shared\Transfer\CompanyUserResponseTransfer;
 use Generated\Shared\Transfer\CompanyUserTransfer;
 use Spryker\Zed\Kernel\Business\AbstractFacade;
@@ -25,6 +27,19 @@ class CompanyUserCompanyAssignerFacade extends AbstractFacade implements Company
         return $this->getFactory()
             ->createCompanyUser()
             ->addManufacturerUserToCompanies($companyUserResponseTransfer);
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\CompanyUserTransfer $companyUserTransfer
+     *
+     * @return void
+     */
+    public function updateCompanyRolesOfNonManufacturerUsers(
+        CompanyUserTransfer $companyUserTransfer
+    ): void {
+        $this->getFactory()
+            ->createCompanyRoleManager()
+            ->updateCompanyRolesOfNonManufacturerUsers($companyUserTransfer);
     }
 
     /**
@@ -63,5 +78,41 @@ class CompanyUserCompanyAssignerFacade extends AbstractFacade implements Company
         $this->getFactory()
             ->createManufacturerUserAssigner()
             ->assignToNonManufacturerCompanies($manufacturerUserTransfer);
+    }
+
+    /**
+     * @return \Generated\Shared\Transfer\CompanyTypeTransfer
+     */
+    public function getManufacturerCompanyType(): CompanyTypeTransfer
+    {
+        return $this->getFactory()
+            ->createCompanyTypeReader()
+            ->getManufacturerCompanyType();
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\CompanyTransfer $companyTransfer
+     *
+     * @return \Generated\Shared\Transfer\CompanyTypeTransfer
+     */
+    public function getCompanyTypeByCompany(CompanyTransfer $companyTransfer): CompanyTypeTransfer
+    {
+        return $this
+            ->getFactory()
+            ->createCompanyTypeReader()
+            ->getByCompany($companyTransfer);
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\CompanyUserTransfer $companyUserTransfer
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    public function findCompanyUsersWithInconsistentCompanyRolesByManufacturerUser(
+        CompanyUserTransfer $companyUserTransfer
+    ): array {
+        return $this->getFactory()
+            ->createCompanyUserReader()
+            ->findWithInconsistentCompanyRolesByManufacturerUser($companyUserTransfer);
     }
 }

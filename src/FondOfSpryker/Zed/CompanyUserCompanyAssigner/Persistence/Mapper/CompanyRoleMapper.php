@@ -2,8 +2,10 @@
 
 namespace FondOfSpryker\Zed\CompanyUserCompanyAssigner\Persistence\Mapper;
 
+use Generated\Shared\Transfer\CompanyRoleCollectionTransfer;
 use Generated\Shared\Transfer\CompanyRoleTransfer;
 use Orm\Zed\CompanyRole\Persistence\SpyCompanyRole;
+use Propel\Runtime\Collection\ObjectCollection;
 
 class CompanyRoleMapper implements CompanyRoleMapperInterface
 {
@@ -21,5 +23,23 @@ class CompanyRoleMapper implements CompanyRoleMapperInterface
             $spyCompanyRole->toArray(),
             true,
         );
+    }
+
+    /**
+     * @param \Propel\Runtime\Collection\ObjectCollection $collection
+     *
+     * @return \Generated\Shared\Transfer\CompanyRoleCollectionTransfer
+     */
+    public function mapObjectCollectionToCompanyRoleCollectionTransfer(
+        ObjectCollection $collection
+    ): CompanyRoleCollectionTransfer {
+        $companyRoleCollectionTransfer = new CompanyRoleCollectionTransfer();
+        foreach ($collection->toArray() as $item) {
+            $companyRoleCollectionTransfer->addRole(
+                (new CompanyRoleTransfer())->fromArray($item, true),
+            );
+        }
+
+        return $companyRoleCollectionTransfer;
     }
 }

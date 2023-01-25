@@ -2,6 +2,7 @@
 
 namespace FondOfSpryker\Zed\CompanyUserCompanyAssigner\Persistence;
 
+use Generated\Shared\Transfer\CompanyRoleCollectionTransfer;
 use Generated\Shared\Transfer\CompanyRoleTransfer;
 use Generated\Shared\Transfer\CompanyTransfer;
 use Generated\Shared\Transfer\CompanyUserTransfer;
@@ -62,4 +63,35 @@ interface CompanyUserCompanyAssignerRepositoryInterface
      * @return string|null
      */
     public function findCompanyRoleNameByIdCompanyRole(int $idCompanyRole): ?string;
+
+    /**
+     * @param int $IdCustomer
+     * @param int $IdCompanyType
+     *
+     * @return array<int, int>
+     */
+    public function findCompanyIdsByIdCustomerAndIdCompanyType(
+        int $IdCustomer,
+        int $IdCompanyType
+    ): array;
+
+    /**
+     * @param int $idCustomer
+     * @param string $companyRoleName
+     * @param array<int> $companyIds
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    public function findNonManufacturerUsersWithInconsistentCompanyRoles(
+        int $idCustomer,
+        string $companyRoleName,
+        array $companyIds
+    );
+
+    /**
+     * @param int $idCompany
+     *
+     * @return \Generated\Shared\Transfer\CompanyRoleCollectionTransfer
+     */
+    public function getCompanyRoleCollectionByCompanyId(int $idCompany): CompanyRoleCollectionTransfer;
 }

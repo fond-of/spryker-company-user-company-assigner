@@ -4,7 +4,9 @@ namespace FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business;
 
 use Codeception\Test\Unit;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Assigner\ManufacturerUserAssigner;
+use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Manager\CompanyRoleManager;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyUser;
+use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Reader\CompanyTypeReader;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\CompanyUserCompanyAssignerConfig;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\CompanyUserCompanyAssignerDependencyProvider;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Facade\CompanyUserCompanyAssignerToCompanyBusinessUnitFacadeInterface;
@@ -158,6 +160,53 @@ class CompanyUserCompanyAssignerBusinessFactoryTest extends Unit
         static::assertInstanceOf(
             ManufacturerUserAssigner::class,
             $this->factory->createManufacturerUserAssigner(),
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function testCreateCompanyRoleManager(): void
+    {
+        $this->containerMock->expects(static::atLeastOnce())
+            ->method('has')
+            ->willReturn(true);
+
+        $this->containerMock->expects(static::atLeastOnce())
+            ->method('get')
+            ->withConsecutive(
+                [CompanyUserCompanyAssignerDependencyProvider::FACADE_COMPANY_TYPE],
+                [CompanyUserCompanyAssignerDependencyProvider::FACADE_COMPANY_ROLE],
+                [CompanyUserCompanyAssignerDependencyProvider::FACADE_COMPANY_TYPE],
+            )->willReturnOnConsecutiveCalls(
+                $this->companyTypeFacadeMock,
+                $this->companyRoleFacadeMock,
+                $this->companyTypeFacadeMock,
+            );
+
+        static::assertInstanceOf(CompanyRoleManager::class, $this->factory->createCompanyRoleManager());
+    }
+
+    /**
+     * @return void
+     */
+    public function testCreateCompanyTypeReader(): void
+    {
+        $this->containerMock->expects(static::atLeastOnce())
+            ->method('has')
+            ->willReturn(true);
+
+        $this->containerMock->expects(static::atLeastOnce())
+            ->method('get')
+            ->withConsecutive(
+                [CompanyUserCompanyAssignerDependencyProvider::FACADE_COMPANY_TYPE],
+            )->willReturnOnConsecutiveCalls(
+                $this->companyTypeFacadeMock,
+            );
+
+        static::assertInstanceOf(
+            CompanyTypeReader::class,
+            $this->factory->createCompanyTypeReader(),
         );
     }
 }

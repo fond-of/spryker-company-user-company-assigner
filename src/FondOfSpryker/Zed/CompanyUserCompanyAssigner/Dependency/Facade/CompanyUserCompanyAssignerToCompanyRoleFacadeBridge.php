@@ -3,6 +3,7 @@
 namespace FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Facade;
 
 use Generated\Shared\Transfer\CompanyRoleTransfer;
+use Generated\Shared\Transfer\CompanyUserTransfer;
 use Spryker\Zed\CompanyRole\Business\CompanyRoleFacadeInterface;
 
 class CompanyUserCompanyAssignerToCompanyRoleFacadeBridge implements CompanyUserCompanyAssignerToCompanyRoleFacadeInterface
@@ -28,5 +29,15 @@ class CompanyUserCompanyAssignerToCompanyRoleFacadeBridge implements CompanyUser
     public function getCompanyRoleById(CompanyRoleTransfer $companyRoleTransfer): CompanyRoleTransfer
     {
         return $this->companyRoleFacade->getCompanyRoleById($companyRoleTransfer);
+    }
+
+    /**
+     * @param \Generated\Shared\Transfer\CompanyUserTransfer $companyUserTransfer
+     *
+     * @return void
+     */
+    public function saveCompanyUser(CompanyUserTransfer $companyUserTransfer): void
+    {
+        $this->companyRoleFacade->saveCompanyUser($companyUserTransfer);
     }
 }

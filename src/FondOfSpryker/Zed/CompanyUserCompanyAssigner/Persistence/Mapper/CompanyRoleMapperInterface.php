@@ -2,8 +2,10 @@
 
 namespace FondOfSpryker\Zed\CompanyUserCompanyAssigner\Persistence\Mapper;
 
+use Generated\Shared\Transfer\CompanyRoleCollectionTransfer;
 use Generated\Shared\Transfer\CompanyRoleTransfer;
 use Orm\Zed\CompanyRole\Persistence\SpyCompanyRole;
+use Propel\Runtime\Collection\ObjectCollection;
 
 interface CompanyRoleMapperInterface
 {
@@ -17,4 +19,13 @@ interface CompanyRoleMapperInterface
         SpyCompanyRole $spyCompanyRole,
         CompanyRoleTransfer $companyRoleTransfer
     ): CompanyRoleTransfer;
+
+    /**
+     * @param \Propel\Runtime\Collection\ObjectCollection $collection
+     *
+     * @return \Generated\Shared\Transfer\CompanyRoleCollectionTransfer
+     */
+    public function mapObjectCollectionToCompanyRoleCollectionTransfer(
+        ObjectCollection $collection
+    ): CompanyRoleCollectionTransfer;
 }

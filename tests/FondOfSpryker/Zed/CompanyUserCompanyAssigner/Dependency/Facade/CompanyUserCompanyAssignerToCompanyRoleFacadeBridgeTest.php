@@ -4,6 +4,7 @@ namespace FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Facade;
 
 use Codeception\Test\Unit;
 use Generated\Shared\Transfer\CompanyRoleTransfer;
+use Generated\Shared\Transfer\CompanyUserTransfer;
 use Spryker\Zed\CompanyRole\Business\CompanyRoleFacadeInterface;
 
 class CompanyUserCompanyAssignerToCompanyRoleFacadeBridgeTest extends Unit
@@ -24,6 +25,11 @@ class CompanyUserCompanyAssignerToCompanyRoleFacadeBridgeTest extends Unit
     protected $companyRoleTransferMock;
 
     /**
+     * @var \PHPUnit\Framework\MockObject\MockObject|\Generated\Shared\Transfer\CompanyUserTransfer
+     */
+    protected $companyUserTransferMock;
+
+    /**
      * @return void
      */
     protected function _before(): void
@@ -33,6 +39,10 @@ class CompanyUserCompanyAssignerToCompanyRoleFacadeBridgeTest extends Unit
             ->getMock();
 
         $this->companyRoleTransferMock = $this->getMockBuilder(CompanyRoleTransfer::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->companyUserTransferMock = $this->getMockBuilder(CompanyUserTransfer::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -57,5 +67,17 @@ class CompanyUserCompanyAssignerToCompanyRoleFacadeBridgeTest extends Unit
                 $this->companyRoleTransferMock,
             ),
         );
+    }
+
+    /**
+     * @return void
+     */
+    public function testSaveCompanyUser(): void
+    {
+        $this->companyRoleFacadeInterfaceMock->expects($this->atLeastOnce())
+            ->method('saveCompanyUser')
+            ->with($this->companyUserTransferMock);
+
+        $this->companyUserCompanyAssignerToCompanyRoleFacadeBridge->saveCompanyUser($this->companyUserTransferMock);
     }
 }

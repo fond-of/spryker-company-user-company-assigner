@@ -3,6 +3,7 @@
 namespace FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Facade;
 
 use Generated\Shared\Transfer\CompanyCollectionTransfer;
+use Generated\Shared\Transfer\CompanyTransfer;
 use Generated\Shared\Transfer\CompanyTypeCollectionTransfer;
 use Generated\Shared\Transfer\CompanyTypeResponseTransfer;
 use Generated\Shared\Transfer\CompanyTypeTransfer;
@@ -48,4 +49,16 @@ interface CompanyUserCompanyAssignerToCompanyTypeFacadeInterface
      * @return \Generated\Shared\Transfer\CompanyTypeTransfer|null
      */
     public function getCompanyTypeById(CompanyTypeTransfer $companyTypeTransfer): ?CompanyTypeTransfer;
+
+    /**
+     * @return \Generated\Shared\Transfer\CompanyTypeTransfer|null
+     */
+    public function getManufacturerCompanyType(): ?CompanyTypeTransfer;
+
+    /**
+     * @param \Generated\Shared\Transfer\CompanyTransfer $companyTransfer
+     *
+     * @return \Generated\Shared\Transfer\CompanyTypeTransfer|null
+     */
+    public function findCompanyTypeByIdCompany(CompanyTransfer $companyTransfer): ?CompanyTypeTransfer;
 }

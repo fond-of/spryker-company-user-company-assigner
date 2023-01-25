@@ -2,6 +2,7 @@
 
 namespace FondOfSpryker\Zed\CompanyUserCompanyAssigner\Persistence;
 
+use Generated\Shared\Transfer\CompanyRoleCollectionTransfer;
 use Generated\Shared\Transfer\CompanyRoleTransfer;
 use Generated\Shared\Transfer\CompanyTransfer;
 use Generated\Shared\Transfer\CompanyUserTransfer;
@@ -10,6 +11,7 @@ use Orm\Zed\Company\Persistence\Map\SpyCompanyTableMap;
 use Orm\Zed\CompanyBusinessUnit\Persistence\Map\SpyCompanyBusinessUnitTableMap;
 use Orm\Zed\CompanyRole\Persistence\Map\SpyCompanyRoleTableMap;
 use Orm\Zed\CompanyType\Persistence\Map\FosCompanyTypeTableMap;
+use Orm\Zed\CompanyUser\Persistence\Map\SpyCompanyUserTableMap;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Spryker\Zed\Kernel\Persistence\AbstractRepository;
 
@@ -20,6 +22,21 @@ use Spryker\Zed\Kernel\Persistence\AbstractRepository;
  */
 class CompanyUserCompanyAssignerRepository extends AbstractRepository implements CompanyUserCompanyAssignerRepositoryInterface
 {
+    /**
+     * @var string
+     */
+    protected const INDEX_ID_COMPANY_USER = 'id_company_user';
+
+    /**
+     * @var string
+     */
+    protected const INDEX_ID_COMPANY = 'id_company';
+
+    /**
+     * @var string
+     */
+    protected const INDEX_COMPANY_ROLES = 'company_roles';
+
     /**
      * @param int $idCompany
      * @param string $companyRoleName
@@ -157,5 +174,108 @@ class CompanyUserCompanyAssignerRepository extends AbstractRepository implements
             ->filterByIdCompanyRole($idCompanyRole)
             ->select([SpyCompanyRoleTableMap::COL_NAME])
             ->findOne();
+    }
+
+    /**
+     * @param int $idCustomer
+     * @param int $idCompanyType
+     *
+     * @return array<int, int>
+     */
+    public function findCompanyIdsByIdCustomerAndIdCompanyType(
+        int $idCustomer,
+        int $idCompanyType
+    ): array {
+        return $this->getFactory()
+            ->getCompanyUserQuery()
+            ->joinWithCompany()
+            ->useCompanyQuery()
+                ->filterByFkCompanyType($idCompanyType)
+            ->endUse()
+            ->filterByFkCustomer($idCustomer)
+            ->select(SpyCompanyUserTableMap::COL_FK_COMPANY)
+            ->find()
+            ->toArray();
+    }
+
+    /**
+     * @param int $idCustomer
+     * @param string $companyRoleName
+     * @param array<int> $companyIds
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    public function findNonManufacturerUsersWithInconsistentCompanyRoles(
+        int $idCustomer,
+        string $companyRoleName,
+        array $companyIds
+    ): array {
+        $collection = $this->getFactory()
+            ->getCompanyUserQuery()
+            ->leftJoinWithSpyCompanyRoleToCompanyUser()
+                ->useSpyCompanyRoleToCompanyUserQuery()
+                    ->leftJoinWithCompanyRole()
+                        ->useCompanyRoleQuery()
+                            ->filterByName($companyRoleName, Criteria::NOT_EQUAL)
+                        ->endUse()
+                ->endUse()
+            ->filterByFkCustomer($idCustomer)
+            ->filterByFkCompany($companyIds, Criteria::NOT_IN)
+            ->select(
+                [
+                    SpyCompanyUserTableMap::COL_ID_COMPANY_USER,
+                    SpyCompanyUserTableMap::COL_FK_COMPANY,
+                    SpyCompanyRoleTableMap::COL_NAME,
+                ],
+            )
+            ->find()
+            ->toArray();
+
+        return $this->groupCompanyRoles($collection);
+    }
+
+    /**
+     * @param array<int, array<string, mixed>> $collection
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    protected function groupCompanyRoles(array $collection): array
+    {
+        $companyUserRoles = [];
+
+        foreach ($collection as $index => $item) {
+            if (!array_key_exists($item[SpyCompanyUserTableMap::COL_ID_COMPANY_USER], $companyUserRoles)) {
+                $companyUserRoles[$item[SpyCompanyUserTableMap::COL_ID_COMPANY_USER]] =
+                    [
+                        static::INDEX_ID_COMPANY_USER => $item[SpyCompanyUserTableMap::COL_ID_COMPANY_USER],
+                        static::INDEX_ID_COMPANY => $item[SpyCompanyUserTableMap::COL_FK_COMPANY],
+                        static::INDEX_COMPANY_ROLES => [$item[SpyCompanyRoleTableMap::COL_NAME]],
+                    ];
+
+                continue;
+            }
+
+            $companyUserRoles[$item[SpyCompanyUserTableMap::COL_ID_COMPANY_USER]][static::INDEX_COMPANY_ROLES][]
+                = $item[SpyCompanyRoleTableMap::COL_NAME];
+        }
+
+        return $companyUserRoles;
+    }
+
+    /**
+     * @param int $idCompany
+     *
+     * @return \Generated\Shared\Transfer\CompanyRoleCollectionTransfer
+     */
+    public function getCompanyRoleCollectionByCompanyId(int $idCompany): CompanyRoleCollectionTransfer
+    {
+        $collection = $this->getFactory()
+            ->getCompanyRoleQuery()
+            ->filterByFkCompany($idCompany)
+            ->find();
+
+        return $this->getFactory()
+            ->createCompanyRoleMapper()
+            ->mapObjectCollectionToCompanyRoleCollectionTransfer($collection);
     }
 }

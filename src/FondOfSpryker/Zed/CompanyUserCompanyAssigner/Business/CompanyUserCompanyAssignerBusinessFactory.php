@@ -6,12 +6,18 @@ use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Assigner\ManufacturerU
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Assigner\ManufacturerUserAssignerInterface;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Filter\CompanyRoleNameFilter;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Filter\CompanyRoleNameFilterInterface;
+use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Manager\CompanyRoleManager;
+use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Manager\CompanyRoleManagerInterface;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Mapper\CompanyRoleNameMapper;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Mapper\CompanyRoleNameMapperInterface;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Mapper\CompanyUserMapper;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Mapper\CompanyUserMapperInterface;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyUser;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyUserInterface;
+use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Reader\CompanyTypeReader;
+use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Reader\CompanyTypeReaderInterface;
+use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Reader\CompanyUserReader;
+use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Reader\CompanyUserReaderInterface;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\CompanyUserCompanyAssignerDependencyProvider;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Facade\CompanyUserCompanyAssignerToCompanyBusinessUnitFacadeInterface;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Facade\CompanyUserCompanyAssignerToCompanyFacadeInterface;
@@ -40,6 +46,40 @@ class CompanyUserCompanyAssignerBusinessFactory extends AbstractBusinessFactory
             $this->getCompanyRoleFacade(),
             $this->getCompanyBusinessUnitFacade(),
         );
+    }
+
+    /**
+     * @return \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Manager\CompanyRoleManagerInterface
+     */
+    public function createCompanyRoleManager(): CompanyRoleManagerInterface
+    {
+        return new CompanyRoleManager(
+            $this->createCompanyUserReader(),
+            $this->getCompanyRoleFacade(),
+            $this->getCompanyTypeFacade(),
+            $this->getConfig(),
+            $this->getRepository(),
+        );
+    }
+
+    /**
+     * @return \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Reader\CompanyUserReaderInterface
+     */
+    public function createCompanyUserReader(): CompanyUserReaderInterface
+    {
+        return new CompanyUserReader(
+            $this->createCompanyRoleNameMapper(),
+            $this->getCompanyTypeFacade(),
+            $this->getRepository(),
+        );
+    }
+
+    /**
+     * @return \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Reader\CompanyTypeReaderInterface
+     */
+    public function createCompanyTypeReader(): CompanyTypeReaderInterface
+    {
+        return new CompanyTypeReader($this->getCompanyTypeFacade());
     }
 
     /**
