@@ -14,13 +14,4 @@ interface CompanyRoleManagerInterface
     public function updateCompanyRolesOfNonManufacturerUsers(
         CompanyUserTransfer $companyUserTransfer
     ): void;
-
-    /**
-     * @param \Generated\Shared\Transfer\CompanyUserTransfer $companyUserTransfer
-     *
-     * @return array<int, array<string, mixed>>
-     */
-    public function findCompanyUsersWithOldCompanyRoles(
-        CompanyUserTransfer $companyUserTransfer
-    ): array;
 }

@@ -4,21 +4,31 @@ namespace FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Manager;
 
 use ArrayObject;
 use Codeception\Test\Unit;
+use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Reader\CompanyUserReaderInterface;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\CompanyUserCompanyAssignerConfig;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Facade\CompanyUserCompanyAssignerToCompanyRoleFacadeInterface;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Facade\CompanyUserCompanyAssignerToCompanyTypeFacadeInterface;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Persistence\CompanyUserCompanyAssignerRepositoryInterface;
 use Generated\Shared\Transfer\CompanyRoleCollectionTransfer;
 use Generated\Shared\Transfer\CompanyRoleTransfer;
-use Generated\Shared\Transfer\CompanyTypeTransfer;
 use Generated\Shared\Transfer\CompanyUserTransfer;
 
 class CompanyRoleManagerTest extends Unit
 {
     /**
-     * @var \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyUser
+     * @var (\FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Reader\CompanyUserReaderInterface&\PHPUnit\Framework\MockObject\MockObject)|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $companyUser;
+    protected $companyUserReaderMock;
+
+    /**
+     * @var \PHPUnit\Framework\MockObject\MockObject|\FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Facade\CompanyUserCompanyAssignerToCompanyRoleFacadeInterface
+     */
+    protected $companyRoleFacadeMock;
+
+    /**
+     * @var \PHPUnit\Framework\MockObject\MockObject|\FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Facade\CompanyUserCompanyAssignerToCompanyTypeFacadeInterface
+     */
+    protected $companyTypeFacadeMock;
 
     /**
      * @var \FondOfSpryker\Zed\CompanyUserCompanyAssigner\CompanyUserCompanyAssignerConfig|\PHPUnit\Framework\MockObject\MockObject
@@ -31,29 +41,9 @@ class CompanyRoleManagerTest extends Unit
     protected $repositoryMock;
 
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|\FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Facade\CompanyUserCompanyAssignerToCompanyTypeFacadeInterface
-     */
-    protected $companyTypeFacadeMock;
-
-    /**
-     * @var \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Manager\CompanyRoleManagerInterface
-     */
-    protected $companyRole;
-
-    /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|\FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Facade\CompanyUserCompanyAssignerToCompanyRoleFacadeInterface
-     */
-    protected $companyRoleFacadeMock;
-
-    /**
      * @var \Generated\Shared\Transfer\CompanyUserTransfer|\PHPUnit\Framework\MockObject\MockObject|
      */
     protected $companyUserTransferMock;
-
-    /**
-     * @var \Generated\Shared\Transfer\CompanyTypeTransfer|\PHPUnit\Framework\MockObject\MockObject|
-     */
-    protected $companyTypeTransferMock;
 
     /**
      * @var \Generated\Shared\Transfer\CompanyRoleCollectionTransfer|\PHPUnit\Framework\MockObject\MockObject
@@ -66,15 +56,32 @@ class CompanyRoleManagerTest extends Unit
     protected $companyRoleTransferMock;
 
     /**
+     * @var \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Manager\CompanyRoleManagerInterface
+     */
+    protected $companyRoleManager;
+
+    /**
      * @return void
      */
     protected function _before(): void
     {
-        $this->configMock = $this->getMockBuilder(CompanyUserCompanyAssignerConfig::class)
+        $this->companyUserReaderMock = $this->getMockBuilder(CompanyUserReaderInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
         $this->companyRoleFacadeMock = $this->getMockBuilder(CompanyUserCompanyAssignerToCompanyRoleFacadeInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->companyTypeFacadeMock = $this->getMockBuilder(CompanyUserCompanyAssignerToCompanyTypeFacadeInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->configMock = $this->getMockBuilder(CompanyUserCompanyAssignerConfig::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->repositoryMock = $this->getMockBuilder(CompanyUserCompanyAssignerRepositoryInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -86,23 +93,12 @@ class CompanyRoleManagerTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->companyTypeTransferMock = $this->getMockBuilder(CompanyTypeTransfer::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->companyTypeFacadeMock = $this->getMockBuilder(CompanyUserCompanyAssignerToCompanyTypeFacadeInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
         $this->companyUserTransferMock = $this->getMockBuilder(CompanyUserTransfer::class)
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->repositoryMock = $this->getMockBuilder(CompanyUserCompanyAssignerRepositoryInterface::class)
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->companyRole = new CompanyRoleManager(
+        $this->companyRoleManager = new CompanyRoleManager(
+            $this->companyUserReaderMock,
             $this->companyRoleFacadeMock,
             $this->companyTypeFacadeMock,
             $this->configMock,
@@ -126,36 +122,36 @@ class CompanyRoleManagerTest extends Unit
             ],
         ];
 
-        $this->companyUserTransferMock->expects($this->atLeastOnce())
+        $this->companyUserTransferMock->expects(static::atLeastOnce())
             ->method('getCompanyRoleCollection')
             ->willReturn($this->companyRoleCollectionTransferMock);
 
-        $this->companyRoleCollectionTransferMock->expects($this->atLeastOnce())
+        $this->companyRoleCollectionTransferMock->expects(static::atLeastOnce())
             ->method('getRoles')
             ->willReturn($companyRoles);
 
-        $this->companyRoleFacadeMock->expects($this->atLeastOnce())
+        $this->companyRoleFacadeMock->expects(static::atLeastOnce())
             ->method('getCompanyRoleById')
             ->with($this->companyRoleTransferMock)
             ->willReturn($this->companyRoleTransferMock);
 
-        $this->companyRoleTransferMock->expects($this->atLeastOnce())
+        $this->companyRoleTransferMock->expects(static::atLeastOnce())
             ->method('fromArray')
             ->willReturn($this->companyRoleTransferMock);
 
-        $this->companyRoleTransferMock->expects($this->atLeastOnce())
+        $this->companyRoleTransferMock->expects(static::atLeastOnce())
             ->method('toArray')
             ->willReturn([]);
 
-        $this->companyUserTransferMock->expects($this->atLeastOnce())
+        $this->companyUserTransferMock->expects(static::atLeastOnce())
             ->method('getCompanyRoleCollection')
             ->willReturn($this->companyRoleCollectionTransferMock);
 
-        $this->configMock->expects($this->atLeastOnce())
+        $this->configMock->expects(static::atLeastOnce())
             ->method('getManufacturerCompanyTypeRoleMapping')
             ->willReturn([]);
 
-        $this->companyRoleTransferMock->expects($this->atLeastOnce())
+        $this->companyRoleTransferMock->expects(static::atLeastOnce())
             ->method('getName')
             ->willReturnOnConsecutiveCalls(
                 '',
@@ -166,37 +162,21 @@ class CompanyRoleManagerTest extends Unit
                 'company-role',
             );
 
-        $this->repositoryMock->expects($this->atLeastOnce())
-            ->method('findCompanyIdsByIdCustomerAndIdCompanyType')
-            ->willReturn([1]);
-
-        $this->companyUserTransferMock->expects($this->atLeastOnce())
-            ->method('getFkCustomer')
-            ->willReturn(1);
-
-        $this->companyTypeFacadeMock->expects($this->atLeastOnce())
-            ->method('getManufacturerCompanyType')
-            ->willReturn($this->companyTypeTransferMock);
-
-        $this->companyTypeTransferMock->expects($this->atLeastOnce())
-            ->method('getIdCompanyType')
-            ->willReturn(1);
-
-        $this->repositoryMock->expects($this->atLeastOnce())
-            ->method('findCompanyUsersWithOldCompanyRoles')
+        $this->companyUserReaderMock->expects(static::atLeastOnce())
+            ->method('findWithInconsistentCompanyRolesByManufacturerUser')
             ->willReturn($companyUsers);
 
-        $this->repositoryMock->expects($this->atLeastOnce())
+        $this->repositoryMock->expects(static::atLeastOnce())
             ->method('getCompanyRoleCollectionByCompanyId')
             ->willReturn($this->companyRoleCollectionTransferMock);
 
-        $this->companyRoleTransferMock->expects($this->atLeastOnce())
+        $this->companyRoleTransferMock->expects(static::atLeastOnce())
             ->method('getIdCompanyRole')
             ->willReturn(1);
 
-        $this->companyRoleFacadeMock->expects($this->atLeastOnce())
+        $this->companyRoleFacadeMock->expects(static::atLeastOnce())
             ->method('saveCompanyUser');
 
-        $this->companyRole->updateCompanyRolesOfNonManufacturerUsers($this->companyUserTransferMock);
+        $this->companyRoleManager->updateCompanyRolesOfNonManufacturerUsers($this->companyUserTransferMock);
     }
 }

@@ -73,7 +73,7 @@ interface CompanyUserCompanyAssignerFacadeInterface
      *
      * @return array<int, array<string, mixed>>
      */
-    public function findCompanyUsersWithOldCompanyRoles(
+    public function findCompanyUsersWithInconsistentCompanyRolesByManufacturerUser(
         CompanyUserTransfer $companyUserTransfer
     ): array;
 }

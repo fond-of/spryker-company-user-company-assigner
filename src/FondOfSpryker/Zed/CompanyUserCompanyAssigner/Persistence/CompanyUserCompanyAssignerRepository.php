@@ -200,14 +200,14 @@ class CompanyUserCompanyAssignerRepository extends AbstractRepository implements
 
     /**
      * @param int $idCustomer
-     * @param array<string> $roles
+     * @param string $companyRoleName
      * @param array<int> $companyIds
      *
      * @return array<int, array<string, mixed>>
      */
-    public function findCompanyUsersWithOldCompanyRoles(
+    public function findNonManufacturerUsersWithInconsistentCompanyRoles(
         int $idCustomer,
-        array $roles,
+        string $companyRoleName,
         array $companyIds
     ): array {
         $collection = $this->getFactory()
@@ -216,7 +216,7 @@ class CompanyUserCompanyAssignerRepository extends AbstractRepository implements
                 ->useSpyCompanyRoleToCompanyUserQuery()
                     ->leftJoinWithCompanyRole()
                         ->useCompanyRoleQuery()
-                            ->filterByName($roles, Criteria::NOT_IN)
+                            ->filterByName($companyRoleName, Criteria::NOT_EQUAL)
                         ->endUse()
                 ->endUse()
             ->filterByFkCustomer($idCustomer)

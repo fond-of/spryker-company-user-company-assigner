@@ -2,6 +2,7 @@
 
 namespace FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Manager;
 
+use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Reader\CompanyUserReaderInterface;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\CompanyUserCompanyAssignerConfig;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Facade\CompanyUserCompanyAssignerToCompanyRoleFacadeInterface;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Facade\CompanyUserCompanyAssignerToCompanyTypeFacadeInterface;
@@ -21,6 +22,11 @@ class CompanyRoleManager implements CompanyRoleManagerInterface
      * @var string
      */
     protected const KEY_ID_COMPANY_USER = 'id_company_user';
+
+    /**
+     * @var \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Reader\CompanyUserReaderInterface
+     */
+    protected $companyUserReader;
 
     /**
      * @var \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Facade\CompanyUserCompanyAssignerToCompanyRoleFacadeInterface
@@ -43,17 +49,20 @@ class CompanyRoleManager implements CompanyRoleManagerInterface
     protected $repository;
 
     /**
+     * @param \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Reader\CompanyUserReaderInterface $companyUserReader
      * @param \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Facade\CompanyUserCompanyAssignerToCompanyRoleFacadeInterface $companyRoleFacade
      * @param \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Facade\CompanyUserCompanyAssignerToCompanyTypeFacadeInterface $companyTypeFacade
      * @param \FondOfSpryker\Zed\CompanyUserCompanyAssigner\CompanyUserCompanyAssignerConfig $config
      * @param \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Persistence\CompanyUserCompanyAssignerRepositoryInterface $repository
      */
     public function __construct(
+        CompanyUserReaderInterface $companyUserReader,
         CompanyUserCompanyAssignerToCompanyRoleFacadeInterface $companyRoleFacade,
         CompanyUserCompanyAssignerToCompanyTypeFacadeInterface $companyTypeFacade,
         CompanyUserCompanyAssignerConfig $config,
         CompanyUserCompanyAssignerRepositoryInterface $repository
     ) {
+        $this->companyUserReader = $companyUserReader;
         $this->companyRoleFacade = $companyRoleFacade;
         $this->companyTypeFacade = $companyTypeFacade;
         $this->config = $config;
@@ -68,8 +77,10 @@ class CompanyRoleManager implements CompanyRoleManagerInterface
     public function updateCompanyRolesOfNonManufacturerUsers(CompanyUserTransfer $companyUserTransfer): void
     {
         $companyUserTransfer = $this->hydrateCompanyRoles($companyUserTransfer);
-        $companyUsers = $this
-            ->findCompanyUsersWithOldCompanyRoles($companyUserTransfer);
+
+        $companyUsers = $this->companyUserReader->findWithInconsistentCompanyRolesByManufacturerUser(
+            $companyUserTransfer,
+        );
 
         if (count($companyUsers) === 0) {
             return;
@@ -129,9 +140,14 @@ class CompanyRoleManager implements CompanyRoleManagerInterface
             ->getCompanyRoleCollectionByCompanyId($companyUser[static::KEY_ID_COMPANY]);
 
         foreach ($companyUserTransfer->getCompanyRoleCollection()->getRoles() as $roleTransfer) {
+            $idCompanyRole = $this->mapManufacturerCompanyRoleIdToCompanyRoleId(
+                $roleTransfer,
+                $companyRoleCollectionTransfer,
+            );
+
             $companyRoleTransfer = (new CompanyRoleTransfer())
-                ->setIdCompanyRole($this
-                    ->mapManufacturerCompanyRoleIdToCompanyRoleId($roleTransfer, $companyRoleCollectionTransfer))->setName($roleTransfer->getName())
+                ->setIdCompanyRole($idCompanyRole)
+                ->setName($roleTransfer->getName())
                 ->setFkCompany($companyUser[static::KEY_ID_COMPANY]);
 
             $newCompanyRoleCollectionTransfer->addRole($companyRoleTransfer);
@@ -151,9 +167,7 @@ class CompanyRoleManager implements CompanyRoleManagerInterface
         CompanyRoleCollectionTransfer $companyRoleCollectionTransfer
     ): ?int {
         $mapping = $this->config->getManufacturerCompanyTypeRoleMapping();
-        $companyRoleName = (isset($mapping[$manufacturerCompanyRoleTransfer->getName()]))
-            ? $mapping[$manufacturerCompanyRoleTransfer->getName()]
-            : $manufacturerCompanyRoleTransfer->getName();
+        $companyRoleName = $mapping[$manufacturerCompanyRoleTransfer->getName()] ?? $manufacturerCompanyRoleTransfer->getName();
 
         foreach ($companyRoleCollectionTransfer->getRoles() as $companyRoleTransfer) {
             if ($companyRoleTransfer->getName() !== $companyRoleName) {
@@ -164,68 +178,5 @@ class CompanyRoleManager implements CompanyRoleManagerInterface
         }
 
         return null;
-    }
-
-    /**
-     * @param \Generated\Shared\Transfer\CompanyUserTransfer $companyUserTransfer
-     *
-     * @return array<int, array<string, mixed>>
-     */
-    public function findCompanyUsersWithOldCompanyRoles(
-        CompanyUserTransfer $companyUserTransfer
-    ): array {
-        $companyRoles = $this->mapManufacturerCompanyRoleNameToCompanyRoleName(
-            $companyUserTransfer->getCompanyRoleCollection(),
-        );
-
-        $companyIds = $this->repository->findCompanyIdsByIdCustomerAndIdCompanyType(
-            $companyUserTransfer->getFkCustomer(),
-            $this->companyTypeFacade->getManufacturerCompanyType()->getIdCompanyType(),
-        );
-
-        $companyUserCollection = $this->repository->findCompanyUsersWithOldCompanyRoles(
-            $companyUserTransfer->getFkCustomer(),
-            $companyRoles,
-            $companyIds,
-        );
-
-        return $companyUserCollection;
-    }
-
-    /**
-     * @param \Generated\Shared\Transfer\CompanyRoleCollectionTransfer $companyRoleCollectionTransfer
-     *
-     * @return array<string>
-     */
-    protected function mapManufacturerCompanyRoleNameToCompanyRoleName(
-        CompanyRoleCollectionTransfer $companyRoleCollectionTransfer
-    ): array {
-        $roles = [];
-        $mapping = $this->config->getManufacturerCompanyTypeRoleMapping();
-
-        foreach ($companyRoleCollectionTransfer->getRoles() as $companyRoleTransfer) {
-            $roles[] = $this->getCompanyRoleName($companyRoleTransfer, $mapping);
-        }
-
-        return $roles;
-    }
-
-    /**
-     * @param \Generated\Shared\Transfer\CompanyRoleTransfer $companyRoleTransfer
-     * @param array $mapping
-     *
-     * @return string
-     */
-    protected function getCompanyRoleName(
-        CompanyRoleTransfer $companyRoleTransfer,
-        array $mapping
-    ): string {
-        if (!$companyRoleTransfer->getName()) {
-            $companyRoleTransfer = $this->companyRoleFacade->getCompanyRoleById($companyRoleTransfer);
-        }
-
-        return (isset($mapping[$companyRoleTransfer->getName()]))
-            ? $mapping[$companyRoleTransfer->getName()]
-            : $companyRoleTransfer->getName();
     }
 }

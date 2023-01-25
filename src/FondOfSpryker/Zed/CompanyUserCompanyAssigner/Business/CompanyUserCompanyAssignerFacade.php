@@ -108,11 +108,11 @@ class CompanyUserCompanyAssignerFacade extends AbstractFacade implements Company
      *
      * @return array<int, array<string, mixed>>
      */
-    public function findCompanyUsersWithOldCompanyRoles(
+    public function findCompanyUsersWithInconsistentCompanyRolesByManufacturerUser(
         CompanyUserTransfer $companyUserTransfer
     ): array {
         return $this->getFactory()
-            ->createCompanyRoleManager()
-            ->findCompanyUsersWithOldCompanyRoles($companyUserTransfer);
+            ->createCompanyUserReader()
+            ->findWithInconsistentCompanyRolesByManufacturerUser($companyUserTransfer);
     }
 }

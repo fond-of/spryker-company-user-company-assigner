@@ -67,7 +67,7 @@ class CompanyUserCompanyAssignerCompanyUserPostSavePlugin extends AbstractPlugin
     protected function hasDiffCompanyUserRolesAsManufacturer(CompanyUserTransfer $companyUserTransfer): bool
     {
         $companyUsers = $this->getFacade()
-            ->findCompanyUsersWithOldCompanyRoles($companyUserTransfer);
+            ->findCompanyUsersWithInconsistentCompanyRolesByManufacturerUser($companyUserTransfer);
 
         return (count($companyUsers) > 0);
     }

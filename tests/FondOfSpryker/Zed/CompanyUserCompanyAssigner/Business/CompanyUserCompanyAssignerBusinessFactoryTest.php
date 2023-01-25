@@ -4,7 +4,7 @@ namespace FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business;
 
 use Codeception\Test\Unit;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Assigner\ManufacturerUserAssigner;
-use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Manager\CompanyRoleManagerInterface;
+use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Manager\CompanyRoleManager;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyUser;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Reader\CompanyTypeReader;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\CompanyUserCompanyAssignerConfig;
@@ -175,17 +175,16 @@ class CompanyUserCompanyAssignerBusinessFactoryTest extends Unit
         $this->containerMock->expects(static::atLeastOnce())
             ->method('get')
             ->withConsecutive(
+                [CompanyUserCompanyAssignerDependencyProvider::FACADE_COMPANY_TYPE],
                 [CompanyUserCompanyAssignerDependencyProvider::FACADE_COMPANY_ROLE],
                 [CompanyUserCompanyAssignerDependencyProvider::FACADE_COMPANY_TYPE],
             )->willReturnOnConsecutiveCalls(
+                $this->companyTypeFacadeMock,
                 $this->companyRoleFacadeMock,
                 $this->companyTypeFacadeMock,
             );
 
-        static::assertInstanceOf(
-            CompanyRoleManagerInterface::class,
-            $this->factory->createCompanyRoleManager(),
-        );
+        static::assertInstanceOf(CompanyRoleManager::class, $this->factory->createCompanyRoleManager());
     }
 
     /**

@@ -77,14 +77,14 @@ interface CompanyUserCompanyAssignerRepositoryInterface
 
     /**
      * @param int $idCustomer
-     * @param array<string> $roles
+     * @param string $companyRoleName
      * @param array<int> $companyIds
      *
      * @return array<int, array<string, mixed>>
      */
-    public function findCompanyUsersWithOldCompanyRoles(
+    public function findNonManufacturerUsersWithInconsistentCompanyRoles(
         int $idCustomer,
-        array $roles,
+        string $companyRoleName,
         array $companyIds
     );
 
