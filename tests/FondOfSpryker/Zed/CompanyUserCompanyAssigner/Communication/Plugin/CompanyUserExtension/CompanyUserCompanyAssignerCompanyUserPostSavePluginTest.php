@@ -121,7 +121,7 @@ class CompanyUserCompanyAssignerCompanyUserPostSavePluginTest extends Unit
             );
 
         $this->facadeMock->expects(static::atLeastOnce())
-            ->method('findCompanyUsersWithDiffCompanyRolesAsManufacturer')
+            ->method('findCompanyUsersWithOldCompanyRoles')
             ->with($this->companyUserTransferMock)
             ->willReturn($companyUsers);
 

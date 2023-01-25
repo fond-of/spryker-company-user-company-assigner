@@ -182,7 +182,7 @@ class CompanyUserCompanyAssignerRepository extends AbstractRepository implements
      *
      * @return array<int, int>
      */
-    public function findManufacturerCompanyIdsByCustomerId(
+    public function findCompanyIdsByIdCustomerAndIdCompanyType(
         int $idCustomer,
         int $idCompanyType
     ): array {
@@ -205,7 +205,7 @@ class CompanyUserCompanyAssignerRepository extends AbstractRepository implements
      *
      * @return array<int, array<string, mixed>>
      */
-    public function findCompanyUserswithDiffCompanyRolesAsManufacturer(
+    public function findCompanyUsersWithOldCompanyRoles(
         int $idCustomer,
         array $roles,
         array $companyIds

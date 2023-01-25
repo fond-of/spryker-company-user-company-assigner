@@ -34,12 +34,12 @@ class CompanyUserCompanyAssignerFacade extends AbstractFacade implements Company
      *
      * @return void
      */
-    public function updateNonManufacturerUsersCompanyRole(
+    public function updateCompanyRolesOfNonManufacturerUsers(
         CompanyUserTransfer $companyUserTransfer
     ): void {
         $this->getFactory()
-            ->createCompanyRole()
-            ->updateNonManufacturerUsersCompanyRole($companyUserTransfer);
+            ->createCompanyRoleManager()
+            ->updateCompanyRolesOfNonManufacturerUsers($companyUserTransfer);
     }
 
     /**
@@ -100,7 +100,7 @@ class CompanyUserCompanyAssignerFacade extends AbstractFacade implements Company
         return $this
             ->getFactory()
             ->createCompanyTypeReader()
-            ->getCompanyTypeByCompany($companyTransfer);
+            ->getByCompany($companyTransfer);
     }
 
     /**
@@ -108,11 +108,11 @@ class CompanyUserCompanyAssignerFacade extends AbstractFacade implements Company
      *
      * @return array<int, array<string, mixed>>
      */
-    public function findCompanyUsersWithDiffCompanyRolesAsManufacturer(
+    public function findCompanyUsersWithOldCompanyRoles(
         CompanyUserTransfer $companyUserTransfer
     ): array {
         return $this->getFactory()
-            ->createCompanyRole()
-            ->findCompanyUsersWithDiffCompanyRolesAsManufacturer($companyUserTransfer);
+            ->createCompanyRoleManager()
+            ->findCompanyUsersWithOldCompanyRoles($companyUserTransfer);
     }
 }

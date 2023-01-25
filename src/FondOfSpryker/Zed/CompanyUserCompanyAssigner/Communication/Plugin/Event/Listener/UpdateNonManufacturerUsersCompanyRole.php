@@ -29,6 +29,6 @@ class UpdateNonManufacturerUsersCompanyRole extends AbstractPlugin implements Ev
             return;
         }
 
-        $this->getFacade()->updateNonManufacturerUsersCompanyRole($transfer);
+        $this->getFacade()->updateCompanyRolesOfNonManufacturerUsers($transfer);
     }
 }

@@ -4,7 +4,7 @@ namespace FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business;
 
 use Codeception\Test\Unit;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Assigner\ManufacturerUserAssigner;
-use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyRole;
+use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Manager\CompanyRoleManagerInterface;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyUserInterface;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Reader\CompanyTypeReader;
 use Generated\Shared\Transfer\CompanyBusinessUnitTransfer;
@@ -63,9 +63,9 @@ class CompanyUserCompanyAssignerFacadeTest extends Unit
     protected $companyUserTransferMock;
 
     /**
-     * @var \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyRoleInterface|\PHPUnit\Framework\MockObject\MockObject
+     * @var \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Manager\CompanyRoleManagerInterface|\PHPUnit\Framework\MockObject\MockObject
      */
-    protected $companyRoleMock;
+    protected $companyRoleManagerMock;
 
     /**
      * @var \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Reader\CompanyTypeReaderInterface|\PHPUnit\Framework\MockObject\MockObject
@@ -131,7 +131,7 @@ class CompanyUserCompanyAssignerFacadeTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->companyRoleMock = $this->getMockBuilder(CompanyRole::class)
+        $this->companyRoleManagerMock = $this->getMockBuilder(CompanyRoleManagerInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -223,16 +223,16 @@ class CompanyUserCompanyAssignerFacadeTest extends Unit
     /**
      * @return void
      */
-    public function testUpdateNonManufacturerUsersCompanyRole(): void
+    public function testUpdateCompanyRolesOfNonManufacturerUsers(): void
     {
         $this->factoryMock->expects(static::atLeastOnce())
-            ->method('createCompanyRole')
-            ->willReturn($this->companyRoleMock);
+            ->method('createCompanyRoleManager')
+            ->willReturn($this->companyRoleManagerMock);
 
-        $this->companyRoleMock->expects(static::atLeastOnce())
-            ->method('updateNonManufacturerUsersCompanyRole');
+        $this->companyRoleManagerMock->expects(static::atLeastOnce())
+            ->method('updateCompanyRolesOfNonManufacturerUsers');
 
-        $this->facade->updateNonManufacturerUsersCompanyRole($this->companyUserTransferMock);
+        $this->facade->updateCompanyRolesOfNonManufacturerUsers($this->companyUserTransferMock);
     }
 
     /**
@@ -264,7 +264,7 @@ class CompanyUserCompanyAssignerFacadeTest extends Unit
             ->willReturn($this->companyTypeReaderMock);
 
         $this->companyTypeReaderMock->expects(static::atLeastOnce())
-            ->method('getCompanyTypeByCompany')
+            ->method('getByCompany')
             ->with($this->companyTransferMock)
             ->willReturn($this->companyTypeTransferMock);
 
@@ -277,19 +277,19 @@ class CompanyUserCompanyAssignerFacadeTest extends Unit
     /**
      * @return void
      */
-    public function testFindCompanyUsersWithDiffCompanyRolesAsManufacturer(): void
+    public function testFindCompanyUsersWithOldCompanyRoles(): void
     {
         $this->factoryMock->expects(static::atLeastOnce())
-            ->method('createCompanyRole')
-            ->willReturn($this->companyRoleMock);
+            ->method('createCompanyRoleManager')
+            ->willReturn($this->companyRoleManagerMock);
 
-        $this->companyRoleMock->expects(static::atLeastOnce())
-            ->method('findCompanyUsersWithDiffCompanyRolesAsManufacturer')
+        $this->companyRoleManagerMock->expects(static::atLeastOnce())
+            ->method('findCompanyUsersWithOldCompanyRoles')
             ->with($this->companyUserTransferMock)
             ->willReturn([]);
 
         static::assertIsArray(
-            $this->facade->findCompanyUsersWithDiffCompanyRolesAsManufacturer($this->companyUserTransferMock),
+            $this->facade->findCompanyUsersWithOldCompanyRoles($this->companyUserTransferMock),
         );
     }
 }

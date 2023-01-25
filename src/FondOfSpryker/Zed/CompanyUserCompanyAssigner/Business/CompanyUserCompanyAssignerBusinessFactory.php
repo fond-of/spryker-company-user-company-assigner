@@ -6,12 +6,12 @@ use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Assigner\ManufacturerU
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Assigner\ManufacturerUserAssignerInterface;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Filter\CompanyRoleNameFilter;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Filter\CompanyRoleNameFilterInterface;
+use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Manager\CompanyRoleManager;
+use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Manager\CompanyRoleManagerInterface;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Mapper\CompanyRoleNameMapper;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Mapper\CompanyRoleNameMapperInterface;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Mapper\CompanyUserMapper;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Mapper\CompanyUserMapperInterface;
-use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyRole;
-use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyRoleInterface;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyUser;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyUserInterface;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Reader\CompanyTypeReader;
@@ -47,11 +47,11 @@ class CompanyUserCompanyAssignerBusinessFactory extends AbstractBusinessFactory
     }
 
     /**
-     * @return \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyRoleInterface
+     * @return \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Manager\CompanyRoleManagerInterface
      */
-    public function createCompanyRole(): CompanyRoleInterface
+    public function createCompanyRoleManager(): CompanyRoleManagerInterface
     {
-        return new CompanyRole(
+        return new CompanyRoleManager(
             $this->getCompanyRoleFacade(),
             $this->getCompanyTypeFacade(),
             $this->getConfig(),

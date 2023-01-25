@@ -64,7 +64,7 @@ class CompanyTypeReaderTest extends Unit
     /**
      * @return void
      */
-    public function testGetCompanyTypeByCompany(): void
+    public function testGetByCompany(): void
     {
         $this->facadeMock->expects(static::atLeastOnce())
             ->method('findCompanyTypeByIdCompany')
@@ -73,7 +73,7 @@ class CompanyTypeReaderTest extends Unit
 
         static::assertEquals(
             $this->companyTypeTransferMock,
-            $this->reader->getCompanyTypeByCompany($this->companyTransferMock),
+            $this->reader->getByCompany($this->companyTransferMock),
         );
     }
 }

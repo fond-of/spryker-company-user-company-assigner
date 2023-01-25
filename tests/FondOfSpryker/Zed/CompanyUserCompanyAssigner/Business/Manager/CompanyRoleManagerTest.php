@@ -1,6 +1,6 @@
 <?php
 
-namespace FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model;
+namespace FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Manager;
 
 use ArrayObject;
 use Codeception\Test\Unit;
@@ -13,7 +13,7 @@ use Generated\Shared\Transfer\CompanyRoleTransfer;
 use Generated\Shared\Transfer\CompanyTypeTransfer;
 use Generated\Shared\Transfer\CompanyUserTransfer;
 
-class CompanyRoleTest extends Unit
+class CompanyRoleManagerTest extends Unit
 {
     /**
      * @var \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyUser
@@ -36,7 +36,7 @@ class CompanyRoleTest extends Unit
     protected $companyTypeFacadeMock;
 
     /**
-     * @var \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model\CompanyRoleInterface
+     * @var \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Manager\CompanyRoleManagerInterface
      */
     protected $companyRole;
 
@@ -102,7 +102,7 @@ class CompanyRoleTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->companyRole = new CompanyRole(
+        $this->companyRole = new CompanyRoleManager(
             $this->companyRoleFacadeMock,
             $this->companyTypeFacadeMock,
             $this->configMock,
@@ -113,7 +113,7 @@ class CompanyRoleTest extends Unit
     /**
      * @return void
      */
-    public function testUpdateNonManufacturerUsersCompanyRole(): void
+    public function testUpdateCompanyRolesOfNonManufacturerUsers(): void
     {
         $companyRoles = new ArrayObject();
         $companyRoles->append($this->companyRoleTransferMock);
@@ -167,7 +167,7 @@ class CompanyRoleTest extends Unit
             );
 
         $this->repositoryMock->expects($this->atLeastOnce())
-            ->method('findManufacturerCompanyIdsByCustomerId')
+            ->method('findCompanyIdsByIdCustomerAndIdCompanyType')
             ->willReturn([1]);
 
         $this->companyUserTransferMock->expects($this->atLeastOnce())
@@ -183,7 +183,7 @@ class CompanyRoleTest extends Unit
             ->willReturn(1);
 
         $this->repositoryMock->expects($this->atLeastOnce())
-            ->method('findCompanyUserswithDiffCompanyRolesAsManufacturer')
+            ->method('findCompanyUsersWithOldCompanyRoles')
             ->willReturn($companyUsers);
 
         $this->repositoryMock->expects($this->atLeastOnce())
@@ -197,6 +197,6 @@ class CompanyRoleTest extends Unit
         $this->companyRoleFacadeMock->expects($this->atLeastOnce())
             ->method('saveCompanyUser');
 
-        $this->companyRole->updateNonManufacturerUsersCompanyRole($this->companyUserTransferMock);
+        $this->companyRole->updateCompanyRolesOfNonManufacturerUsers($this->companyUserTransferMock);
     }
 }

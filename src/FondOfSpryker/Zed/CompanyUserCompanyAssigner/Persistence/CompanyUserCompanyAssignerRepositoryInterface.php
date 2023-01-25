@@ -70,7 +70,7 @@ interface CompanyUserCompanyAssignerRepositoryInterface
      *
      * @return array<int, int>
      */
-    public function findManufacturerCompanyIdsByCustomerId(
+    public function findCompanyIdsByIdCustomerAndIdCompanyType(
         int $IdCustomer,
         int $IdCompanyType
     ): array;
@@ -82,7 +82,7 @@ interface CompanyUserCompanyAssignerRepositoryInterface
      *
      * @return array<int, array<string, mixed>>
      */
-    public function findCompanyUserswithDiffCompanyRolesAsManufacturer(
+    public function findCompanyUsersWithOldCompanyRoles(
         int $idCustomer,
         array $roles,
         array $companyIds

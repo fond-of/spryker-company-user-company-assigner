@@ -10,12 +10,12 @@ use Generated\Shared\Transfer\CompanyUserTransfer;
 class UpdateNonManufacturerUsersCompanyRoleTest extends Unit
 {
     /**
-     * @var \PHPUnit\Framework\MockObject\MockObject|\Generated\Shared\Transfer\CompanyUserTransfer&\PHPUnit\Framework\MockObject\MockObject
+     * @var \PHPUnit\Framework\MockObject\MockObject|\Generated\Shared\Transfer\CompanyUserTransfer
      */
     protected $companyUserTransferMock;
 
     /**
-     * @var \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\CompanyUserCompanyAssignerFacade&\PHPUnit\Framework\MockObject\MockObject|\PHPUnit\Framework\MockObject\MockObject
+     * @var \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\CompanyUserCompanyAssignerFacade|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $facadeMock;
 
@@ -49,7 +49,7 @@ class UpdateNonManufacturerUsersCompanyRoleTest extends Unit
     public function testHandle(): void
     {
         $this->facadeMock->expects(static::atLeastOnce())
-            ->method('updateNonManufacturerUsersCompanyRole')
+            ->method('updateCompanyRolesOfNonManufacturerUsers')
             ->with($this->companyUserTransferMock);
 
         $this->listener->handle(
@@ -64,7 +64,7 @@ class UpdateNonManufacturerUsersCompanyRoleTest extends Unit
     public function testHandleWithInvalidEventName(): void
     {
         $this->facadeMock->expects(static::never())
-            ->method('updateNonManufacturerUsersCompanyRole');
+            ->method('updateCompanyRolesOfNonManufacturerUsers');
 
         $this->listener->handle(
             $this->companyUserTransferMock,

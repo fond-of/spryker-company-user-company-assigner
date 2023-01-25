@@ -1,6 +1,6 @@
 <?php
 
-namespace FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Model;
+namespace FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Manager;
 
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\CompanyUserCompanyAssignerConfig;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Facade\CompanyUserCompanyAssignerToCompanyRoleFacadeInterface;
@@ -10,7 +10,7 @@ use Generated\Shared\Transfer\CompanyRoleCollectionTransfer;
 use Generated\Shared\Transfer\CompanyRoleTransfer;
 use Generated\Shared\Transfer\CompanyUserTransfer;
 
-class CompanyRole implements CompanyRoleInterface
+class CompanyRoleManager implements CompanyRoleManagerInterface
 {
     /**
      * @var string
@@ -65,11 +65,11 @@ class CompanyRole implements CompanyRoleInterface
      *
      * @return void
      */
-    public function updateNonManufacturerUsersCompanyRole(CompanyUserTransfer $companyUserTransfer): void
+    public function updateCompanyRolesOfNonManufacturerUsers(CompanyUserTransfer $companyUserTransfer): void
     {
         $companyUserTransfer = $this->hydrateCompanyRoles($companyUserTransfer);
         $companyUsers = $this
-            ->findCompanyUsersWithDiffCompanyRolesAsManufacturer($companyUserTransfer);
+            ->findCompanyUsersWithOldCompanyRoles($companyUserTransfer);
 
         if (count($companyUsers) === 0) {
             return;
@@ -171,19 +171,19 @@ class CompanyRole implements CompanyRoleInterface
      *
      * @return array<int, array<string, mixed>>
      */
-    public function findCompanyUsersWithDiffCompanyRolesAsManufacturer(
+    public function findCompanyUsersWithOldCompanyRoles(
         CompanyUserTransfer $companyUserTransfer
     ): array {
         $companyRoles = $this->mapManufacturerCompanyRoleNameToCompanyRoleName(
             $companyUserTransfer->getCompanyRoleCollection(),
         );
 
-        $companyIds = $this->repository->findManufacturerCompanyIdsByCustomerId(
+        $companyIds = $this->repository->findCompanyIdsByIdCustomerAndIdCompanyType(
             $companyUserTransfer->getFkCustomer(),
             $this->companyTypeFacade->getManufacturerCompanyType()->getIdCompanyType(),
         );
 
-        $companyUserCollection = $this->repository->findCompanyUserswithDiffCompanyRolesAsManufacturer(
+        $companyUserCollection = $this->repository->findCompanyUsersWithOldCompanyRoles(
             $companyUserTransfer->getFkCustomer(),
             $companyRoles,
             $companyIds,

@@ -25,7 +25,7 @@ interface CompanyUserCompanyAssignerFacadeInterface
      *
      * @return void
      */
-    public function updateNonManufacturerUsersCompanyRole(
+    public function updateCompanyRolesOfNonManufacturerUsers(
         CompanyUserTransfer $companyUserTransfer
     ): void;
 
@@ -73,7 +73,7 @@ interface CompanyUserCompanyAssignerFacadeInterface
      *
      * @return array<int, array<string, mixed>>
      */
-    public function findCompanyUsersWithDiffCompanyRolesAsManufacturer(
+    public function findCompanyUsersWithOldCompanyRoles(
         CompanyUserTransfer $companyUserTransfer
     ): array;
 }

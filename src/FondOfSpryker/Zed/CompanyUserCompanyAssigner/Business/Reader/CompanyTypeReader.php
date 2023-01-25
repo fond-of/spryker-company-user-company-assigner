@@ -35,7 +35,7 @@ class CompanyTypeReader implements CompanyTypeReaderInterface
      *
      * @return \Generated\Shared\Transfer\CompanyTypeTransfer
      */
-    public function getCompanyTypeByCompany(CompanyTransfer $companyTransfer): CompanyTypeTransfer
+    public function getByCompany(CompanyTransfer $companyTransfer): CompanyTypeTransfer
     {
         return $this->companyTypeFacade->findCompanyTypeByIdCompany($companyTransfer);
     }
