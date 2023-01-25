@@ -24,6 +24,11 @@ class CompanyUserReader implements CompanyUserReaderInterface
      */
     protected $repository;
 
+    /**
+     * @param \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Mapper\CompanyRoleNameMapperInterface $companyRoleNameMapper
+     * @param \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Facade\CompanyUserCompanyAssignerToCompanyTypeFacadeInterface $companyTypeFacade
+     * @param \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Persistence\CompanyUserCompanyAssignerRepositoryInterface $repository
+     */
     public function __construct(
         CompanyRoleNameMapperInterface $companyRoleNameMapper,
         CompanyUserCompanyAssignerToCompanyTypeFacadeInterface $companyTypeFacade,
