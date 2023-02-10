@@ -46,7 +46,7 @@ class CompanyRoleNameMapper implements CompanyRoleNameMapperInterface
         $manufacturerCompanyTypeRoleMapping = $this->config->getManufacturerCompanyTypeRoleMapping();
 
         if (!isset($manufacturerCompanyTypeRoleMapping[$currentManufacturerRoleName])) {
-            return null;
+            return $currentManufacturerRoleName;
         }
 
         return $manufacturerCompanyTypeRoleMapping[$currentManufacturerRoleName];
