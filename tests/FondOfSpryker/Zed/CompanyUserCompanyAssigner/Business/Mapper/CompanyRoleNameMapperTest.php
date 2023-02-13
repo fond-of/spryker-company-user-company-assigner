@@ -98,7 +98,7 @@ class CompanyRoleNameMapperTest extends Unit
             ->willReturn($manufacturerCompanyTypeRoleMapping);
 
         static::assertEquals(
-            null,
+            $currentManufacturerRoleName,
             $this->companyRoleNameMapper->fromManufacturerUser($this->companyUserTransferMock),
         );
     }
@@ -123,7 +123,7 @@ class CompanyRoleNameMapperTest extends Unit
             ->willReturn($manufacturerCompanyTypeRoleMapping);
 
         static::assertEquals(
-            null,
+            $currentManufacturerRoleName,
             $this->companyRoleNameMapper->fromManufacturerUser($this->companyUserTransferMock),
         );
     }
