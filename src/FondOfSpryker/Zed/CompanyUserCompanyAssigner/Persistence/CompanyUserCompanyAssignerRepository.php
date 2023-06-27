@@ -189,7 +189,7 @@ class CompanyUserCompanyAssignerRepository extends AbstractRepository implements
         int $idCompanyType
     ): array {
         /** @var \Propel\Runtime\Collection\ArrayCollection $spyCompanyUserCollection */
-        $spyCompanyUserCollection= $this->getFactory()
+        $spyCompanyUserCollection = $this->getFactory()
             ->getCompanyUserQuery()
             ->joinWithCompany()
             ->useCompanyQuery()
