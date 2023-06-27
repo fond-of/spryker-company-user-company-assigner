@@ -137,7 +137,8 @@ class CompanyUserCompanyAssignerRepository extends AbstractRepository implements
         string $companyTypeNameForManufacturer,
         string $companyRoleName
     ): array {
-        return $this->getFactory()
+        /** @var \Propel\Runtime\Collection\ArrayCollection $companyCollection */
+        $companyCollection = $this->getFactory()
             ->getCompanyQuery()
             ->clear()
             ->useFosCompanyTypeQuery()
@@ -157,8 +158,9 @@ class CompanyUserCompanyAssignerRepository extends AbstractRepository implements
                     'id_company_business_unit',
                     'id_company_role',
                 ],
-            )->find()
-            ->toArray();
+            )->find();
+
+            return $companyCollection->toArray();
     }
 
     /**
@@ -186,7 +188,8 @@ class CompanyUserCompanyAssignerRepository extends AbstractRepository implements
         int $idCustomer,
         int $idCompanyType
     ): array {
-        return $this->getFactory()
+        /** @var \Propel\Runtime\Collection\ArrayCollection $spyCompanyUserCollection */
+        $spyCompanyUserCollection= $this->getFactory()
             ->getCompanyUserQuery()
             ->joinWithCompany()
             ->useCompanyQuery()
@@ -194,8 +197,9 @@ class CompanyUserCompanyAssignerRepository extends AbstractRepository implements
             ->endUse()
             ->filterByFkCustomer($idCustomer)
             ->select(SpyCompanyUserTableMap::COL_FK_COMPANY)
-            ->find()
-            ->toArray();
+            ->find();
+
+        return $spyCompanyUserCollection->toArray();
     }
 
     /**
@@ -210,7 +214,8 @@ class CompanyUserCompanyAssignerRepository extends AbstractRepository implements
         string $companyRoleName,
         array $companyIds
     ): array {
-        $collection = $this->getFactory()
+        /** @var \Propel\Runtime\Collection\ArrayCollection $companyUserCollection */
+        $companyUserCollection = $this->getFactory()
             ->getCompanyUserQuery()
             ->leftJoinWithSpyCompanyRoleToCompanyUser()
                 ->useSpyCompanyRoleToCompanyUserQuery()
@@ -228,10 +233,9 @@ class CompanyUserCompanyAssignerRepository extends AbstractRepository implements
                     SpyCompanyRoleTableMap::COL_NAME,
                 ],
             )
-            ->find()
-            ->toArray();
+            ->find();
 
-        return $this->groupCompanyRoles($collection);
+        return $this->groupCompanyRoles($companyUserCollection->toArray());
     }
 
     /**
