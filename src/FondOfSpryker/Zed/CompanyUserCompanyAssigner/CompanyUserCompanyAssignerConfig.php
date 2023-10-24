@@ -14,4 +14,12 @@ class CompanyUserCompanyAssignerConfig extends AbstractBundleConfig
     {
         return $this->get(CompanyUserCompanyAssignerConstants::MANUFACTURER_COMPANY_TYPE_ROLE_MAPPING, []);
     }
+
+    /**
+     * @return array
+     */
+    public function getValidManufacturerCompanyRolesForAssignment(): array
+    {
+        return $this->get(CompanyUserCompanyAssignerConstants::VALID_MANUFACTURER_COMPANY_ROLES_FOR_ASSIGNMENT, []);
+    }
 }
