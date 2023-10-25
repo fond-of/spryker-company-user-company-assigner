@@ -4,6 +4,7 @@ namespace FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Assigner;
 
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Mapper\CompanyRoleNameMapperInterface;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Mapper\CompanyUserMapperInterface;
+use FondOfSpryker\Zed\CompanyUserCompanyAssigner\CompanyUserCompanyAssignerConfig;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Facade\CompanyUserCompanyAssignerToCompanyTypeFacadeInterface;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Facade\CompanyUserCompanyAssignerToCompanyUserFacadeInterface;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Persistence\CompanyUserCompanyAssignerRepositoryInterface;
@@ -47,19 +48,22 @@ class ManufacturerUserAssigner implements ManufacturerUserAssignerInterface
      * @param \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Persistence\CompanyUserCompanyAssignerRepositoryInterface $repository
      * @param \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Facade\CompanyUserCompanyAssignerToCompanyTypeFacadeInterface $companyTypeFacade
      * @param \FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Facade\CompanyUserCompanyAssignerToCompanyUserFacadeInterface $companyUserFacade
+     * @param \FondOfSpryker\Zed\CompanyUserCompanyAssigner\CompanyUserCompanyAssignerConfig $config
      */
     public function __construct(
         CompanyRoleNameMapperInterface $companyRoleNameMapper,
         CompanyUserMapperInterface $companyUserMapper,
         CompanyUserCompanyAssignerRepositoryInterface $repository,
         CompanyUserCompanyAssignerToCompanyTypeFacadeInterface $companyTypeFacade,
-        CompanyUserCompanyAssignerToCompanyUserFacadeInterface $companyUserFacade
+        CompanyUserCompanyAssignerToCompanyUserFacadeInterface $companyUserFacade,
+        CompanyUserCompanyAssignerConfig $config
     ) {
         $this->companyRoleNameMapper = $companyRoleNameMapper;
         $this->companyUserMapper = $companyUserMapper;
         $this->repository = $repository;
         $this->companyTypeFacade = $companyTypeFacade;
         $this->companyUserFacade = $companyUserFacade;
+        $this->config = $config;
     }
 
     /**
@@ -85,7 +89,7 @@ class ManufacturerUserAssigner implements ManufacturerUserAssignerInterface
 
         $companyRoleName = $this->companyRoleNameMapper->fromManufacturerUser($manufacturerUserTransfer);
 
-        if ($companyRoleName === null) {
+        if ($companyRoleName === null || !$this->isValidCompanyRole($companyRoleName)) {
             return;
         }
 
@@ -98,5 +102,19 @@ class ManufacturerUserAssigner implements ManufacturerUserAssignerInterface
 
             $this->companyUserFacade->create($companyUserTransfer);
         }
+    }
+
+    /**
+     * @param string $companyRoleName
+     *
+     * @return bool
+     */
+    protected function isValidCompanyRole(string $companyRoleName): bool
+    {
+        if (!in_array($companyRoleName, $this->config->getValidManufacturerCompanyRolesForAssignment())) {
+            return false;
+        }
+
+        return true;
     }
 }

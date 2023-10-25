@@ -5,11 +5,13 @@ namespace FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Assigner;
 use Codeception\Test\Unit;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Mapper\CompanyRoleNameMapperInterface;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Business\Mapper\CompanyUserMapperInterface;
+use FondOfSpryker\Zed\CompanyUserCompanyAssigner\CompanyUserCompanyAssignerConfig;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Facade\CompanyUserCompanyAssignerToCompanyTypeFacadeInterface;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Dependency\Facade\CompanyUserCompanyAssignerToCompanyUserFacadeInterface;
 use FondOfSpryker\Zed\CompanyUserCompanyAssigner\Persistence\CompanyUserCompanyAssignerRepositoryInterface;
 use Generated\Shared\Transfer\CompanyUserTransfer;
 use Generated\Shared\Transfer\CustomerTransfer;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class ManufacturerUserAssignerTest extends Unit
 {
@@ -42,6 +44,11 @@ class ManufacturerUserAssignerTest extends Unit
      * @var \Generated\Shared\Transfer\CompanyUserTransfer&\PHPUnit\Framework\MockObject\MockObject|\PHPUnit\Framework\MockObject\MockObject
      */
     protected $companyUserTransferMock;
+
+    /**
+     * @var \PHPUnit\Framework\MockObject\MockObject|\FondOfSpryker\Zed\CompanyUserCompanyAssigner\CompanyUserCompanyAssignerConfig
+     */
+    protected MockObject|CompanyUserCompanyAssignerConfig $configMock;
 
     /**
      * @var \Generated\Shared\Transfer\CustomerTransfer&\PHPUnit\Framework\MockObject\MockObject|\PHPUnit\Framework\MockObject\MockObject
@@ -89,6 +96,10 @@ class ManufacturerUserAssignerTest extends Unit
             ->disableOriginalConstructor()
             ->getMock();
 
+        $this->configMock = $this->getMockBuilder(CompanyUserCompanyAssignerConfig::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $this->customerTransferMock = $this->getMockBuilder(CustomerTransfer::class)
             ->disableOriginalConstructor()
             ->getMock();
@@ -105,6 +116,7 @@ class ManufacturerUserAssignerTest extends Unit
             $this->repositoryMock,
             $this->companyTypeFacadeMock,
             $this->companyUserFacadeMock,
+            $this->configMock,
         );
     }
 
@@ -146,6 +158,10 @@ class ManufacturerUserAssignerTest extends Unit
             ->method('fromManufacturerUser')
             ->with($this->companyUserTransferMock)
             ->willReturn($companyRoleName);
+
+        $this->configMock->expects(static::atLeastOnce())
+            ->method('getValidManufacturerCompanyRolesForAssignment')
+            ->willReturn([$companyRoleName]);
 
         $this->repositoryMock->expects(static::atLeastOnce())
             ->method('findNonManufacturerData')
